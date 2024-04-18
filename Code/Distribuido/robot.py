@@ -190,10 +190,6 @@ class Ctrl:
         data = [Orders.MOVE.value, GaitMode.MODE_1.value, '0', '0', '0', '0']
         self.c.run(data)
 
-    def balance(self):
-        data = [Orders.BALANCE.value, GaitMode.MODE_1.value]
-        self.c.run(data)
-
     def head(self, x='0', y='0'):
         self.handle_head_command(x, y)
 
@@ -233,11 +229,6 @@ if __name__ == "__main__":
     # Example usage of head command
     print("Testing head movement...")
     ctrl.head(x='90', y='90')  # Adjust the robot's head to 90 degrees horizontal and 90 degrees vertical
-    time.sleep(1)  # Pause to observe the action
-
-    # Example usage of balance command
-    print("Activating balance mode...")
-    ctrl.balance()  # Activate balancing mode
     time.sleep(1)  # Pause to observe the action
 
     # Example usage of position command
