@@ -231,6 +231,12 @@ if __name__ == "__main__":
     ctrl.head(x='90', y='90')  # Adjust the robot's head to 90 degrees horizontal and 90 degrees vertical
     time.sleep(1)  # Pause to observe the action
     ctrl.head(x='0', y='0')  # Adjust the robot's head to 90 degrees horizontal and 90 degrees vertical
+    for i in range(0,90,15):
+        ctrl.head(x='0', y=str(i))
+    for i in range(0,90,15):
+        ctrl.head(x=str(i), y='1')
+    for i in range(0,90,15):
+        ctrl.head(x=str(i), y=str(i))
     time.sleep(1)  # Pause to observe the action
 
     # Example usage of position command
