@@ -196,8 +196,8 @@ class Ctrl:
     def positions(self, x='0', y='0', z='0'):
         self.handle_position_command(x, y, z)
 
-    def attitude(self, x='0', y='0', z='0'):
-        self.handle_attitude_command(x, y, z)
+    def attitude(self, r='0', p='0', y='0'):
+        self.handle_attitude_command(r=r, p=p, y=y)
 
 
 
