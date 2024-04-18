@@ -173,7 +173,7 @@ class Ctrl:
         x = self.c.restriction(int(x), -40, 40)
         y = self.c.restriction(int(y), -40, 40)
         z = self.c.restriction(int(z), -20, 20)
-        self.c.position(x, y, z)  # Note the typo correction from 'posittion' to 'position'
+        self.c.posittion(x, y, z)
 
     def handle_head_command(self, x, y):
         """Adjust the robot's head based on coordinates x, y."""
