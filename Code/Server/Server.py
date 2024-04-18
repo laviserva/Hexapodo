@@ -175,6 +175,7 @@ class Server:
                     command=cmd.CMD_SONIC+"#"+str(self.sonic.getDistance())+"\n"
                     self.send_data(self.connection1,command)
                 elif cmd.CMD_HEAD in data:
+                    print("head: ", data)
                     if len(data)==3:
                         self.servo.setServoAngle(int(data[1]),int(data[2]))
                 elif cmd.CMD_CAMERA in data:
