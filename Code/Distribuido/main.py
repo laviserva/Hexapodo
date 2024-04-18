@@ -12,13 +12,15 @@ def server(connection):
         x, y, speed, angle = "0", "10", "10", "0"
 
         data = {
-                #1: ["ctrl-move", "0", y, speed, angle],
-                1: ["ctrl-head", "0", "100"],
-                #1: ["ctrl-position", "0", "0", "0"],
-                #1: ["ctrl-attitude", "0", "0", "0"],
+                1: ["ctrl-move", x, y, speed, angle],
+                2: ["ctrl-stop"],
+                3: ["ctrl-balance"],
+                4: ["ctrl-head", "90", "100"],
+                5: ["ctrl-position", "0", "0", "0"],
+                6: ["ctrl-attitude", "0", "0", "0"],
                 #10: ["sound-play"]
+                #10: ["ctrl-move", x, "-25", speed, angle],
                 }
-                
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))
         connection.sendall(json_data)

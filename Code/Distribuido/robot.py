@@ -9,6 +9,7 @@ sys.path.append(str(server_dir))
 import time
 from enum import Enum
 
+from Servo import Servo
 from Control import Control
 from Buzzer import Buzzer
 from ADC import ADC
@@ -117,6 +118,7 @@ class Sound:
 class Ctrl:
     def __init__(self):
         self.c = Control()
+        self.s = Servo()
     
     def __comprobe_restrictions(self, x: str, y: str, speed: str, angle: str):
         x = int(x)
@@ -155,42 +157,55 @@ class Ctrl:
             ]
         self.c.run(data)
     
+    def handle_attitude_command(self, r, p, y):
+        """Adjust the robot's attitude based on roll (r), pitch (p), and yaw (y) values."""
+        r = self.c.restriction(int(r), -15, 15)
+        p = self.c.restriction(int(p), -15, 15)
+        y = self.c.restriction(int(y), -15, 15)
+        point = self.c.postureBalance(r, p, y)
+        self.c.coordinateTransformation(point)
+        self.c.setLegAngle()
+
+    def handle_position_command(self, x, y, z):
+        """Adjust the robot's position based on coordinates x, y, z."""
+        x = self.c.restriction(int(x), -40, 40)
+        y = self.c.restriction(int(y), -40, 40)
+        z = self.c.restriction(int(z), -20, 20)
+        self.c.position(x, y, z)  # Note the typo correction from 'posittion' to 'position'
+
+    def handle_head_command(self, x, y):
+        """Adjust the robot's head based on coordinates x, y."""
+        self.s.setServoAngle(int(x), int(y))
+
+    def move(self, x='0', y='0', speed='0', angle='0'):
+        print(f"Moving to x={x}, y={y}, speed={speed}, angle={angle}")
+        data = [Orders.MOVE.value, GaitMode.MODE_1.value, x, y, speed, angle]
+        print("Data: ", data)
+        self.c.run(data)
+        self.stop()
+
+    def stop(self):
+        data = [Orders.MOVE.value, GaitMode.MODE_1.value, '0', '0', '0', '0']
+        self.c.run(data)
+
     def balance(self):
-        data = [
-            Orders.BALANCE.value,
-            GaitMode.MODE_1.value
-            ]
+        data = [Orders.BALANCE.value, GaitMode.MODE_1.value]
         self.c.run(data)
 
-    def head(self, x:str = '0', y:str = '0'):
-        # CMD_HEAD#1#90 # Horizontal
-        # CMD_HEAD#0#90 # Vertical
-        data = [
-            Orders.HEAD.value,
-            x, y
-            ]
-        self.c.run(data)
+    def head(self, x='0', y='0'):
+        self.handle_head_command(x, y)
 
-    def positions(self, x:str = '0', y:str = '0', z:str = '0'):
-        # CMD_POSITION#22#14#0
-        data = [
-            Orders.POSITIONS.value,
-            x, y, z
-            ]
-        self.c.run(data)
-    
-    def attitude(self, x:str = '0', y:str = '0', z:str = '0'):
-        # CMD_ATTITUDE#0#0#0
-        data = [
-            Orders.ATTITUDE.value,
-            x, y, z
-            ]
-        self.c.run(data)
+    def positions(self, x='0', y='0', z='0'):
+        self.handle_position_command(x, y, z)
+
+    def attitude(self, x='0', y='0', z='0'):
+        self.handle_attitude_command(x, y, z)
 
 
 
 
 class Commands_available:
+
     def __init__(self):
         self.__init_commands([Ctrl, Sound])
     
@@ -208,3 +223,29 @@ class Commands_available:
     
     def prepare_command(self, command: str):
         return command.replace('-', '.')
+    
+if __name__ == "__main__":
+    # Initialize the controller
+    ctrl = Ctrl()
+
+    # Example usage of head command
+    print("Testing head movement...")
+    ctrl.head(x='90', y='90')  # Adjust the robot's head to 90 degrees horizontal and 90 degrees vertical
+    time.sleep(1)  # Pause to observe the action
+
+    # Example usage of balance command
+    print("Activating balance mode...")
+    ctrl.balance()  # Activate balancing mode
+    time.sleep(1)  # Pause to observe the action
+
+    # Example usage of position command
+    print("Changing position...")
+    ctrl.positions(x='20', y='15', z='5')  # Adjust the robot's position
+    time.sleep(1)  # Pause to observe the action
+
+    # Example usage of attitude command
+    print("Adjusting attitude...")
+    ctrl.attitude(r='10', p='5', y='3')  # Adjust the robot's roll, pitch, and yaw
+    time.sleep(1)  # Pause to observe the action
+
+    print("All commands executed.")
