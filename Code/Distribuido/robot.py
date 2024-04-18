@@ -3,8 +3,10 @@ from pathlib import Path
 
 current_dir = Path(__file__).parent.absolute()
 server_dir = current_dir.parent
+server_dir_2 = current_dir.parent / "Server"
 print(server_dir)
 sys.path.append(str(server_dir))
+sys.path.append(str(server_dir_2))
 
 import time
 from enum import Enum
