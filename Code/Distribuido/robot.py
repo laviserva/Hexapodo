@@ -230,6 +230,8 @@ if __name__ == "__main__":
     print("Testing head movement...")
     ctrl.head(x='90', y='90')  # Adjust the robot's head to 90 degrees horizontal and 90 degrees vertical
     time.sleep(1)  # Pause to observe the action
+    ctrl.head(x='0', y='0')  # Adjust the robot's head to 90 degrees horizontal and 90 degrees vertical
+    time.sleep(1)  # Pause to observe the action
 
     # Example usage of position command
     print("Changing position...")
