@@ -228,7 +228,7 @@ if __name__ == "__main__":
 
     # Example usage of head command
     print("Testing head movement...")
-    ctrl.head(x='90', y='90')  # Adjust the robot's head to 90 degrees horizontal and 90 degrees vertical
+    ctrl.head(x='0', y='90')  # Adjust the robot's head to 90 degrees horizontal and 90 degrees vertical
     time.sleep(1)  # Pause to observe the action
     print("Testing head movement...")
     time.sleep(1)
@@ -240,12 +240,9 @@ if __name__ == "__main__":
     print("Testing head movement...")
     time.sleep(1)
     for i in range(0,90,15):
-        ctrl.head(x=str(i), y='1')
+        ctrl.head(x="1", y=str(i))
     print("Testing head movement...")
     time.sleep(1)
-    for i in range(0,90,15):
-        ctrl.head(x=str(i), y=str(i))
-    time.sleep(1)  # Pause to observe the action
 
     # Example usage of position command
     print("Changing position...")
