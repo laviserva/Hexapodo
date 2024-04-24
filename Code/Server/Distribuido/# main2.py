@@ -24,7 +24,7 @@ def girar(grados): # esta funcion requiere la cantidad de grados a girar en mult
     x, y, speed, angle = "0", "0", "7", "14" # angulo en radian
     
     data = {}
-    n = round(grados/45;
+    n = grados//45;
     for  i in range(n):
         data[i+1]=["Ctrl-move", x, y, speed, angle]
     
