@@ -1,10 +1,37 @@
+# main2
+
 import json
 import platform
 import time
 import math
 
 
+def avanzar(cm): # esta función requere la cantidad de cm a avanzar en multiplos de 7.5
+    x, y, speed, angle = "0", "27", "7", "0" # angulo en radian
+    
+    data = {}
+    n = cm // 7.5
+    for  i in range(n):
+        data[i+1]=["Ctrl-move", x, y, speed, angle]
+    
+    data[n+1]=["Ctrl-stop"]
+    data[n+2]=["Ctrl-balance"]
+    
+    return data
 
+
+def girar(grados): # esta funcion requiere la cantidad de grados a girar en multiplos de 45
+    x, y, speed, angle = "0", "0", "7", "14" # angulo en radian
+    
+    data = {}
+    n = round(grados/45;
+    for  i in range(n):
+        data[i+1]=["Ctrl-move", x, y, speed, angle]
+    
+    data[n+1]=["Ctrl-stop"]
+    data[n+2]=["Ctrl-balance"]
+    
+    return data
 
 
 from load_configuration import ConfigManager
@@ -12,27 +39,12 @@ from sockets_connection import Server, Client
 
 from sockets_connection import run_client, run_server
 
-def server(connection):
+def server(connection, action, var):
     try:
-        x, y, speed, angle = "0", "0", "7", "14" # angulo en radian
-        print("hola mundo")
-
-        data = {
-                1: ["ctrl-move", x, y, speed, angle],
-                2: ["ctrl-move", x, y, speed, angle],
-                3: ["ctrl-move", x, y, speed, angle],
-                4: ["ctrl-move", x, y, speed, angle],
-                #6: ["ctrl-move", x, y, speed, angle],
-                5: ["ctrl-stop"],
-                6: ["ctrl-balance"],
-                #4: ["ultrasonic-get_distance"]
-                #4: ["ctrl-move", "0"]
-                #4: ["ctrl-head", "90", "100"],
-                #5: ["ctrl-position", "0", "0", "0"],
-                #6: ["ctrl-attitude", "0", "0", "0"],<
-                #10: ["sound-play"]
-                #10: ["ctrl-move", x, "-25", speed, angle],
-                }
+        if action == "avanzar":
+            data = avanzar(var)
+        elif action == "girar":
+            data = girar(var)
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))
         connection.sendall(json_data)
@@ -95,3 +107,4 @@ if __name__ == "__main__":
                     print(".", end="")
                     time.sleep(1)
                 print()
+
