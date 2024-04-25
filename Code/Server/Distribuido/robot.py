@@ -124,6 +124,7 @@ class Ctrl:
     def __init__(self):
         self.c = Control()
         self.s = Servo()
+        self.u = Ultrasonic()
     
     def __comprobe_restrictions(self, x: str, y: str, speed: str, angle: str):
         x = int(x)
@@ -161,6 +162,16 @@ class Ctrl:
         self.stop()
         
         return data
+    
+    def detectar_obstaculo(self, threshold: float=30.0):
+        threshold = float(threshold)
+        if self.u.get_distance() < threshold:
+            return True
+        return False
+    
+    def avanzar_hasta_obstaculo(self, threshold: float=30.0):
+        while not self.detectar_obstaculo(threshold):
+            self.avanzar(7.5)
     
     def girar(self, grados: str):
         move_cap = 45
