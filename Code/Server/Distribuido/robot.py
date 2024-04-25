@@ -187,6 +187,7 @@ class Ctrl:
                 continue
             print("\t", self.u, threshold)
             self.avanzar('7.5')
+            print("avanzó")
 
         print("finalizo")
     
