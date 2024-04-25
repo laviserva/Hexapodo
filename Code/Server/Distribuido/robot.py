@@ -174,9 +174,9 @@ class Ctrl:
         print("Avanzando...")
         print(self.u)
         print(str(self.u))
-        print(self.u.get_distance(), threshold)
+        print(self.u.get_distance(), threshold, self.u.get_distance() < threshold)
 
-        while not self.u.get_distance() < threshold:
+        while not (self.u.get_distance() < threshold):
             print(self.u.get_distance(), type(self.u.get_distance()))
             self.avanzar('7.5')
             print("Avanzando...")
