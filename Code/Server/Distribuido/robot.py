@@ -149,13 +149,17 @@ class Ctrl:
         data = {}
         n = math.floor(cm / move_cap)
         r = cm % move_cap
+
+        print(f"n: {n}, r: {r}")
         for _ in range(n):
             data=["CMD_MOVE", x, y, speed, angle]
-
+            print(data)
             self.c.run(data)
+        print("Se ejecuto el for de avanzar")
         
         if r:
             data=["CMD_MOVE", x, y, speed, angle]
+            print("Reisduo: ", r, data)
             self.c.run(data)
         
         self.stop()
