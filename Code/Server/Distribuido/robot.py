@@ -185,6 +185,9 @@ class Ctrl:
             while distance == 0:
                 distance = self.u.get_distance()
             print("\t", self.u, threshold, (distance < threshold))
+            if int(distance) < int(threshold):
+                print("Obstaculo detectado")
+                return True
             self.avanzar('7.5')
 
         print("finalizo")
