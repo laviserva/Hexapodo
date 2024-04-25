@@ -18,9 +18,9 @@ def server(connection):
         print("hola mundo")
 
         data = {
-                1: ["ctrl-avanzar", "15"],
-                2: ["ctrl-girar", "180"],
-                3: ["ctrl-avanzar_hasta_obstaculo", "15"],
+                #1: ["ctrl-avanzar", "15"],
+                #2: ["ctrl-girar", "180"],
+                1: ["ctrl-avanzar_hasta_obstaculo", "15"],
                 #1: ["ctrl-move", x, y, speed, angle],
                 #2: ["ctrl-move", x, y, speed, angle],
                 #3: ["ctrl-move", x, y, speed, angle],

@@ -165,17 +165,15 @@ class Ctrl:
     
     def detectar_obstaculo(self, threshold: float=30.0):
         threshold = float(threshold)
-        if self.u.get_distance() < threshold:
+        if float(self.u.get_distance()) < threshold:
             return True
         return False
     
     def avanzar_hasta_obstaculo(self, threshold: float=30.0):
         print("Avanzando...")
-        print(self.u.get_distance())
-        
-        while not self.detectar_obstaculo(threshold):
-            print(self.u.get_distance())
-            self.avanzar(7.5)
+        while not float(self.u.get_distance()) < threshold:
+            print(self.u)
+            self.avanzar('7.5')
     
     def girar(self, grados: str):
         move_cap = 45
