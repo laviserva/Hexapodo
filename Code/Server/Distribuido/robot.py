@@ -54,7 +54,7 @@ class Ultrasonic:
 
     def __new__(cls):
         if cls._isinstance is None:
-            cls._isinstance = super(U, cls).__new__(cls)
+            cls._isinstance = super(Ultrasonic, cls).__new__(cls)
             cls._isinstance.ultrasonic = U()
         return cls._isinstance
     
