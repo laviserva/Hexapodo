@@ -141,6 +141,7 @@ class Ctrl:
             raise ValueError(f"Argumento angle={angle} debe de estar en el intervalo -35 <= x <= 35")
     
     def avanzar(self, cm: str):
+        print(f"Avanzando {cm} cm")
         cm = float(cm)
         move_cap = 7.5
         x, y, speed, angle = "0", "27", self.SPEED_CAP, "0"
