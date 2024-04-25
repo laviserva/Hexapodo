@@ -16,7 +16,7 @@ from Servo import Servo
 from Control import Control
 from Buzzer import Buzzer
 from ADC import ADC
-from Ultrasonic import Ultrasonic
+from Ultrasonic import Ultrasonic as U
 
 class Battery:
     _instance = None
@@ -54,8 +54,8 @@ class Ultrasonic:
 
     def __new__(cls):
         if cls._isinstance is None:
-            cls._isinstance = super(Ultrasonic, cls).__new__(cls)
-            cls._isinstance.ultrasonic = Ultrasonic()
+            cls._isinstance = super(U, cls).__new__(cls)
+            cls._isinstance.ultrasonic = U()
         return cls._isinstance
     
     def get_distance(self) -> float:
@@ -170,7 +170,9 @@ class Ctrl:
         return False
     
     def avanzar_hasta_obstaculo(self, threshold: float=30.0):
+        print("Avanzando...")
         while not self.detectar_obstaculo(threshold):
+            print(self.u.get_distance())
             self.avanzar(7.5)
     
     def girar(self, grados: str):
