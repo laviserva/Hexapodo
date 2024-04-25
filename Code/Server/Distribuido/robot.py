@@ -140,7 +140,8 @@ class Ctrl:
         if angle <= -35 or angle >= 35:
             raise ValueError(f"Argumento angle={angle} debe de estar en el intervalo -35 <= x <= 35")
     
-    def avanzar(self, cm: float):
+    def avanzar(self, cm: str):
+        cm = float(cm)
         move_cap = 7.5
         x, y, speed, angle = "0", "27", self.SPEED_CAP, "0"
         
@@ -160,8 +161,10 @@ class Ctrl:
         
         return data
     
-    def girar(self, grados: float):
+    def girar(self, grados: str):
         move_cap = 45
+        grados = float(grados)
+
         x, y, speed, angle = "0", "0", self.SPEED_CAP, "14"
         
         data = {}
