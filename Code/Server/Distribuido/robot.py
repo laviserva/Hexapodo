@@ -169,7 +169,8 @@ class Ctrl:
             return True
         return False
     
-    def avanzar_hasta_obstaculo(self, threshold: float=30.0):
+    def avanzar_hasta_obstaculo(self, threshold: str="30.0"):
+        threshold = float(threshold)
         print("Avanzando...")
         print(self.u.get_distance(), type(self.u.get_distance()))
 
