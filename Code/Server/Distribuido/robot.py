@@ -1,3 +1,4 @@
+import math
 import sys
 from pathlib import Path
 
@@ -118,6 +119,8 @@ class Sound:
         self.play_note(0.1)
 
 class Ctrl:
+    SPEED_CAP = "7"
+
     def __init__(self):
         self.c = Control()
         self.s = Servo()
@@ -136,6 +139,45 @@ class Ctrl:
             raise ValueError(f"Argumento speed={speed} debe de estar en el intervalo 1 <= x <= 10")
         if angle <= -35 or angle >= 35:
             raise ValueError(f"Argumento angle={angle} debe de estar en el intervalo -35 <= x <= 35")
+    
+    def avanzar(self, cm: float):
+        move_cap = 7.5
+        x, y, speed, angle = "0", "27", self.SPEED_CAP, "0"
+        
+        data = {}
+        n = math.floor(cm / move_cap)
+        r = cm % move_cap
+        for _ in range(n):
+            data=["CMD_MOVE", x, y, speed, angle]
+
+            self.c.run(data)
+        
+        if r:
+            data=["CMD_MOVE", x, y, speed, angle]
+            self.c.run(data)
+        
+        self.stop()
+        
+        return data
+    
+    def girar(self, grados: float):
+        move_cap = 45
+        x, y, speed, angle = "0", "0", self.SPEED_CAP, "14"
+        
+        data = {}
+        n = math.floor(grados / move_cap)
+        r = grados % move_cap
+        for _ in range(n):
+            data=["CMD_MOVE", x, y, speed, angle]
+            self.c.run(data)
+        
+        if r:
+            data=["CMD_MOVE", x, y, speed, angle]
+            self.c.run(data)
+        
+        self.stop()
+        
+        return data
 
     def move(self, x:str = '0', y:str = '0', speed:str = '0', angle:str = '0'):
         print(f"Moving to x={x}, y={y}, speed={speed}, angle={angle}")
@@ -180,6 +222,8 @@ class Ctrl:
         self.s.setServoAngle(int(x), int(y))
 
     def move(self, x='0', y='0', speed='0', angle='0'):
+        if speed >= self.SPEED_CAP:
+            speed = self.SPEED_CAP
         print(f"Moving to x={x}, y={y}, speed={speed}, angle={angle}")
         data = [Orders.MOVE.value, GaitMode.MODE_1.value, x, y, speed, angle]
         print("Data: ", data)
@@ -198,9 +242,6 @@ class Ctrl:
 
     def attitude(self, r='0', p='0', y='0'):
         self.handle_attitude_command(r=r, p=p, y=y)
-
-
-
 
 class Commands_available:
 

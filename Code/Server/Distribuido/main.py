@@ -18,13 +18,15 @@ def server(connection):
         print("hola mundo")
 
         data = {
-                1: ["ctrl-move", x, y, speed, angle],
-                2: ["ctrl-move", x, y, speed, angle],
-                3: ["ctrl-move", x, y, speed, angle],
-                4: ["ctrl-move", x, y, speed, angle],
+                1: ["ctrl-avanzar", "15"],
+                2: ["ctrl-girar", "180"],
+                #1: ["ctrl-move", x, y, speed, angle],
+                #2: ["ctrl-move", x, y, speed, angle],
+                #3: ["ctrl-move", x, y, speed, angle],
+                #4: ["ctrl-move", x, y, speed, angle],
                 #6: ["ctrl-move", x, y, speed, angle],
-                5: ["ctrl-stop"],
-                6: ["ctrl-balance"],
+                #5: ["ctrl-stop"],
+                #6: ["ctrl-balance"],
                 #4: ["ultrasonic-get_distance"]
                 #4: ["ctrl-move", "0"]
                 #4: ["ctrl-head", "90", "100"],
