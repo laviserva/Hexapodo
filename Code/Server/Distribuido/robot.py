@@ -169,28 +169,27 @@ class Ctrl:
             return True
         return False
     
-    def avanzar_hasta_obstaculo(self, threshold: str="30.0", cont_verify: int=5):
-        threshold = float(threshold)
+    def avanzar_hasta_obstaculo(self, threshold: float = 30.0, cont_verify: int = 5):
         print("\n\nAvanzando...")
-        print(self.u)
-        print(str(self.u))
-        print(self.u.get_distance(), threshold, self.u.get_distance() < threshold)
         distance = self.u.get_distance()
 
+        # Primer bucle: espera a obtener una lectura de distancia no cero
         while distance == 0:
             distance = self.u.get_distance()
             print("Distance: ", distance)
 
-        while not (distance < threshold) and distance != 0:
-            while distance == 0:
-                distance = self.u.get_distance()
-            print("\t", self.u, threshold, (distance < threshold))
-            if int(distance) < int(threshold):
-                print("Obstaculo detectado")
+        # Segundo bucle: avanza hasta que se detecte un obstáculo o la distancia sea 0 de nuevo
+        while distance >= threshold and distance != 0:
+            print(f"\t Distancia actual: {distance} vs Umbral: {threshold}")
+            if distance < threshold:
+                print("Obstáculo detectado a menos de", threshold, "unidades")
                 return True
             self.avanzar('7.5')
+            distance = self.u.get_distance()
 
-        print("finalizo")
+        print("Finalizado, no se detectaron obstáculos dentro del umbral")
+        return False
+
     
     def girar(self, grados: str):
         move_cap = 45
