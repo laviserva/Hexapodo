@@ -177,6 +177,10 @@ class Ctrl:
         print(self.u.get_distance(), threshold, self.u.get_distance() < threshold)
         distance = self.u.get_distance()
 
+        while distance == 0:
+            distance = self.u.get_distance()
+            print("Distance: ", distance)
+
         while not (distance < threshold) and distance != 0:
             distance = self.u.get_distance()
             if distance == 0:
