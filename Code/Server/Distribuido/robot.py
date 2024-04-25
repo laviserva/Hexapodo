@@ -174,13 +174,14 @@ class Ctrl:
         print("Avanzando...")
         print(self.u)
         print(str(self.u))
-        print(self.detectar_obstaculo())
+        print(self.u.get_distance(), threshold)
 
-        while not self.detectar_obstaculo(threshold):
+        while not self.u.get_distance() < threshold:
             print(self.u.get_distance(), type(self.u.get_distance()))
             self.avanzar('7.5')
             print("Avanzando...")
             print(self.u.get_distance(), type(self.u.get_distance()))
+
         print("finalizo")
     
     def girar(self, grados: str):
