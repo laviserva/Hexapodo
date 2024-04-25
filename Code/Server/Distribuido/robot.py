@@ -171,6 +171,8 @@ class Ctrl:
     
     def avanzar_hasta_obstaculo(self, threshold: float=30.0):
         print("Avanzando...")
+        print(self.u.get_distance())
+        
         while not self.detectar_obstaculo(threshold):
             print(self.u.get_distance())
             self.avanzar(7.5)
