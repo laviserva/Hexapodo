@@ -152,7 +152,8 @@ class Ctrl:
 
         print(f"n: {n}, r: {r}")
         for _ in range(n):
-            data=["CMD_MOVE", x, y, speed, angle]
+            # data=['CMD_MOVE', '1', '0', '25', '10', '0']
+            data=["CMD_MOVE", '1', x, y, speed, angle]
             print(data)
             self.c.run(data)
         print("Se ejecuto el for de avanzar")
@@ -174,7 +175,7 @@ class Ctrl:
         print(f"n: {n}, r: {r}")
 
         for _ in range(n):
-            data=["CMD_MOVE", x, y, speed, angle]
+            data=["CMD_MOVE", '1', x, y, speed, angle]
             print(data)
             self.c.run(data)
         
