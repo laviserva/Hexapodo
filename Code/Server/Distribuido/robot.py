@@ -169,18 +169,18 @@ class Ctrl:
             return True
         return False
     
-    def avanzar_hasta_obstaculo(self, threshold: str="30.0"):
+    def avanzar_hasta_obstaculo(self, threshold: str="30.0", cont_verify: int=5):
         threshold = float(threshold)
         print("\n\nAvanzando...")
         print(self.u)
         print(str(self.u))
         print(self.u.get_distance(), threshold, self.u.get_distance() < threshold)
+        distance = self.u.get_distance()
 
-        while True:
-            print(self.u)
-            
-
-        while not (self.u.get_distance() < threshold):
+        while not (distance < threshold) and distance != 0:
+            distance = self.u.get_distance()
+            if distance == 0:
+                continue
             print("\t", self.u, threshold)
             self.avanzar('7.5')
 
