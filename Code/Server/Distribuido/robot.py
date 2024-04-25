@@ -173,10 +173,9 @@ class Ctrl:
         threshold = float(threshold)
         print("Avanzando...")
         print(self.u.get_distance(), type(self.u.get_distance()))
-
-        while not float(self.u.get_distance()) < threshold:
-            print(self.u)
-            self.avanzar('7.5')
+        self.avanzar('7.5')
+        print("Avanzando...")
+        print(self.u.get_distance(), type(self.u.get_distance()))
     
     def girar(self, grados: str):
         move_cap = 45
