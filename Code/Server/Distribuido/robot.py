@@ -176,6 +176,10 @@ class Ctrl:
         print(str(self.u))
         print(self.u.get_distance(), threshold, self.u.get_distance() < threshold)
 
+        while True:
+            print(self.u)
+            
+
         while not (self.u.get_distance() < threshold):
             print("\t", self.u, threshold)
             self.avanzar('7.5')
