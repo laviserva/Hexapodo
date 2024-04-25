@@ -182,8 +182,11 @@ class Ctrl:
             print("Distance: ", distance)
 
         while not (distance < threshold) and distance != 0:
+            print("Entro a while")
             distance = self.u.get_distance()
+            print("Distance: ", distance)
             if distance == 0:
+                print("Distance is 0")
                 continue
             print("\t", self.u, threshold)
             self.avanzar('7.5')
