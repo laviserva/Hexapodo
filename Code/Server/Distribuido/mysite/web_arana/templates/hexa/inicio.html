@@ -2,23 +2,36 @@
 {%block content%}
 
 <body>
+    <div id="image-container">
+        
+    </div>
 
+    <div class="container">
+        <div class="row">
+            <div class="section col-md-4 offset-md-4 mt-5" >
+                
+                <textarea id="chat-log" cols="100" rows="20"></textarea><br>
+ 
+                <input id="chat-message-input" type="number" size="100" ><br>
+                <div class="mb-3">
+                <input id="chat-message-submit" type="button" value="Enviar a Cola" class="button-64">
+                </div>
+                <div class="mb-3">
+                    
+                <input id="chat-message-avanzar" type="button" value="avanzar" class="button-64">
+                </div>
 
-    <div class="mb-3">
+                
 
-        <input id="numeroInput" type="number" class="form-control" placeholder="Ingresa un número">
-        <button id="numero-sumbit" type="button" class="btn btn-primary">Enviar</button>
+                <input id="chat-message-girar-derecha" type="button" value="Girar Derecha" class="button-64">
+                <input id="chat-message-girar-izquierda" type="button" value="Girar Izquierda" class="button-64">
+                <input id="chat-message-sumar" type="button" value="Enviar comando" class="button-64">
+        </div>
     </div>
 
 
 
-    <textarea id="chat-log" cols="100" rows="20"></textarea><br>
-    <input id="chat-message-input" type="number" size="100"><br>
-    <input id="chat-message-submit" type="button" value="Send">
-    <input id="chat-message-sumar" type="button" value="sumar">
-    <input id="chat-message-avanzar" type="button" value="avanzar">
-    <input id="chat-message-girar-derecha" type="button" value="Girar Derecha">
-    <input id="chat-message-girar-izquierda" type="button" value="Girar Izquierda">
+
     {{ room_name|json_script:"room-name" }}
     {% csrf_token %}
 
@@ -31,6 +44,13 @@
             'ws://'
             + window.location.host
             + '/ws/chat/'
+            + roomName
+            + '/'
+        );
+        const imgSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            +'/ws/img/'
             + roomName
             + '/'
         );
@@ -113,6 +133,8 @@
             }
             return cookieValue;
         }
+
+    
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

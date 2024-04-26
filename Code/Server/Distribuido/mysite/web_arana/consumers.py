@@ -8,6 +8,7 @@ class ConsumidorVotacion(WebsocketConsumer):
         async_to_sync(self.channel_layer.group_add)(
             self.room_group_name, self.channel_name
         )
+        print("conectasdo chat")
         self.accept()
     def disconnect(self, code):
         async_to_sync(self.channel_layer.group_discard)(
@@ -27,3 +28,12 @@ class ConsumidorVotacion(WebsocketConsumer):
 
         # Send message to WebSocket
         self.send(text_data=json.dumps({"message": message}))    
+class ConsumidorIMG(WebsocketConsumer):
+    def connect(self):
+        self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
+        self.room_group_name = f"chat_{self.room_name}"
+        async_to_sync(self.channel_layer.group_add)(
+            self.room_group_name, self.channel_name
+        )
+        print("conectado IMG")
+        self.accept()
