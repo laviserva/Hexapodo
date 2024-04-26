@@ -51,31 +51,45 @@
             }
         };
         document.querySelector('#chat-message-sumar').onclick = function (e) {
-            const numeros = document.querySelector('#chat-log').value.split('\n');
-            console.log(numeros)
-            let suma = 0;
-            numeros.forEach(function (numero) {
-                if (numero.trim() !== '') {
-                    suma += parseFloat(numero);
-                }
-            });
+            const comandosTexto = document.getElementById('chat-log');
+            const comandos = comandosTexto.value.trim().split('\n');
+            console.log(comandos)
+
             const csrftoken = getCookie('csrftoken');
             fetch('/web_arana/message/', {
                 method: 'POST',
                 body: JSON.stringify({
-                    'message': suma
+                    'message': comandos
                 }),
                 headers: {
                     'Content-Type': 'comando',
                     'X-CSRFToken': csrftoken
-                    
+
                 }
             }).then(response => response.json()).then(data => console.log(data)).catch(error => console.log('Error', error));
-
 
             chatSocket.send(JSON.stringify({ 'message': suma }))
 
         };
+
+        document.querySelector('#chat-message-avanzar').onclick = function (e){
+            const comando ='ctrl-avanzar'
+            const message = comando
+            chatSocket.send(JSON.stringify({'message':message}));
+        }
+        document.querySelector('#chat-message-girar-derecha').onclick = function (e){
+            const comando ='ctrl-girar-derecha'
+            const message = comando
+            chatSocket.send(JSON.stringify({'message':message}));
+        }
+        document.querySelector('#chat-message-girar-izquierda').onclick = function (e){
+            const comando ='ctrl-girar-izquierda'
+            const message = comando
+            chatSocket.send(JSON.stringify({'message':message}));
+        }
+
+
+
 
         document.querySelector('#chat-message-submit').onclick = function (e) {
             const messageInputDom = document.querySelector('#chat-message-input');
