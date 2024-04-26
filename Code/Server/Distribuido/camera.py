@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
 from abc import ABC, abstractmethod
-from picamera2 import Picamera2
 import matplotlib.pyplot as plt
 
 class CameraInterface(ABC):
@@ -30,6 +29,7 @@ class CameraSingletonFactory:
 class Picamera2Adapter(CameraInterface):
     """Adapter for the Picamera2 library."""
     def __init__(self, video_format: str, resolution: tuple):
+        from picamera2 import Picamera2
         self.camera = Picamera2()
         self.video_format = video_format
         self.resolution = resolution

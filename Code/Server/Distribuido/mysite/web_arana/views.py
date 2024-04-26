@@ -1,3 +1,4 @@
+import base64
 import platform
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -36,9 +37,9 @@ def index(request):
             login(request, user)
             return redirect('inicio1')
         
-def inicio(request,room_name):
+def inicio(request, room_name):
     if request.method == 'GET':
-        return render(request, 'hexa/inicio.html',{"room_name": room_name})
+        return render(request, 'hexa/inicio.html', {"room_name": room_name})
     else:
         data = json.loads(request.body)  # Carga los datos JSON de la solicitud
         message = data.get('message')  
@@ -55,18 +56,33 @@ def inicio(request,room_name):
         if system_os == 'Windows':
             print("[Servidor]: Configurando este dispositivo como servidor...")
             ip = '0.0.0.0'
-            _, connection = run_server(ip = ip, port = port)
+            _, connection = run_server(ip=ip, port=port)
 
             try:
+                # Envío de comandos al cliente
                 json_data = json.dumps(data).encode('utf-8')
                 connection.sendall(len(json_data).to_bytes(4, 'big'))
                 connection.sendall(json_data)
                 print("[Servidor]: Datos enviados.")
 
+                # Recepción de la imagen
+                print("[Servidor]: Esperando recibir una imagen...")
+                image_data = connection.receive_image()
+                if image_data:
+                    image_b64 = base64.b64encode(image_data).decode('utf-8')
+                    context = {
+                        "room_name": room_name,
+                        "image_data": image_b64
+                    }
+                    return render(request, 'hexa/inicio.html', context)
+                else:
+                    return HttpResponse("Error al recibir la imagen")
+
             finally:
                 connection.close()
+        else:
+            return HttpResponse("Solo el servidor puede recibir imágenes")
 
-        return HttpResponse("hola")
     
 def singout(request):
     logout(request)

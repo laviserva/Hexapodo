@@ -40,37 +40,21 @@ class Communication(ABC):
             print(f"Error sending image: {e}")
 
     
-    def receive_image(self, save_path):
-        """Receive an image from the other device and save it to the specified path.
-        
-        Arguments:
-            save_path {str} -- The directory path where the image will be saved.
-
-        Returns:
-            str -- Full path of the saved image file.
-        """
+    def receive_image(self):
+        """Receive an image from the other device and return it as byte data."""
         try:
-            # Primero, recibimos el tamaño de la imagen esperada
+            # Recibir el tamaño total de la imagen
             length = int.from_bytes(self.socket.recv(4), 'big')
-            # Luego, recibimos los datos de la imagen
             image_data = b''
             while len(image_data) < length:
-                to_read = length - len(image_data)
-                image_data += self.socket.recv(4096 if to_read > 4096 else to_read)
+                packet = self.socket.recv(4096)
+                if not packet:
+                    break
+                image_data += packet
 
-            # Nombre del archivo basado en la hora actual para evitar duplicados
-            root_folder = os.path.dirname(os.path.abspath(__file__))
-            save_path = os.path.join(root_folder, save_path)
-            file_name = f'image.jpg'
-            full_path = os.path.join(save_path, file_name)
-
-            # Guardando la imagen en el archivo
-            with open(full_path, 'wb') as f:
-                f.write(image_data)
-            print(f"Imagen recibida y guardada en {full_path}")
-            return full_path
+            return image_data
         except Exception as e:
-            print(f"Error al recibir y guardar la imagen: {e}")
+            print(f"Error during image reception: {e}")
             return None
 
     def receive(self):
@@ -125,6 +109,8 @@ class Communication(ABC):
                 print(f"[Cliente]: nombre de metodo: {method_ex.__name__}")
                 out = method_ex(*args)
                 print(f"Resultado de la operación: {out}")
+
+        self.send_image()
 
     def get_data(self):
         try:
