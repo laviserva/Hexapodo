@@ -3,7 +3,8 @@
 
 <body>
     <div id="image-container">
-        
+        <img id ='imagen' src="" alt="">
+
     </div>
 
     <div class="container">
@@ -28,6 +29,7 @@
                 <input id="chat-message-sumar" type="button" value="Enviar comando" class="button-64">
         </div>
     </div>
+  
 
 
 
@@ -39,6 +41,7 @@
 
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const img = null;
 
         const chatSocket = new WebSocket(
             'ws://'
@@ -133,6 +136,32 @@
             }
             return cookieValue;
         }
+        imgSocket.onclose=function(event){
+            console.log("se descometp este pedo")
+        }
+   
+
+        imgSocket.onmessage = function(event){
+
+            const imageData = 'data:image/jpeg;base64,' + event.data;
+            const img= new Image()
+            
+
+            //img.src ='data:image/jpeg;base64,' + event.data;
+            const imageElement = document.getElementById('imagen');
+            if (imageElement) {
+        // Si la imagen ya existe, simplemente actualiza su src
+                imageElement.src = imageData;
+            }else{
+                const newImage = new Image();
+                newImage.id = 'imagen';
+                newImage.src = imageData;
+                document.getElementById('image-container').appendChild(newImage);
+
+            }
+
+        };
+
 
     
     </script>

@@ -5,14 +5,14 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import AsyncWebsocketConsumer
 import asyncio
 
-class ConsumidorVotacion(WebsocketConsumer):
+class ConsumidorVotacion(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         self.room_group_name = f"chat_{self.room_name}"
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
 
         print("conectasdo chat")
-        self.accept()
+        await self.accept()
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
@@ -35,6 +35,7 @@ class ConsumidorVotacion(WebsocketConsumer):
         await self.send(text_data=json.dumps({"message": message}))
 
 
+
 class ConsumidorIMG(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
@@ -42,17 +43,17 @@ class ConsumidorIMG(AsyncWebsocketConsumer):
         
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
         print("conectado IMG")
-        self.accept()
+        await self.accept()
         self.running = True
         while self.running:
-            image_path = r'C:\Users\Pc-01\Documents\Hexapodo\Code\Server\Distribuido\mysite\web_arana\static\imagen.jpg'
-            with open(image_path, 'rb') as image_file:
-                encoded_string = base64.b64encode(
-                    image_file.read()).decode('utf-8')
-            await self.send(text_data=encoded_string)
-
-            await asyncio.sleep(2)
+            try:
+                image_path = r'C:\Users\Pc-01\Documents\Hexapodo\Code\Server\Distribuido\mysite\web_arana\static\imgs\imagen.jpeg'
+                with open(image_path, 'rb') as image_file:
+                    encoded_string = base64.b64encode(
+                        image_file.read()).decode('utf-8')
+                await self.send(text_data=encoded_string)
+            
+            finally:
+                await asyncio.sleep(2)
     async def disconnect(self, close_code):
         self.running = False
-
- 

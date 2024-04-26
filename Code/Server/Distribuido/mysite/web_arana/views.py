@@ -18,8 +18,10 @@ from pathlib import Path
 
 current_dir = Path(__file__).parent.absolute()
 server_dir = current_dir.parent.parent
-print(server_dir)
+casting_path = server_dir / "mysite" / "web_arana"
+
 sys.path.append(str(server_dir))
+sys.path.append(str(casting_path))
 
 from sockets_connection import run_server
 from load_configuration import ConfigManager
