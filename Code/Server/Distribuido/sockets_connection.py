@@ -110,7 +110,7 @@ class Communication(ABC):
                 out = method_ex(*args)
                 print(f"Resultado de la operación: {out}")
 
-        self.send_image()
+        #self.send_image()
 
     def get_data(self):
         try:
