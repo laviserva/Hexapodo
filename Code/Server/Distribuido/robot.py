@@ -209,17 +209,22 @@ class Ctrl:
         return False
 
     
-    def girar(self, grados: str):
+    def girar(self, grados_f: str):
         move_cap = 45
-        grados = float(grados)
+        grados = abs(float(grados_f))
 
-        x, y, speed, angle = "0", "0", self.SPEED_CAP, "14"
-        
+        if float(grados) >= 0:
+            x, y, speed, angle = "0", "0", self.SPEED_CAP, "14"
+            n = math.floor(grados / move_cap)
+            r = abs(grados % move_cap)
+        else:
+            x, y, speed, angle = "0", "0", self.SPEED_CAP, "-14"
+            n = math.ceil(grados / move_cap)
+            r = abs(grados % move_cap)
+
         data = {}
-        n = math.floor(grados / move_cap)
-        r = grados % move_cap
-
-        print(f"n: {n}, r: {r}")
+        print('ulti')
+        print(f"n: {n}, r: {r}, grados{grados}, grados_f{grados_f}, angle {angle}")
 
         for _ in range(n):
             data=["CMD_MOVE", '1', x, y, speed, angle]

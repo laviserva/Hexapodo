@@ -50,7 +50,9 @@ def inicio(request, room_name):
         print("mensaje")
         print(message)
 
+        print('++++++++++++++++++++++===')
         data = gestion_comandos(message)
+        print('++++++++++++++++++++++===')
         print('data: ', data)
         
         system_os = platform.system()
@@ -71,7 +73,8 @@ def inicio(request, room_name):
 
                 # Recepción de la imagen
                 print("[Servidor]: Esperando recibir una imagen...")
-                image_data = connection.receive_image()
+                
+                '''image_data = connection.receive_image()
                 if image_data:
                     # Guardar la imagen en un archivo
                     save_directory = imgs_path
@@ -87,12 +90,13 @@ def inicio(request, room_name):
                     }
                     return render(request, 'hexa/inicio.html', context)
                 else:
-                    return HttpResponse("Error al recibir la imagen")
+                    return HttpResponse("Error al recibir la imagen")'''
 
             finally:
                 connection.close()
         else:
             return HttpResponse("Solo el servidor puede recibir imágenes")
+        return render(request,'hexa/inicio1.html')
 
     
 def singout(request):
