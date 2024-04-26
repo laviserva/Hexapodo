@@ -213,7 +213,7 @@ class Ctrl:
         move_cap = 45
         grados = abs(float(grados_f))
 
-        if float(grados) >= 0:
+        if float(grados_f) >= 0:
             x, y, speed, angle = "0", "0", self.SPEED_CAP, "14"
             n = math.floor(grados / move_cap)
             r = abs(grados % move_cap)
