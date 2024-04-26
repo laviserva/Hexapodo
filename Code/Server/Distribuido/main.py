@@ -13,12 +13,7 @@ def server(connection):
         print("hola mundo")
 
         data = {
-                1: ["ctrl-avanzar", "15"],
-                2: ["ctrl-girar", "90"],
-                3: ["ctrl-girar", "-90"],
-                4: ["ctrl-avanzar_hasta_obstaculo"],
-                5: ["sound-play"],
-                6: ["camera-save_image"]
+                1: ["ctrl-position", "0", "0", "20"]
                 }
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))
