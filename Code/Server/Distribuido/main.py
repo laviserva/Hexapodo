@@ -1,11 +1,6 @@
 import json
 import platform
 import time
-import math
-
-
-
-
 
 from load_configuration import ConfigManager
 from sockets_connection import Server, Client
@@ -22,7 +17,8 @@ def server(connection):
                 2: ["ctrl-girar", "90"],
                 3: ["ctrl-girar", "-90"],
                 4: ["ctrl-avanzar_hasta_obstaculo"],
-                5: ["sound-play"]
+                5: ["sound-play"],
+                6: ["camera-save_image"]
                 }
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))
@@ -56,14 +52,15 @@ if __name__ == "__main__":
         _, connection = run_server(ip, port) # socket, connection
         server(connection)
     else:
-        from robot import Sound, Ctrl, Ultrasonic
+        from robot import Sound, Ctrl, Ultrasonic, Camera
         
         control = Ctrl()
         buzzer = Sound()
         ultrasonic = Ultrasonic()
+        camera = Camera()
         
         # Añadiendo todas las posibles interacciones del robot en el sistema distribuido para procesar los comandos en el cliente
-        interacciones = [control, buzzer, ultrasonic]
+        interacciones = [control, buzzer, ultrasonic, camera]
         print("[Cliente]: Configurando este dispositivo como cliente...")
         ip = config['CONNECTION']['IP']
         print(f"[Cliente]: Conectando a {ip}:{port}")

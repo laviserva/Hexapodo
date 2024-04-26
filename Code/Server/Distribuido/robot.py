@@ -18,6 +18,24 @@ from Buzzer import Buzzer
 from ADC import ADC
 from Ultrasonic import Ultrasonic as U
 
+from camera import CameraSingletonFactory as C
+from camera import ImageProcessor
+
+class Camera:
+    
+    def __init__(self, res = (640, 480)):
+        self.camera = C.get_camera("RGB888", res)
+    
+    def capture_image(self):
+        return self.camera.capture_image_as_array()
+    
+    def get_video_frames(self):
+        return self.camera.get_video_frames()
+    
+    def save_image(self, filename="image.jpg"):
+        image_array = self.capture_image()
+        ImageProcessor.save_image(image_array, filename)
+
 class Battery:
     _instance = None
 

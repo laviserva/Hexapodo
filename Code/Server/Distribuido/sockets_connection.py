@@ -1,15 +1,18 @@
 import json
+import os
 import socket
 import platform
 
 from abc import ABC, abstractmethod
 from load_configuration import ConfigManager
+from camera import CameraSingletonFactory
 
 class Communication(ABC):
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port
         self.socket = None
+        self.camera = CameraSingletonFactory.get_camera("RGB888", (640, 480))
 
     @abstractmethod
     def connect(self):
@@ -23,18 +26,70 @@ class Communication(ABC):
             'command: *arguments'
         """
         self.socket.sendall(message.encode('utf-8'))
+    
+    def send_image(self):
+        """Send an image to the other device with a type prefix."""
+        try:
+            image = self.camera.capture_image_as_array()
+            image_bytes = image.tobytes()
+            header = 'IMG'.encode('utf-8')
+            message = header + len(image_bytes).to_bytes(4, 'big') + image_bytes
+            self.socket.sendall(len(message).to_bytes(4, 'big'))
+            self.socket.sendall(message)
+        except Exception as e:
+            print(f"Error sending image: {e}")
+
+    
+    def receive_image(self, save_path):
+        """Receive an image from the other device and save it to the specified path.
+        
+        Arguments:
+            save_path {str} -- The directory path where the image will be saved.
+
+        Returns:
+            str -- Full path of the saved image file.
+        """
+        try:
+            # Primero, recibimos el tamaño de la imagen esperada
+            length = int.from_bytes(self.socket.recv(4), 'big')
+            # Luego, recibimos los datos de la imagen
+            image_data = b''
+            while len(image_data) < length:
+                to_read = length - len(image_data)
+                image_data += self.socket.recv(4096 if to_read > 4096 else to_read)
+
+            # Nombre del archivo basado en la hora actual para evitar duplicados
+            root_folder = os.path.dirname(os.path.abspath(__file__))
+            save_path = os.path.join(root_folder, save_path)
+            file_name = f'image.jpg'
+            full_path = os.path.join(save_path, file_name)
+
+            # Guardando la imagen en el archivo
+            with open(full_path, 'wb') as f:
+                f.write(image_data)
+            print(f"Imagen recibida y guardada en {full_path}")
+            return full_path
+        except Exception as e:
+            print(f"Error al recibir y guardar la imagen: {e}")
+            return None
 
     def receive(self):
-        """Receive a message from the other device
-        
-        Returns:
-            str -- Message received
-            'command: *arguments'
-            """
-        length = int.from_bytes(self.socket.recv(4), 'big')
-        data = self.socket.recv(length).decode('utf-8')
+        """Receive data from the other device and handle based on type."""
+        try:
+            # Primero, recibimos el tamaño total del mensaje
+            length = int.from_bytes(self.socket.recv(4), 'big')
+            data = self.socket.recv(length)
+            # Determinamos el tipo de mensaje de los primeros 3 bytes
+            message_type = data[:3].decode('utf-8')
 
-        return data
+            # Redirigimos el procesamiento basándonos en el tipo de mensaje
+            if message_type == 'IMG':
+                return self.receive_image(data[3:])
+            else:
+                return data.decode('utf-8')
+        except Exception as e:
+            print(f"Error during receive: {e}")
+            return None
     
     def process(self, request: json, interacciones: list):
         """Process the request and execute the command.
