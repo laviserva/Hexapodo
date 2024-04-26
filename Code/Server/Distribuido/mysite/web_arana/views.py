@@ -1,4 +1,5 @@
 import base64
+import os
 import platform
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -19,6 +20,7 @@ from pathlib import Path
 current_dir = Path(__file__).parent.absolute()
 server_dir = current_dir.parent.parent
 casting_path = server_dir / "mysite" / "web_arana"
+imgs_path = server_dir / "mysite" / "web_arana"
 
 sys.path.append(str(server_dir))
 sys.path.append(str(casting_path))
@@ -71,6 +73,13 @@ def inicio(request, room_name):
                 print("[Servidor]: Esperando recibir una imagen...")
                 image_data = connection.receive_image()
                 if image_data:
+                    # Guardar la imagen en un archivo
+                    save_directory = imgs_path
+                    if not os.path.exists(save_directory):
+                        os.makedirs(save_directory)
+                    file_path = os.path.join(save_directory, f'image.jpg')
+                    with open(file_path, 'wb') as file:
+                        file.write(image_data)
                     image_b64 = base64.b64encode(image_data).decode('utf-8')
                     context = {
                         "room_name": room_name,

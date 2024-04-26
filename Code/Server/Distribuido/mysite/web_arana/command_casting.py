@@ -3,6 +3,7 @@
 def gestion_comandos(comandos: list):
     comandos_out = {}
 
+
     for i, m in enumerate(comandos):
 
         if m == "ctrl-avanzar":
