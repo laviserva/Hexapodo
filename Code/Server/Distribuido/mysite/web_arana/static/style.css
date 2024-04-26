@@ -1,0 +1,76 @@
+div#btn-container {
+    width: 400px;
+    height: 400px;
+    display: grid;
+    grid: 133px 133px 133px / 133px 133px 133px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #009383;
+    place-items: center center;
+  }
+  
+  button#left {
+    width: 100px;
+    height: 100px;
+    grid-row-start: 2;
+    grid-column-start: 1;
+  }
+  
+  button#up {
+    width: 100px;
+    height: 100px;
+    grid-row-start: 1;
+    grid-column-start: 2;
+  }
+  
+  button#down {
+    width: 100px;
+    height: 100px;
+    grid-row-start: 3;
+    grid-column-start: 2;
+  }
+  
+  button#right {
+    width: 100px;
+    height: 100px;
+    grid-row-start: 2;
+    grid-column-start: 3;
+  }
+
+
+.navbar {
+
+    background-color: #009383 !important;
+}
+.nav-link{
+    color: white !important; 
+}
+.cardHistPlant:hover{
+    background-color: #009383 !important;
+    color: white;
+}
+
+.nav-link:hover{
+    color: rgb(10, 249, 54) !important; 
+}
+main .singn{
+    background: rgb(132,174,24);
+    background: linear-gradient(90deg, rgba(132,174,24,1) 0%, rgba(0,227,11,1) 31%, rgba(0,224,255,1) 100%);
+}
+.list-group-item-action:hover{
+    background-color: #009383!important; 
+    color: whitesmoke;
+
+}
+.btn-secondary:hover{
+    background-color: #025349 !important;
+
+}
+.btn-secondary{
+    background-color: #009383 !important;
+
+}
+.abc {
+    position: relative;
+  }
+  
