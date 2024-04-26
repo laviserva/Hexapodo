@@ -42,6 +42,15 @@ def inicio(request,room_name):
         message = data.get('message')  
         print("mensaje")
         print(message)
+
+        data = {}
+        for i, m in enumerate(message):
+            data[i] = m
+        
+        print('data: ', data)
+        data = {
+            1: ["ctrl-avanzar", "15"],
+             }
         
         system_os = platform.system()
         config = ConfigManager.get_config()
@@ -50,12 +59,16 @@ def inicio(request,room_name):
         if system_os == 'Windows':
             print("[Servidor]: Configurando este dispositivo como servidor...")
             ip = '0.0.0.0'
-            run_server(ip = ip, port = port)
-        else:
-            print("[Cliente]: Configurando este dispositivo como cliente...")
-            ip = config['CONNECTION']['IP']
-            print(f"Conectando a {ip}:{port}")
-            run_client(ip=ip, port=port)
+            _, connection = run_server(ip = ip, port = port)
+
+            try:
+                json_data = json.dumps(data).encode('utf-8')
+                connection.sendall(len(json_data).to_bytes(4, 'big'))
+                connection.sendall(json_data)
+                print("[Servidor]: Datos enviados.")
+
+            finally:
+                connection.close()
 
         return HttpResponse("hola")
 def singout(request):

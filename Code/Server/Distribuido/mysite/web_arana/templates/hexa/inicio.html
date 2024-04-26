@@ -68,7 +68,7 @@
                 }
             }).then(response => response.json()).then(data => console.log(data)).catch(error => console.log('Error', error));
 
-            chatSocket.send(JSON.stringify({ 'message': suma }))
+            chatSocket.send(JSON.stringify({ 'message': comandos }))
 
         };
 
