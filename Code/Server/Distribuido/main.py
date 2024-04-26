@@ -57,10 +57,10 @@ if __name__ == "__main__":
         control = Ctrl()
         buzzer = Sound()
         ultrasonic = Ultrasonic()
-        camera = Camera()
+        #camera = Camera()
         
         # Añadiendo todas las posibles interacciones del robot en el sistema distribuido para procesar los comandos en el cliente
-        interacciones = [control, buzzer, ultrasonic, camera]
+        interacciones = [control, buzzer, ultrasonic]#, camera]
         print("[Cliente]: Configurando este dispositivo como cliente...")
         ip = config['CONNECTION']['IP']
         print(f"[Cliente]: Conectando a {ip}:{port}")
