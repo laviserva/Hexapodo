@@ -20,8 +20,9 @@ server_dir = current_dir.parent.parent
 print(server_dir)
 sys.path.append(str(server_dir))
 
-from sockets_connection import run_client, run_server
+from sockets_connection import run_server
 from load_configuration import ConfigManager
+from command_casting import gestion_comandos
 
 def index(request):
     if request.method == 'GET':
@@ -34,6 +35,7 @@ def index(request):
         else:
             login(request, user)
             return redirect('inicio1')
+        
 def inicio(request,room_name):
     if request.method == 'GET':
         return render(request, 'hexa/inicio.html',{"room_name": room_name})
@@ -43,14 +45,8 @@ def inicio(request,room_name):
         print("mensaje")
         print(message)
 
-        data = {}
-        for i, m in enumerate(message):
-            data[i] = m
-        
+        data = gestion_comandos(message)
         print('data: ', data)
-        data = {
-            1: ["ctrl-avanzar", "15"],
-             }
         
         system_os = platform.system()
         config = ConfigManager.get_config()
@@ -71,6 +67,7 @@ def inicio(request,room_name):
                 connection.close()
 
         return HttpResponse("hola")
+    
 def singout(request):
     logout(request)
     return redirect('index')
