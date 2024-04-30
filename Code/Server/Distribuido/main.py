@@ -13,12 +13,7 @@ def server(connection):
         print("hola mundo")
 
         data = {
-                1: ["ctrl-avanzar", "15"],
-                2: ["ctrl-girar", "90"],
-                3: ["ctrl-girar", "-90"],
-                4: ["ctrl-avanzar_hasta_obstaculo"],
-                5: ["sound-play"],
-                6: ["camera-save_image"]
+                1: ["ctrl-position", "0", "0", "20"]
                 }
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))
@@ -57,10 +52,10 @@ if __name__ == "__main__":
         control = Ctrl()
         buzzer = Sound()
         ultrasonic = Ultrasonic()
-        camera = Camera()
+        #camera = Camera()
         
         # Añadiendo todas las posibles interacciones del robot en el sistema distribuido para procesar los comandos en el cliente
-        interacciones = [control, buzzer, ultrasonic, camera]
+        interacciones = [control, buzzer, ultrasonic]#, camera]
         print("[Cliente]: Configurando este dispositivo como cliente...")
         ip = config['CONNECTION']['IP']
         print(f"[Cliente]: Conectando a {ip}:{port}")

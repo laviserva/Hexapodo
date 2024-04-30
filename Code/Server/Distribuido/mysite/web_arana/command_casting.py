@@ -2,20 +2,22 @@
 
 def gestion_comandos(comandos: list):
     comandos_out = {}
-
+    print('comandos: ', comandos)
 
     for i, m in enumerate(comandos):
-
+        print(i, m, comandos[i])
         if m == "ctrl-avanzar":
-            comandos_out[i] = ctrl_avanzar(comandos[i+1])
+            comandos_out[i] = ctrl_avanzar('15')
 
         elif m == "ctrl-girar":
-            comandos_out[i] = ctrl_girar(comandos[i+1])
+            comandos_out[i] = ctrl_girar('90')
 
-        elif m == "ctrl-girar_izquierda":
+        elif m == "ctrl-girar-izquierda":
+            print('giorando a la izquierda')
             comandos_out[i] = ctrl_girar_izquierda()
 
-        elif m == "ctrl-girar_derecha":
+        elif m == "ctrl-girar-derecha":
+            print('giorando a la derecha')
             comandos_out[i] = ctrl_girar_derecha()
 
         elif m == "ctrl-avanzar_hasta_obstaculo":

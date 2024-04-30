@@ -12,7 +12,6 @@ class Communication(ABC):
         self.ip = ip
         self.port = port
         self.socket = None
-        self.camera = CameraSingletonFactory.get_camera("RGB888", (640, 480))
 
     @abstractmethod
     def connect(self):
@@ -30,6 +29,7 @@ class Communication(ABC):
     def send_image(self):
         """Send an image to the other device with a type prefix."""
         try:
+            self.camera = CameraSingletonFactory.get_camera("RGB888", (640, 480))
             image = self.camera.capture_image_as_array()
             image_bytes = image.tobytes()
             header = 'IMG'.encode('utf-8')
@@ -110,7 +110,7 @@ class Communication(ABC):
                 out = method_ex(*args)
                 print(f"Resultado de la operación: {out}")
 
-        self.send_image()
+        #self.send_image()
 
     def get_data(self):
         try:
