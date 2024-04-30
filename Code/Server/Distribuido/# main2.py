@@ -11,11 +11,15 @@ def server(connection):
         print("hola mundo")
 
         data = {
-                1: ["ctrl-avanzar", "15"],
+                1: ["ctrl-position", "0", "0", "20"],
                 2: ["ctrl-girar", "90"],
-                3: ["ctrl-girar", "-90"],
+                3: ["ctrl-girar", "90"],
+                4: ["ctrl-avanzar", "89"],
+                #3: ["ctrl-girar", "90"],
+                #4: ["ctrl-girar", "90"],
+                #3: ["ctrl-girar", "-90"],
                 #4: ["ctrl-avanzar_hasta_obstaculo"],
-                5: ["sound-play"],
+                #5: ["sound-play"],
                 #6: ["camera-save_image"]
                 }
         json_data = json.dumps(data).encode('utf-8')
