@@ -137,7 +137,7 @@ class Sound:
         self.play_note(0.1)
 
 class Ctrl:
-    SPEED_CAP = "10"#
+    SPEED_CAP = "7"
 
     def __init__(self):
         self.c = Control()
@@ -164,7 +164,7 @@ class Ctrl:
         cm = float(cm)
         move_cap = 7.5
         x, y, speed, angle = "0", "27", self.SPEED_CAP, "0"
-       # 
+        
         data = {}
         n = math.floor(cm / move_cap)
         r = cm % move_cap
@@ -278,8 +278,8 @@ class Ctrl:
         self.s.setServoAngle(int(x), int(y))
 
     def move(self, x='0', y='0', speed='0', angle='0'):
-        #if speed >= self.SPEED_CAP:
-        #    speed = self.SPEED_CAP
+        if speed >= self.SPEED_CAP:
+            speed = self.SPEED_CAP
         print(f"Moving to x={x}, y={y}, speed={speed}, angle={angle}")
         data = [Orders.MOVE.value, GaitMode.MODE_1.value, x, y, speed, angle]
         print("Data: ", data)
