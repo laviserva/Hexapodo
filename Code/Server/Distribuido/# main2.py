@@ -1,50 +1,23 @@
-# main2
-
 import json
 import platform
 import time
-import math
-
-
-def avanzar(cm): # esta función requere la cantidad de cm a avanzar en multiplos de 7.5
-    x, y, speed, angle = "0", "27", "7", "0" # angulo en radian
-    
-    data = {}
-    n = cm // 7.5
-    for  i in range(n):
-        data[i+1]=["Ctrl-move", x, y, speed, angle]
-    
-    data[n+1]=["Ctrl-stop"]
-    data[n+2]=["Ctrl-balance"]
-    
-    return data
-
-
-def girar(grados): # esta funcion requiere la cantidad de grados a girar en multiplos de 45
-    x, y, speed, angle = "0", "0", "7", "14" # angulo en radian
-    
-    data = {}
-    n = grados//45;
-    for  i in range(n):
-        data[i+1]=["Ctrl-move", x, y, speed, angle]
-    
-    data[n+1]=["Ctrl-stop"]
-    data[n+2]=["Ctrl-balance"]
-    
-    return data
-
 
 from load_configuration import ConfigManager
-from sockets_connection import Server, Client
-
 from sockets_connection import run_client, run_server
 
-def server(connection, action, var):
+def server(connection):
     try:
-        if action == "avanzar":
-            data = avanzar(var)
-        elif action == "girar":
-            data = girar(var)
+        x, y, speed, angle = "0", "0", "7", "14" # angulo en radian
+        print("hola mundo")
+
+        data = {
+                1: ["ctrl-avanzar", "15"],
+                2: ["ctrl-girar", "90"],
+                3: ["ctrl-girar", "-90"],
+                #4: ["ctrl-avanzar_hasta_obstaculo"],
+                5: ["sound-play"],
+                #6: ["camera-save_image"]
+                }
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))
         connection.sendall(json_data)
@@ -77,14 +50,15 @@ if __name__ == "__main__":
         _, connection = run_server(ip, port) # socket, connection
         server(connection)
     else:
-        from robot import Sound, Ctrl, Ultrasonic
+        from robot import Sound, Ctrl, Ultrasonic, Camera
         
         control = Ctrl()
         buzzer = Sound()
         ultrasonic = Ultrasonic()
+        camera = Camera()
         
         # Añadiendo todas las posibles interacciones del robot en el sistema distribuido para procesar los comandos en el cliente
-        interacciones = [control, buzzer, ultrasonic]
+        interacciones = [control, buzzer, ultrasonic, camera]
         print("[Cliente]: Configurando este dispositivo como cliente...")
         ip = config['CONNECTION']['IP']
         print(f"[Cliente]: Conectando a {ip}:{port}")
@@ -107,4 +81,3 @@ if __name__ == "__main__":
                     print(".", end="")
                     time.sleep(1)
                 print()
-
