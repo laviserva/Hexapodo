@@ -12,6 +12,7 @@ def server(connection):
         data = pathfind(camera=3)
         data = [ast.literal_eval(item) for item in data]
         data = to_command(data)
+        data[0] = ["ctrl-position", "0", "0", "20"]
         print("[Servidor]: Datos procesados:", data)
         data[0] = ["ctrl-position", "0", "0", "20"]
         print("[Servidor]: Datos procesados:", data)

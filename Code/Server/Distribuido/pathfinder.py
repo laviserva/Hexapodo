@@ -210,7 +210,7 @@ def to_command(posiciones_camino):
     movimientos = []
 
     for i in range(1, len(posiciones_camino)):
-        proxima_posicion = posiciones_camino[i + 1]
+        proxima_posicion = posiciones_camino[i]
 
         # Determinar la orientación necesaria
         if proxima_posicion[0] == posicion_actual[0]:
@@ -272,8 +272,13 @@ def pathfind(camera=1):
     return camino
 
 if __name__ == "__main__":
+<<<<<<< HEAD
     #data = pathfind(camera=3)
     data = ['(0, 3)', '(0, 2)', '(0, 1)', '(0, 0)', '(1, 0)', '(2, 0)', '(3, 0)']
+=======
+    data = pathfind(camera=2)
+    data = []
+>>>>>>> 94a6469b77e4cfea5868990d4cd089a4461492cc
     data = [ast.literal_eval(item) for item in data]
     data = to_command(data)
     print("[Servidor]: Datos procesados:", data)
