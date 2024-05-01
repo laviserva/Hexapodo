@@ -272,13 +272,7 @@ def pathfind(camera=1):
     return camino
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    #data = pathfind(camera=3)
-    data = ['(0, 3)', '(0, 2)', '(0, 1)', '(0, 0)', '(1, 0)', '(2, 0)', '(3, 0)']
-=======
-    data = pathfind(camera=2)
-    data = []
->>>>>>> 94a6469b77e4cfea5868990d4cd089a4461492cc
+    data = pathfind(camera=3)
     data = [ast.literal_eval(item) for item in data]
     data = to_command(data)
     print("[Servidor]: Datos procesados:", data)
