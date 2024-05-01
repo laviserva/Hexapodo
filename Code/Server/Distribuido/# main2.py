@@ -13,6 +13,7 @@ def server(connection):
         data = [ast.literal_eval(item) for item in data]
         data = to_command(data)
         data[0] = ["ctrl-position", "0", "0", "20"]
+        data[len(data)] = ["sound-play"]
         print("[Servidor]: Datos procesados:", data)
         """data = {
                 1: ["ctrl-position", "0", "0", "20"],
