@@ -210,7 +210,7 @@ def to_command(posiciones_camino):
     movimientos = []
 
     for i in range(1, len(posiciones_camino)):
-        proxima_posicion = posiciones_camino[i + 1]
+        proxima_posicion = posiciones_camino[i]
 
         # Determinar la orientación necesaria
         if proxima_posicion[0] == posicion_actual[0]:
