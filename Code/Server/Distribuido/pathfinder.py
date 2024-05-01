@@ -1,3 +1,4 @@
+import ast
 import cv2
 import numpy as np
 import networkx as nx
@@ -55,7 +56,7 @@ def tomar_foto_y_ajustarla(index, x, y, ancho, alto, angulo):
     # Índice de la cámara que deseas usar
     camera_index = index
     # Inicializar la cámara
-    cap = cv2.VideoCapture(camera_index)
+    cap = cv2.VideoCapture(camera_index, cv2.CAP_DSHOW)
     # Verificar si la cámara se abrió correctamente
     if not cap.isOpened():
         print("Error al abrir la cámara")
@@ -269,3 +270,9 @@ def pathfind(camera=1):
     camino = nx.dijkstra_path(G, coordenadas_araña, coordenadas_objetivo)
     print("Camino a seguir:", camino)
     return camino
+
+if __name__ == "__main__":
+    data = pathfind()
+    data = [ast.literal_eval(item) for item in data]
+    data = to_command(data)
+    print("[Servidor]: Datos procesados:", data)

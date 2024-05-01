@@ -12,6 +12,7 @@ def server(connection):
         data = pathfind()
         data = [ast.literal_eval(item) for item in data]
         data = to_command(data)
+        print("[Servidor]: Datos procesados:", data)
         """data = {
                 1: ["ctrl-position", "0", "0", "20"],
                 2: ["ctrl-girar", "89.2"],
