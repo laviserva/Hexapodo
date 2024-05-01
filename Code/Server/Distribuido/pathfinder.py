@@ -209,8 +209,8 @@ def to_command(posiciones_camino):
     posicion_actual = posiciones_camino[0]
     movimientos = []
 
-    for i in range(1, len(posiciones_camino)):
-        proxima_posicion = posiciones_camino[i]
+    for i in range(len(posiciones_camino) - 1):
+        proxima_posicion = posiciones_camino[i + 1]
 
         # Determinar la orientación necesaria
         if proxima_posicion[0] == posicion_actual[0]:
@@ -237,7 +237,7 @@ def to_command(posiciones_camino):
     print("Movimientos registrados:", movimientos)
     out = {}
     for i, mov in enumerate(movimientos):
-        out[i] = mov
+        out[i+1] = mov
     return out
 
 def pathfind(camera=1):
