@@ -220,7 +220,7 @@ class Ctrl:
         else:
             x, y, speed, angle = "0", "0", self.SPEED_CAP, "-14"
             n = math.ceil(grados / move_cap)
-            r = abs(grados % move_cap)
+            r = -abs(grados % move_cap)
 
         data = {}
         print('ulti')
@@ -228,6 +228,11 @@ class Ctrl:
 
         for _ in range(n):
             data=["CMD_MOVE", '1', x, y, speed, angle]
+            print(data)
+            self.c.run(data)
+        
+        if r != 0:
+            data=["CMD_MOVE", '1', x, y, speed, str(int(r))]
             print(data)
             self.c.run(data)
         

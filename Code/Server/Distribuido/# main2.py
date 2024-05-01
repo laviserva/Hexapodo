@@ -12,9 +12,12 @@ def server(connection):
 
         data = {
                 1: ["ctrl-position", "0", "0", "20"],
-                #2: ["ctrl-girar", "90"],
+                #2: ["ctrl-avanzar", "89"],
+                #3: ["ctrl-avanzar", "45"],
+                4: ["ctrl-girar", "89"],
+                #5: ["ctrl-avanzar", "89"],
+                #6: ["ctrl-avanzar", "45"],
                 #3: ["ctrl-girar", "90"],
-                4: ["ctrl-avanzar", "89"],
                 #3: ["ctrl-girar", "90"],
                 #4: ["ctrl-girar", "90"],
                 #3: ["ctrl-girar", "-90"],
