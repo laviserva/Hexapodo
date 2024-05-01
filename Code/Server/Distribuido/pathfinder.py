@@ -56,7 +56,7 @@ def tomar_foto_y_ajustarla(index, x, y, ancho, alto, angulo):
     # Índice de la cámara que deseas usar
     camera_index = index
     # Inicializar la cámara
-    cap = cv2.VideoCapture(camera_index, cv2.CAP_DSHOW)
+    cap = cv2.VideoCapture(camera_index)
     # Verificar si la cámara se abrió correctamente
     if not cap.isOpened():
         print("Error al abrir la cámara")
@@ -209,7 +209,7 @@ def to_command(posiciones_camino):
     posicion_actual = posiciones_camino[0]
     movimientos = []
 
-    for i in range(len(posiciones_camino) - 1):
+    for i in range(1, len(posiciones_camino)):
         proxima_posicion = posiciones_camino[i + 1]
 
         # Determinar la orientación necesaria
@@ -272,7 +272,8 @@ def pathfind(camera=1):
     return camino
 
 if __name__ == "__main__":
-    data = pathfind(camera=3)
+    data = pathfind(camera=2)
+    data = []
     data = [ast.literal_eval(item) for item in data]
     data = to_command(data)
     print("[Servidor]: Datos procesados:", data)
