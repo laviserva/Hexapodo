@@ -233,8 +233,8 @@ class Ctrl:
         
         if r != 0:
             correction = math.floor(14 * r/move_cap)
-            print("Correción: ", correction)
-            data=["CMD_MOVE", '1', x, y, speed, str(int(correction))]
+            print(f"Correción: {correction}, r: {r}")
+            data=["CMD_MOVE", '1', x, y, speed, str(int(r))]
             print(data)
             self.c.run(data)
         
