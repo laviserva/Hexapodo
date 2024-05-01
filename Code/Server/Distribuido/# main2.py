@@ -1,20 +1,22 @@
 import json
 import platform
 import time
+import ast
 
 from load_configuration import ConfigManager
 from sockets_connection import run_client, run_server
+from pathfinder import pathfind, to_command
 
 def server(connection):
     try:
-        x, y, speed, angle = "0", "0", "7", "14" # angulo en radian
-        print("hola mundo")
-
-        data = {
+        data = pathfind()
+        data = [ast.literal_eval(item) for item in data]
+        data = to_command(data)
+        """data = {
                 1: ["ctrl-position", "0", "0", "20"],
-                #2: ["ctrl-avanzar", "89"],
+                2: ["ctrl-girar", "89.2"],
+                3: ["ctrl-avanzar", "135.5"],
                 #3: ["ctrl-avanzar", "45"],
-                2: ["ctrl-girar", "2"],
                 #5: ["ctrl-avanzar", "89"],
                 #6: ["ctrl-avanzar", "45"],
                 #3: ["ctrl-girar", "90"],
@@ -24,7 +26,8 @@ def server(connection):
                 #4: ["ctrl-avanzar_hasta_obstaculo"],
                 #5: ["sound-play"],
                 #6: ["camera-save_image"]
-                }
+                }"""
+        
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))
         connection.sendall(json_data)
