@@ -9,11 +9,13 @@ from pathfinder import pathfind, to_command
 
 def server(connection):
     try:
-        data = pathfind(camera=3)
+        """data = pathfind(camera=3)
         data = [ast.literal_eval(item) for item in data]
         data = to_command(data)
         data[0] = ["ctrl-position", "0", "0", "20"]
-        data[len(data)] = ["sound-play"]
+        data[len(data)] = ["sound-play"]"""
+        data = {}
+        data[0] = ["sound-play_victory"]
         print("[Servidor]: Datos procesados:", data)
         """data = {
                 1: ["ctrl-position", "0", "0", "20"],

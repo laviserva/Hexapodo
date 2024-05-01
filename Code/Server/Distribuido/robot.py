@@ -135,6 +135,13 @@ class Sound:
         time.sleep(0.05)
         self.play_note(0.1)
         self.play_note(0.1)
+    
+    def play_victory(self):
+        self.play_note(0.05)
+        self.play_note(0.05)
+        self.play_note(0.05)
+        self.play_note(0.075)
+        time.sleep(0.1)
 
 class Ctrl:
     SPEED_CAP = "7"
