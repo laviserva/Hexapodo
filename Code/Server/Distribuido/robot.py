@@ -232,7 +232,8 @@ class Ctrl:
             self.c.run(data)
         
         if r != 0:
-            data=["CMD_MOVE", '1', x, y, speed, str(int(r))]
+            correction = math.floor(14 * r/move_cap)
+            data=["CMD_MOVE", '1', x, y, speed, str(int(correction))]
             print(data)
             self.c.run(data)
         
