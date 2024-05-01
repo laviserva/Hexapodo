@@ -15,8 +15,6 @@ def server(connection):
         data[0] = ["ctrl-position", "0", "0", "20"]
         data[len(data)] = ["sound-play"]
         print("[Servidor]: Datos procesados:", data)
-        data[0] = ["ctrl-position", "0", "0", "20"]
-        print("[Servidor]: Datos procesados:", data)
         """data = {
                 1: ["ctrl-position", "0", "0", "20"],
                 2: ["ctrl-girar", "89.2"],
