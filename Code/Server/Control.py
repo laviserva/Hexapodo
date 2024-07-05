@@ -10,6 +10,7 @@ from Servo import*
 import numpy as np
 import RPi.GPIO as GPIO
 from Command import COMMAND as cmd
+from Ultrasonic import Ultrasonic
 class Control:
     def __init__(self):
         GPIO.setwarnings(False)
@@ -19,6 +20,7 @@ class Control:
         GPIO.output(self.GPIO_4,False)
         self.imu=IMU()
         self.servo=Servo()
+        self.ultrasonic=Ultrasonic()
         self.move_flag=0x01
         self.relax_flag=False
         self.pid = Incremental_PID(0.500,0.00,0.0025)
@@ -35,6 +37,7 @@ class Control:
         self.calibration()
         self.setLegAngle()
         self.Thread_conditiona=threading.Thread(target=self.condition)
+    
     def readFromTxt(self,filename):
         path = os.path.abspath(os.path.dirname(__file__))
         path = os.path.join(path, filename + ".txt")
@@ -154,6 +157,10 @@ class Control:
         return flag
     def condition(self):
         while True:
+            if cmd.CMD_RELAX in self.order:
+                self.relax(True)
+                self.order=['','','','','','']
+                self.flag=0x00
             if (time.time()-self.timeout)>10 and  self.timeout!=0 and self.order[0]=='':
                 self.timeout=time.time()
                 self.relax(True)

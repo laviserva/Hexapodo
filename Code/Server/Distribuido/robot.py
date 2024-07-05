@@ -260,16 +260,14 @@ class Ctrl:
             GaitMode.MODE_1.value,
             x, y, speed, angle
             ]
-        print("Data: ", data)
-        # data=['CMD_MOVE', '1', '0', '25', '10', '0']
+        #print("Data: ", data)
+        #data=['CMD_RELAX']
         self.c.run(data)
-        self.stop()
+        #self.stop()
 
     def stop(self):
         data = [
-            Orders.MOVE.value,
-            GaitMode.MODE_1.value,
-            '0', '0', '0', '0'
+            Orders.RELAX.value
             ]
         self.c.run(data)
     

@@ -9,29 +9,14 @@ from pathfinder import pathfind, to_command
 
 def server(connection):
     try:
-        """data = pathfind(camera=3)
+        data = pathfind(camera=3)
         data = [ast.literal_eval(item) for item in data]
         data = to_command(data)
         data[0] = ["ctrl-position", "0", "0", "20"]
-        data[len(data)] = ["sound-play"]"""
+        data[len(data)] = ["sound-play"]
         data = {}
         data[0] = ["sound-play_victory"]
         print("[Servidor]: Datos procesados:", data)
-        """data = {
-                1: ["ctrl-position", "0", "0", "20"],
-                2: ["ctrl-girar", "89.2"],
-                3: ["ctrl-avanzar", "135.5"],
-                #3: ["ctrl-avanzar", "45"],
-                #5: ["ctrl-avanzar", "89"],
-                #6: ["ctrl-avanzar", "45"],
-                #3: ["ctrl-girar", "90"],
-                #3: ["ctrl-girar", "90"],
-                #4: ["ctrl-girar", "90"],
-                #3: ["ctrl-girar", "-90"],
-                #4: ["ctrl-avanzar_hasta_obstaculo"],
-                #5: ["sound-play"],
-                #6: ["camera-save_image"]
-                }"""
         
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))

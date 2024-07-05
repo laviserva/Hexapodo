@@ -10,10 +10,12 @@ from sockets_connection import run_client, run_server
 def server(connection):
     try:
         x, y, speed, angle = "0", "0", "7", "14" # angulo en radian
-        print("hola mundo")
 
         data = {
-                1: ["ctrl-position", "0", "0", "20"]
+                1: ["ctrl-position", "0", "0", "20"],
+                2: ["ctrl-position", "0", "0", "20"],
+                3: ["ctrl-stop"],
+                4: ["ctrl-position", "0", "0", "20"]
                 }
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))
