@@ -252,18 +252,27 @@ class Ctrl:
         return data
 
     def move(self, x:str = '0', y:str = '0', speed:str = '0', angle:str = '0'):
-        print(f"Moving to x={x}, y={y}, speed={speed}, angle={angle}")
-        #self.__comprobe_restrictions(x, y, speed, angle)
-        
+        import random
+
         data = [
             Orders.MOVE.value,
             GaitMode.MODE_1.value,
             x, y, speed, angle
             ]
-        #print("Data: ", data)
-        #data=['CMD_RELAX']
-        self.c.run(data)
-        #self.stop()
+        
+        while True:
+            self.c.run(data)
+            VA = random.random()
+            print("[Cliente]: VA:", VA)
+            if VA < 0.3:
+                break
+
+
+        print(f"Moving to x={x}, y={y}, speed={speed}, angle={angle}")
+        #self.__comprobe_restrictions(x, y, speed, angle)
+        
+        
+        #self.c.run(data)
 
     def stop(self):
         data = [

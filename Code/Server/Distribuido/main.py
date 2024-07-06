@@ -12,10 +12,12 @@ def server(connection):
         x, y, speed, angle = "0", "0", "7", "14" # angulo en radian
 
         data = {
-                1: ["ctrl-position", "0", "0", "20"],
-                2: ["ctrl-position", "0", "0", "20"],
-                3: ["ctrl-stop"],
-                4: ["ctrl-position", "0", "0", "20"]
+                1: ["ctrl-move", x, y, speed, angle],
+                2: ["sound-play"],
+                3: ["ctrl-move", x, y, speed, "-14"],
+                4: ["ctrl-stop"],
+                5: ["ctrl-girar", "10"],
+                6: ["ctrl-move", x, y, speed, "-14"],
                 }
         json_data = json.dumps(data).encode('utf-8')
         connection.sendall(len(json_data).to_bytes(4, 'big'))
@@ -26,6 +28,7 @@ def server(connection):
         connection.close()
 
 def client_method(client, interacciones):
+    import random
     while True:
         try:
             socket = client.socket
@@ -33,6 +36,20 @@ def client_method(client, interacciones):
             data = json.loads(socket.recv(length).decode('utf-8'))
             print("[Cliente]: Datos recibidos:", data)
             print("[Cliente]: Procesando datos...")
+
+            VA = random.random()
+            print("[Cliente]: VA:", VA)
+            if VA < 0.5:
+                data = {
+                    1: ["ctrl-move", "0", "0", "7", "14"],
+                    2: ["sound-play"],
+                    3: ["ctrl-move", "0", "0", "7", "-14"],
+                    4: ["ctrl-stop"],
+                    5: ["ctrl-girar", "10"],
+                    6: ["ctrl-move", "0", "0", "7", "-14"],
+                }
+                print("[Cliente]: Datos procesados:", data)
+
             client.process(data, interacciones)
         except Exception as e:
             print("[Cliente]: Error durante la recepción o procesamiento:", e)
