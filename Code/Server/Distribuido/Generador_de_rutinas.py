@@ -1,5 +1,5 @@
 import numpy as np
-
+import Generador_de_rutinas_2 as rutinas
 
 def crea_rutina(num_pasos):
 
@@ -46,7 +46,8 @@ Pn = np.linalg.matrix_power(P,100)
 print(Pn)
 """
 
-k = 20
+if __name__ == "__main__":
+    k = 20
 
-rutina = crea_rutina(k)
-print(rutina)
+    rutina = crea_rutina(k)
+    print(rutina)
