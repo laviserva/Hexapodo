@@ -1,5 +1,5 @@
 import numpy as np
-import Generador_de_rutinas_2 as rutinas
+
 
 def crea_rutina(num_pasos):
 
