@@ -10,7 +10,7 @@ from Servo import*
 import numpy as np
 import RPi.GPIO as GPIO
 from Command import COMMAND as cmd
-from Ultrasonic import Ultrasonic
+
 class Control:
     def __init__(self):
         GPIO.setwarnings(False)
@@ -20,7 +20,7 @@ class Control:
         GPIO.output(self.GPIO_4,False)
         self.imu=IMU()
         self.servo=Servo()
-        self.ultrasonic=Ultrasonic()
+
         self.move_flag=0x01
         self.relax_flag=False
         self.pid = Incremental_PID(0.500,0.00,0.0025)
@@ -37,15 +37,6 @@ class Control:
         self.calibration()
         self.setLegAngle()
         self.Thread_conditiona=threading.Thread(target=self.condition)
-
-    def obstacle_detected(self):
-        distance = self.ultrasonic.getDistance()
-        if distance < 20:
-            print("Obstaculo detectado! parando...")
-            self.order = ["STOP"]
-            self.relax(True)
-            return True
-        return False
     
     def stop(self):
         self.order = ["STOP"]
@@ -170,9 +161,6 @@ class Control:
         return flag
     def condition(self):
         while True:
-            if self.obstacle_detected():
-                self.stop()
-                continue
             if (time.time()-self.timeout)>10 and  self.timeout!=0 and self.order[0]=='':
                 self.timeout=time.time()
                 self.relax(True)
