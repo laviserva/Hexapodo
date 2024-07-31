@@ -222,6 +222,41 @@ class Ctrl:
     def altura(self):
           self.c.posittion(0,0,40)
 
+##################################################
+          
+    def PDDA(self)  
+          ###pata derecha delantera hacia adelante
+          ctrl.c.servo.setServoAngle(14,140)
+          time.sleep(0.2)
+          ctrl.c.servo.setServoAngle(15,50)
+          time.sleep(0.2)
+          ctrl.c.servo.setServoAngle(14,90)
+          time.sleep(0.2)
+
+###################################################
+
+   def PDIA(self)
+         ####pata izquierda delantera hacia delante
+          ctrl.c.servo.setServoAngle(17,50)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(16,130)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(17,90)
+
+##################################################
+
+   def DCDA(self)
+          ####pata central derecha hacia adelante
+          ctrl.c.servo.setServoAngle(11,140)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(12,30)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(11,90)
+          time.sleep(0.5)
+
+
+
+
 if __name__ == '__main__':
     ctrl = Ctrl()
     buzzer = Sound()
@@ -242,7 +277,7 @@ if __name__ == '__main__':
     #time.sleep(1.4)
     
     ctrl.baile_5()
-    ctrl.altura()
+    #ctrl.altura()
 
     ####patas izquierdas
     #ctrl.c.servo.setServoAngle(17,70)
