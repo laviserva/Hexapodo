@@ -307,7 +307,7 @@ if __name__ == '__main__':
     #time.sleep(1.4)
     
     ctrl.baile_5()
-    #ctrl.altura()
+    ctrl.altura()
 
     ####patas izquierdas
     #ctrl.c.servo.setServoAngle(17,70)
