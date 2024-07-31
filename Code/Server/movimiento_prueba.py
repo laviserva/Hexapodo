@@ -71,6 +71,9 @@ class Ctrl:
             ]
         
         self.c.run(data)
+    
+#####################################################    
+    
     def baile_1(self):
           r=40
           theta= np.linspace(0,2* np.pi*2,100)
@@ -90,7 +93,7 @@ class Ctrl:
     
           
           
-                
+####################################################                
     def baile_2(self):
           x = "30"
           y = "0"
@@ -106,7 +109,9 @@ class Ctrl:
           ctrl.move("-30",y,speed, angle)
           ctrl.move("-30",y,speed, angle)
           ctrl.move("-30",y,speed, angle)
-    
+
+
+#####################################################    
     def giro_cabeza(self):
           self.c.servo.setServoAngle(0,90)
           time.sleep(0.2)
@@ -119,13 +124,29 @@ class Ctrl:
               self.c.servo.setServoAngle(0,angulo)                    
               time.sleep(0.2)
           self.c.servo.setServoAngle(0,94)          
+#######################################################    
+    
     def  baile_3(self):
    
-        for i in range(2):
+        for i in range(1):
             self.altura()
-            ctrl.move("20","20","10","0")
-            ctrl.move("20","20","10","0")
+            ctrl.move("-20","20","10","0")
+            ctrl.move("-20","20","10","0")
+            ctrl.move("-20","20","10","0")
+            ctrl.move("20","-20","10","0")
+            ctrl.move("20","-20","10","0")
+            ctrl.move("20","-20","10","0")
             self.giro_cabeza()
+            ctrl.move("20","20","10","0")
+            ctrl.move("20","20","10","0")
+            ctrl.move("20","20","10","0")
+            ctrl.move("-20","-20","10","0")
+            ctrl.move("-20","-20","10","0")
+            ctrl.move("-20","-20","10","0")
+            self.giro_cabeza()
+        self.altura()
+        
+#####################################################        
     def baile_4(self):
           #self.altura()
           #self.c.posittion(0,-40,20)
@@ -146,9 +167,60 @@ class Ctrl:
           punto=self.c.postureBalance(0,0,0)
           self.c.coordinateTransformation(punto)
           self.c.setLegAngle()
-                
+################################################
+    def baile_5 (self):
+          ###movimiento de patas delanteras para estabilizar con 4 piernas
+          ###pata derecha delantera hacia adelante
+          ctrl.c.servo.setServoAngle(14,140)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(15,50)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(14,90)
+          time.sleep(0.5)
+          ####pata izquierda delantera hacia delante
+          ctrl.c.servo.setServoAngle(17,50)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(16,130)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(17,90)
+          ####pata central derecha hacia adelante
+          ctrl.c.servo.setServoAngle(11,140)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(12,30)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(11,90)
+          time.sleep(0.5)
+          ####pata central izquierda hacia adelante
+          ctrl.c.servo.setServoAngle(20,50)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(19,150)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(20,90)
+          time.sleep(0.5)
+        ####levantamiento de pata delantera derecha
+          ctrl.c.servo.setServoAngle(14,140)
+          time.sleep(0.1)
+          ctrl.c.servo.setServoAngle(15,50)
+          time.sleep(0.1)
+          ctrl.c.servo.setServoAngle(13,0)
+        ####levantamiento de pata delantera izquierda
+          ctrl.c.servo.setServoAngle(17,50)
+          time.sleep(0.1)
+          ctrl.c.servo.setServoAngle(16,130)
+          time.sleep(0.1)
+          ctrl.c.servo.setServoAngle(18,180)
+          time.sleep(3)
+
+
+
+
+
+
+
+
+###################################################                
     def altura(self):
-          self.c.posittion(0,0,20)
+          self.c.posittion(0,0,40)
 
 if __name__ == '__main__':
     ctrl = Ctrl()
@@ -160,15 +232,39 @@ if __name__ == '__main__':
     #control = Control()
     #control.servo.setServoAngle(0,90)
     ctrl.altura()
-
+    #time.sleep(2)
+    
+    
     #ctrl.baile_1()
     #ctrl.baile_2()
     #ctrl.baile_3()
-    ctrl.baile_4()
+    #ctrl.baile_4()
     #time.sleep(1.4)
-    #ctrl.c.servo.setServoAngle(14,160)
-    #ctrl.c.servo.setServoAngle(13,0)
+    
+    ctrl.baile_5()
+    ctrl.altura()
 
+    ####patas izquierdas
+    #ctrl.c.servo.setServoAngle(17,70)
+    #time.sleep(0.1)
+    #ctrl.c.servo.setServoAngle(16,140)
+    #ctrl.c.servo.setServoAngle(20,300)
+    #time.sleep(0.1)
+    #ctrl.c.servo.setServoAngle(19,130)
+    ###########
+    #ctrl.c.servo.setServoAngle(14,260)
+    #time.sleep(0.1)
+    #ctrl.c.servo.setServoAngle(15,60)
+    #ctrl.altura()
+    #ctrl.c.servo.setServoAngle(12,30)
+    #ctrl.c.servo.setServoAngle(11,160)
+    #ctrl.c.servo.setServoAngle(10,0)
+    #ctrl.c.servo.setServoAngle(19,130)
+    #ctrl.c.servo.setServoAngle(20,340)
+    #ctrl.c.servo.setServoAngle(21,180)
+    #time.sleep(1.4)
+
+    #ctrl.altura()
     #x = "30"
     #y = "0"
     #z = "0"
