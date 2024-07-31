@@ -171,45 +171,52 @@ class Ctrl:
     def baile_5 (self):
           ###movimiento de patas delanteras para estabilizar con 4 piernas
           ###pata derecha delantera hacia adelante
-          ctrl.c.servo.setServoAngle(14,140)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(15,50)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(14,90)
-          time.sleep(0.5)
+          self.pata_derecha_del_adelante()
+          #ctrl.c.servo.setServoAngle(14,140)
+          #time.sleep(0.5)
+          #ctrl.c.servo.setServoAngle(15,50)
+          #time.sleep(0.5)
+          #ctrl.c.servo.setServoAngle(14,90)
+          #time.sleep(0.5)
           ####pata izquierda delantera hacia delante
-          ctrl.c.servo.setServoAngle(17,50)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(16,130)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(17,90)
+          self.pata_izquierda_del_adelante()
+          #ctrl.c.servo.setServoAngle(17,50)
+          #time.sleep(0.5)
+          #ctrl.c.servo.setServoAngle(16,130)
+          #time.sleep(0.5)
+          #ctrl.c.servo.setServoAngle(17,90)
           ####pata central derecha hacia adelante
-          ctrl.c.servo.setServoAngle(11,140)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(12,30)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(11,90)
-          time.sleep(0.5)
+          self.pata_central_derecha_adelante()
+          #ctrl.c.servo.setServoAngle(11,140)
+          #time.sleep(0.5)
+          #ctrl.c.servo.setServoAngle(12,30)
+          #time.sleep(0.5)
+          #ctrl.c.servo.setServoAngle(11,90)
+          #time.sleep(0.5)
           ####pata central izquierda hacia adelante
-          ctrl.c.servo.setServoAngle(20,50)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(19,150)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(20,90)
-          time.sleep(0.5)
+          self.pata_central_izquierda_adelante()
+          #ctrl.c.servo.setServoAngle(20,50)
+          #time.sleep(0.5)
+          #ctrl.c.servo.setServoAngle(19,150)
+          #time.sleep(0.5)
+          #ctrl.c.servo.setServoAngle(20,90)
+          #time.sleep(0.5)
         ####levantamiento de pata delantera derecha
-          ctrl.c.servo.setServoAngle(14,140)
-          time.sleep(0.1)
-          ctrl.c.servo.setServoAngle(15,50)
-          time.sleep(0.1)
-          ctrl.c.servo.setServoAngle(13,0)
+          self.pata_del_derecha_levantar()
+        
+          #ctrl.c.servo.setServoAngle(14,140)
+          #time.sleep(0.1)
+          #ctrl.c.servo.setServoAngle(15,50)
+          #time.sleep(0.1)
+          #ctrl.c.servo.setServoAngle(13,0)
         ####levantamiento de pata delantera izquierda
-          ctrl.c.servo.setServoAngle(17,50)
-          time.sleep(0.1)
-          ctrl.c.servo.setServoAngle(16,130)
-          time.sleep(0.1)
-          ctrl.c.servo.setServoAngle(18,180)
-          time.sleep(3)
+          self.pata_del_izquierda_levantar()
+          #ctrl.c.servo.setServoAngle(17,50)
+          #time.sleep(0.1)
+          #ctrl.c.servo.setServoAngle(16,130)
+          #time.sleep(0.1)
+          #ctrl.c.servo.setServoAngle(18,180)
+          #time.sleep(3)
 
 
 
@@ -224,7 +231,7 @@ class Ctrl:
 
 ##################################################
           
-    def PDDA(self)  
+    def pata_derecha_del_adelante(self):  
           ###pata derecha delantera hacia adelante
           ctrl.c.servo.setServoAngle(14,140)
           time.sleep(0.2)
@@ -235,7 +242,7 @@ class Ctrl:
 
 ###################################################
 
-   def PDIA(self)
+    def pata_izquierda_del_adelante(self):
          ####pata izquierda delantera hacia delante
           ctrl.c.servo.setServoAngle(17,50)
           time.sleep(0.5)
@@ -245,7 +252,7 @@ class Ctrl:
 
 ##################################################
 
-   def DCDA(self)
+    def pata_central_derecha_adelante(self):
           ####pata central derecha hacia adelante
           ctrl.c.servo.setServoAngle(11,140)
           time.sleep(0.5)
@@ -253,6 +260,29 @@ class Ctrl:
           time.sleep(0.5)
           ctrl.c.servo.setServoAngle(11,90)
           time.sleep(0.5)
+    def pata_central_izquierda_adelante(self):
+     ####pata central izquierda hacia adelante
+          ctrl.c.servo.setServoAngle(20,50)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(19,150)
+          time.sleep(0.5)
+          ctrl.c.servo.setServoAngle(20,90)
+          time.sleep(0.5)
+    def pata_del_derecha_levantar(sefl):
+         ####levantamiento de pata delantera derecha
+          ctrl.c.servo.setServoAngle(14,140)
+          time.sleep(0.1)
+          ctrl.c.servo.setServoAngle(15,50)
+          time.sleep(0.1)
+          ctrl.c.servo.setServoAngle(13,0)
+    def pata_del_izquierda_levantar(self):
+          ####levantamiento de pata delantera izquierda
+          ctrl.c.servo.setServoAngle(17,50)
+          time.sleep(0.1)
+          ctrl.c.servo.setServoAngle(16,130)
+          time.sleep(0.1)
+          ctrl.c.servo.setServoAngle(18,180)
+          time.sleep(3)
 
 
 
