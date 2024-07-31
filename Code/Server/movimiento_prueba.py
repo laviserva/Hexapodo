@@ -127,19 +127,24 @@ class Ctrl:
 #######################################################    
     
     def  baile_3(self):
+        #Aspersor
    
         for i in range(1):
             self.altura()
+            ##avance en diagonal hacia la derecha adelante
             ctrl.move("-20","20","10","0")
             ctrl.move("-20","20","10","0")
             ctrl.move("-20","20","10","0")
+            ##avance en diagonal hacia atras a la izquierda
             ctrl.move("20","-20","10","0")
             ctrl.move("20","-20","10","0")
             ctrl.move("20","-20","10","0")
             self.giro_cabeza()
+            ##avance en diagonal hacia la izquierda
             ctrl.move("20","20","10","0")
             ctrl.move("20","20","10","0")
             ctrl.move("20","20","10","0")
+            ##avance en diagonal hacia atras ala derecha
             ctrl.move("-20","-20","10","0")
             ctrl.move("-20","-20","10","0")
             ctrl.move("-20","-20","10","0")
@@ -283,8 +288,27 @@ class Ctrl:
           time.sleep(0.1)
           ctrl.c.servo.setServoAngle(18,180)
           time.sleep(3)
-
-
+    def avance_en_diagonal_adelante_derecha(self):
+    ##avance en diagonal hacia la derecha adelante
+        ctrl.move("-20","20","10","0")
+        ctrl.move("-20","20","10","0")
+        ctrl.move("-20","20","10","0")
+    def avance_en_diagonal_atras_izquierda(self):
+    ##avance en diagonal hacia atras a la izquierda
+        ctrl.move("20","-20","10","0")
+        ctrl.move("20","-20","10","0")
+        ctrl.move("20","-20","10","0")
+    def avance_en_diagonal_adelante_izquierda(self):
+    ##avance en diagonal hacia la izquierda
+        ctrl.move("20","20","10","0")
+        ctrl.move("20","20","10","0")
+        ctrl.move("20","20","10","0")
+    def avance_en_diagonal_atras_derecha(self):
+     ##avance en diagonal hacia atras ala derecha
+        ctrl.move("-20","-20","10","0")
+        ctrl.move("-20","-20","10","0")
+        ctrl.move("-20","-20","10","0")    
+        
 
 
 if __name__ == '__main__':
