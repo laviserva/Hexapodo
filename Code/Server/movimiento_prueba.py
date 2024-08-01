@@ -74,7 +74,7 @@ class Ctrl:
     
 #####################################################    
     
-    def baile_1(self):
+    def baile_1(self): #Es un movimiento circular en el plano x,y, ademas de moverser formando un onda en el ejes z
           r=40
           theta= np.linspace(0,2* np.pi*2,100)
           self.altura()
@@ -87,31 +87,19 @@ class Ctrl:
             print("sexo")
             self.c.posittion(x,y,z)
    
-          print("fin")
-    
-    
-    
-          
-          
-####################################################                
-    def baile_2(self):
-          x = "30"
-          y = "0"
-          z = "0"
+          print("fin")                
+    def baile_2(self):  #Es un movimiento lateral de izquierda a derecha 
           speed = "10"
           angle = "0"
           ctrl.altura()
-          ctrl.move(x, y, speed, angle)
-          ctrl.move(x, y, speed, angle)
-          ctrl.move(x, y, speed, angle)
-          ctrl.move(x, y, speed, angle)
-          ctrl.move("-30",y,speed, angle)
-          ctrl.move("-30",y,speed, angle)
-          ctrl.move("-30",y,speed, angle)
-          ctrl.move("-30",y,speed, angle)
-
-
-#####################################################    
+          ctrl.move("30","0", speed, angle)
+          ctrl.move("30","0", speed, angle)
+          ctrl.move("30","0", speed, angle)
+          ctrl.move("30","0", speed, angle)
+          ctrl.move("-30","0",speed, angle)
+          ctrl.move("-30","0",speed, angle)
+          ctrl.move("-30","0",speed, angle)
+          ctrl.move("-30","0",speed, angle)    
     def giro_cabeza(self):
           self.c.servo.setServoAngle(0,90)
           time.sleep(0.2)
@@ -124,37 +112,35 @@ class Ctrl:
               self.c.servo.setServoAngle(0,angulo)                    
               time.sleep(0.2)
           self.c.servo.setServoAngle(0,94)          
-#######################################################    
-    
-    def  baile_3(self):
-        #Aspersor
+    def  baile_3(self): #Es un movimiento en diagonal hacia adelante y atras en ambos lados izquierda y derecha en cada retorno al punto inicial se mueve el cuello de  robot
    
         for i in range(1):
             self.altura()
+            self.avance_en_diagonal_adelante_derecha()
             ##avance en diagonal hacia la derecha adelante
-            ctrl.move("-20","20","10","0")
-            ctrl.move("-20","20","10","0")
-            ctrl.move("-20","20","10","0")
+            #ctrl.move("-20","20","10","0")
+            #ctrl.move("-20","20","10","0")
+            #ctrl.move("-20","20","10","0")
+            self.avance_en_diagonal_atras_izquierda()
             ##avance en diagonal hacia atras a la izquierda
-            ctrl.move("20","-20","10","0")
-            ctrl.move("20","-20","10","0")
-            ctrl.move("20","-20","10","0")
+            #ctrl.move("20","-20","10","0")
+            #ctrl.move("20","-20","10","0")
+            #ctrl.move("20","-20","10","0")
             self.giro_cabeza()
+            self.avance_en_diagonal_adelante_izquierda()
             ##avance en diagonal hacia la izquierda
-            ctrl.move("20","20","10","0")
-            ctrl.move("20","20","10","0")
-            ctrl.move("20","20","10","0")
+            #ctrl.move("20","20","10","0")
+            #ctrl.move("20","20","10","0")
+            #ctrl.move("20","20","10","0")
+            self.avance_en_diagonal_atras_derecha()
             ##avance en diagonal hacia atras ala derecha
-            ctrl.move("-20","-20","10","0")
-            ctrl.move("-20","-20","10","0")
-            ctrl.move("-20","-20","10","0")
+            #ctrl.move("-20","-20","10","0")
+            #ctrl.move("-20","-20","10","0")
+            #ctrl.move("-20","-20","10","0")
             self.giro_cabeza()
-        self.altura()
-        
-#####################################################        
-    def baile_4(self):
-          #self.altura()
-          #self.c.posittion(0,-40,20)
+        self.altura()        
+    def baile_4(self): # Estes baile consiste de movimiento de la parte trasera del robot
+          self.altura()
           punto=self.c.postureBalance(0,0,0)
           self.c.coordinateTransformation(punto)
           self.c.setLegAngle()
@@ -172,7 +158,6 @@ class Ctrl:
           punto=self.c.postureBalance(0,0,0)
           self.c.coordinateTransformation(punto)
           self.c.setLegAngle()
-################################################
     def baile_5 (self):
           ###movimiento de patas delanteras para estabilizar con 4 piernas
           ###pata derecha delantera hacia adelante
@@ -221,21 +206,9 @@ class Ctrl:
           #ctrl.c.servo.setServoAngle(16,130)
           #time.sleep(0.1)
           #ctrl.c.servo.setServoAngle(18,180)
-          #time.sleep(3)
-
-
-
-
-
-
-
-
-###################################################                
+          #time.sleep(3)                
     def altura(self):
-          self.c.posittion(0,0,40)
-
-##################################################
-          
+          self.c.posittion(0,0,40)          
     def pata_derecha_del_adelante(self):  
           ###pata derecha delantera hacia adelante
           ctrl.c.servo.setServoAngle(14,140)
@@ -244,9 +217,6 @@ class Ctrl:
           time.sleep(0.2)
           ctrl.c.servo.setServoAngle(14,90)
           time.sleep(0.2)
-
-###################################################
-
     def pata_izquierda_del_adelante(self):
          ####pata izquierda delantera hacia delante
           ctrl.c.servo.setServoAngle(17,50)
@@ -254,9 +224,6 @@ class Ctrl:
           ctrl.c.servo.setServoAngle(16,130)
           time.sleep(0.5)
           ctrl.c.servo.setServoAngle(17,90)
-
-##################################################
-
     def pata_central_derecha_adelante(self):
           ####pata central derecha hacia adelante
           ctrl.c.servo.setServoAngle(11,140)
@@ -315,65 +282,19 @@ if __name__ == '__main__':
     ctrl = Ctrl()
     buzzer = Sound()
     ##buzzer.play()
-    #ctrl.baile_1()
-    #ctrl.baile_2()
     # Play the first few notes of a familiar song (replace with the actual sequence)
     #control = Control()
     #control.servo.setServoAngle(0,90)
     ctrl.altura()
     #time.sleep(2)
-    
-    
     #ctrl.baile_1()
     #ctrl.baile_2()
     #ctrl.baile_3()
     #ctrl.baile_4()
     #time.sleep(1.4)
-    
     ctrl.baile_5()
     ctrl.altura()
 
-    ####patas izquierdas
-    #ctrl.c.servo.setServoAngle(17,70)
-    #time.sleep(0.1)
-    #ctrl.c.servo.setServoAngle(16,140)
-    #ctrl.c.servo.setServoAngle(20,300)
-    #time.sleep(0.1)
-    #ctrl.c.servo.setServoAngle(19,130)
-    ###########
-    #ctrl.c.servo.setServoAngle(14,260)
-    #time.sleep(0.1)
-    #ctrl.c.servo.setServoAngle(15,60)
-    #ctrl.altura()
-    #ctrl.c.servo.setServoAngle(12,30)
-    #ctrl.c.servo.setServoAngle(11,160)
-    #ctrl.c.servo.setServoAngle(10,0)
-    #ctrl.c.servo.setServoAngle(19,130)
-    #ctrl.c.servo.setServoAngle(20,340)
-    #ctrl.c.servo.setServoAngle(21,180)
-    #time.sleep(1.4)
-
-    #ctrl.altura()
-    #x = "30"
-    #y = "0"
-    #z = "0"
-    #speed = "10"
-    #angle = "0"
-    #ctrl.altura()
-    #ctrl.move(x, y, speed, angle)
-    #ctrl.move(x, y, speed, angle)
-    #ctrl.move(x, y, speed, angle)
-    #ctrl.move(x, y, speed, angle)
-    #ctrl.move("-30",y,speed, angle)
-    #ctrl.move("-30",y,speed, angle)
-    #ctrl.move("-30",y,speed, angle)
-    #ctrl.move("-30",y,speed, angle)
     
-    ##ctrl.relajar()
-    ##ctrl.relajar()
-    ##ctrl.inlinacion()
 
-
-    ##ctrl.position("10","0","0")
-    ##ctrl.position("20","0","0")
-    ##ctrl.position("40","-2","20")
+    
