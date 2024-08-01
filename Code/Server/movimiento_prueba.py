@@ -71,9 +71,6 @@ class Ctrl:
             ]
         
         self.c.run(data)
-    
-#####################################################    
-    
     def baile_1(self): #Es un movimiento circular en el plano x,y, ademas de moverser formando un onda en el ejes z
           r=40
           theta= np.linspace(0,2* np.pi*2,100)
@@ -100,6 +97,7 @@ class Ctrl:
           ctrl.move("-30","0",speed, angle)
           ctrl.move("-30","0",speed, angle)
           ctrl.move("-30","0",speed, angle)    
+          print("fin")
     def giro_cabeza(self):
           self.c.servo.setServoAngle(0,90)
           time.sleep(0.2)
@@ -138,7 +136,8 @@ class Ctrl:
             #ctrl.move("-20","-20","10","0")
             #ctrl.move("-20","-20","10","0")
             self.giro_cabeza()
-        self.altura()        
+        self.altura() 
+        print("fin")       
     def baile_4(self): # Estes baile consiste de movimiento de la parte trasera del robot
           self.altura()
           punto=self.c.postureBalance(0,0,0)
@@ -158,6 +157,7 @@ class Ctrl:
           punto=self.c.postureBalance(0,0,0)
           self.c.coordinateTransformation(punto)
           self.c.setLegAngle()
+          print("fin")
     def baile_5 (self):
           ###movimiento de patas delanteras para estabilizar con 4 piernas
           ###pata derecha delantera hacia adelante
@@ -206,9 +206,11 @@ class Ctrl:
           #ctrl.c.servo.setServoAngle(16,130)
           #time.sleep(0.1)
           #ctrl.c.servo.setServoAngle(18,180)
-          #time.sleep(3)                
+          #time.sleep(3)
+          print("fin")                
     def altura(self):
-          self.c.posittion(0,0,40)          
+          self.c.posittion(0,0,40)
+          print("posicion de en alto")          
     def pata_derecha_del_adelante(self):  
           ###pata derecha delantera hacia adelante
           ctrl.c.servo.setServoAngle(14,140)
