@@ -210,68 +210,94 @@ class Ctrl:
           print("fin")                
     def altura(self):
           self.c.posittion(0,0,40)
-          print("posicion de en alto")          
+          #print("posicion de en alto")          
     def pata_derecha_del_adelante(self):  
           ###pata derecha delantera hacia adelante
-          x = np.arange(90,140,10)
-          y = np.arange(90,50,-10)
-          z = np.arange(140,90,-10)
-          #ctrl.c.servo.setServoAngle(14,140)
-          #time.sleep(0.2)
-          for i in x:
-              print(i)
-              ctrl.c.servo.setServoAngle(14,140)
-              time.sleep(0.2)
-          #ctrl.c.servo.setServoAngle(15,50)
-          #time.sleep(0.2)
-          for i in y:
-              print(i)
-              ctrl.c.servo.setServoAngle(15,i)
-              time.sleep(0.2)  
-          #ctrl.c.servo.setServoAngle(14,90)
-          #time.sleep(0.2)
-          for i in z:
-              print(i)
+          x = np.arange(90,140,2)
+          y = np.arange(90,50,-2)
+          z = np.arange(140,90,-2)
+          for i in x:# pata se eleva para moverse
+              #print(i)
               ctrl.c.servo.setServoAngle(14,i)
-              time.sleep(0.2)
+              time.sleep(0.01)
+          for i in y:# pata se mueve hacia adelante
+              #print(i)
+              ctrl.c.servo.setServoAngle(15,i)
+              time.sleep(0.01)  
+          for i in z: # pata se hacienta en suelo
+              #print(i)
+              ctrl.c.servo.setServoAngle(14,i)
+              time.sleep(0.01)
     def pata_izquierda_del_adelante(self):
          ####pata izquierda delantera hacia delante
-          ctrl.c.servo.setServoAngle(17,50)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(16,130)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(17,90)
+          x = np.arange(90,50,-2)
+          y = np.arange(90,130,2)
+          z = np.arange(50,90.2)
+          for i in x: # pata se eleva para moverse
+              ctrl.c.servo.setServoAngle(17,i)
+              time.sleep(0.01)
+          for i in y: # pata se mueve hacia adelante   
+              ctrl.c.servo.setServoAngle(16,i)
+              time.sleep(0.01)
+          for i in z: # pata se hacienta en suelo   
+              ctrl.c.servo.setServoAngle(17,i)
+              time.sleep(0.01)
     def pata_central_derecha_adelante(self):
           ####pata central derecha hacia adelante
-          ctrl.c.servo.setServoAngle(11,140)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(12,30)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(11,90)
-          time.sleep(0.5)
+          x = np.arange(90,140,2)
+          y = np.arange(90,50,-2)
+          z = np.arange(140,90,-2)
+          for i in x:  # pata se eleva para moverse
+              ctrl.c.servo.setServoAngle(11,i)
+              time.sleep(0.01)
+          for i in y:  # pata se mueve hacia adelante
+              ctrl.c.servo.setServoAngle(12,i)
+              time.sleep(0.01)    
+          for i in z:  # pata se hacienta en suelo
+              ctrl.c.servo.setServoAngle(11,90)
+              time.sleep(0.01)
     def pata_central_izquierda_adelante(self):
      ####pata central izquierda hacia adelante
-          ctrl.c.servo.setServoAngle(20,50)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(19,150)
-          time.sleep(0.5)
-          ctrl.c.servo.setServoAngle(20,90)
-          time.sleep(0.5)
+          x = np.arange(90,50,-2)
+          y = np.arange(90,150,2)
+          z = np.arange(50,90,2)
+          for i in x: # pata se eleva para moverse
+              ctrl.c.servo.setServoAngle(20,i)
+              time.sleep(0.01)
+          for i in Y: # pata se mueve hacia adelante
+              ctrl.c.servo.setServoAngle(19,i)
+              time.sleep(0.01)
+          for i in z: # pata se hacienta en suelo    
+              ctrl.c.servo.setServoAngle(20,i)
+              time.sleep(0.01)
     def pata_del_derecha_levantar(sefl):
          ####levantamiento de pata delantera derecha
-          ctrl.c.servo.setServoAngle(14,140)
-          time.sleep(0.1)
-          ctrl.c.servo.setServoAngle(15,50)
-          time.sleep(0.1)
-          ctrl.c.servo.setServoAngle(13,0)
+          x = np.arange(90,140,2)
+          y = np.arange(90,50,-2)
+          z = np.arange(90,0,-2)
+          for i in x: # pata se eleva  
+              ctrl.c.servo.setServoAngle(14,i)
+              time.sleep(0.01)
+          for i in y: # pata se va hacia adelante
+              ctrl.c.servo.setServoAngle(15,i)
+              time.sleep(0.01)
+          for i in z: # pata se extira
+              ctrl.c.servo.setServoAngle(13,i)
+              time.sleep(0.01)
     def pata_del_izquierda_levantar(self):
           ####levantamiento de pata delantera izquierda
-          ctrl.c.servo.setServoAngle(17,50)
-          time.sleep(0.1)
-          ctrl.c.servo.setServoAngle(16,130)
-          time.sleep(0.1)
-          ctrl.c.servo.setServoAngle(18,180)
-          time.sleep(3)
+          x = np.arange(90,50,-2)
+          y = np.arange(90,130,2)
+          z = np.arange(90,200,2)
+          for i in x: # pata se eleva
+              ctrl.c.servo.setServoAngle(17,i)
+              time.sleep(0.01)
+          for i in y: # pata se va hacia adelante
+              ctrl.c.servo.setServoAngle(16,i)
+              time.sleep(0.01)
+          for i in z: # pata se extira
+              ctrl.c.servo.setServoAngle(18,i)
+              time.sleep(0.01)
     def avance_en_diagonal_adelante_derecha(self):
     ##avance en diagonal hacia la derecha adelante
         ctrl.move("-20","20","10","0")
@@ -310,8 +336,14 @@ if __name__ == '__main__':
     #ctrl.baile_4()
     #time.sleep(1.4)
     #ctrl.baile_5()
-    #ctrl.altura()
+    ctrl.altura()
     ctrl.pata_derecha_del_adelante()
+    ctrl.pata_izquierda_del_adelante()
+    ctrl.pata_del_derecha_levantar()
+    ctrl.pata_del_izquierda_levantar()
+    #ctrl.pata_central_derecha_adelante()
+    #ctrl.c.servo.setServoAngle(15,50)
+    #ctrl.altura()
     
 
     
