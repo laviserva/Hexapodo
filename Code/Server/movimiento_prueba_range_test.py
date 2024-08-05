@@ -264,7 +264,7 @@ class Ctrl:
           for i in x: # pata se eleva para moverse
               ctrl.c.servo.setServoAngle(20,i)
               time.sleep(0.01)
-          for i in Y: # pata se mueve hacia adelante
+          for i in y: # pata se mueve hacia adelante
               ctrl.c.servo.setServoAngle(19,i)
               time.sleep(0.01)
           for i in z: # pata se hacienta en suelo    
