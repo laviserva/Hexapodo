@@ -328,7 +328,7 @@ if __name__ == '__main__':
     # Play the first few notes of a familiar song (replace with the actual sequence)
     #control = Control()
     #control.servo.setServoAngle(0,90)
-    #ctrl.altura()
+    ctrl.altura()
     #time.sleep(2)
     #ctrl.baile_1()
     #ctrl.baile_2()
@@ -342,7 +342,7 @@ if __name__ == '__main__':
     #ctrl.pata_del_derecha_levantar()
     #ctrl.pata_del_izquierda_levantar()
     #ctrl.pata_central_derecha_adelante()
-    ctrl.c.servo.setServoAngle(13,50)
+    #ctrl.c.servo.setServoAngle(13,90)
     #ctrl.altura()
     
 
