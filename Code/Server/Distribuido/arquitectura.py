@@ -103,7 +103,6 @@ class Intentions:
         #  imprime las intenciones
         return f"Intentions({self.intentions})"
 
-
 class Environment:
     # El entorno está compuesto por 4 variables que determinan el estado del sistema (que incluya a ambos robots
     # estas variables son: tengo un compañero, ambos sabemos la rutina, ambos terminamos la primer parte de la rutina
@@ -289,7 +288,7 @@ class BDIAgent:
         print(self.desires)
         """
 
-    def filter(self, desires, intentions):
+    def filter_(self, desires, intentions):
         # La función de filtro toma en consideración los deseos recien generados con las intenciones que ya están en
         # Memoria, y genera nuevas intenciones
 
@@ -314,7 +313,6 @@ class BDIAgent:
                 self.intentions.add_intention(des_name, des_prio)  # Agrega el deseo actual como intención
         self.desires = Desires()  # UNA VEZ GENERADAS LAS INTECIONES, BORRA LOS DESEOS
 
-
     def bdi_cycle(self, envi):
         # Aquí se define el ciclo BDI, el agente percibe el entorno y monitorea sus estados internos,
         # luego genera las creencias usando la BRF, enseguida genera
@@ -327,43 +325,44 @@ class BDIAgent:
         # print(h1.options)
         self.deliberate(self.options)
         print(h1.desires)
-        self.filter(self.desires, self.intentions)
+        self.filter_(self.desires, self.intentions)
         print(h1.intentions)
-
+        print()
 
 if __name__ == "__main__":
 
-    h1 = BDIAgent(0, 20000)  # Crea el agente
+    h1 = BDIAgent(completions=0, energy=20000)  # Crea el agente
     env = Environment()  # Crea el entorno
 
+    # No entiendo para que sirven estas 3 variables
     h1.all_ok = True
     h1.completes = 1
     h1.enough_batt = True
-
     h1.bdi_cycle(env)
 
+    # Establecer conexión
     env.buddy_here = True
-
     h1.bdi_cycle(env)
-
+    
+    # Se comparte la rutina
     env.buddy_knows = True
-
     h1.bdi_cycle(env)
 
+    # Se termina la primera parte de la rutina
     env.buddy_finish1 = True
-
     h1.bdi_cycle(env)
 
+    # Se termina la segunda parte de la rutina
     env.buddy_finish2 = True
-
     h1.bdi_cycle(env)
 
+    # Reiniciar todo
     env = Environment()
     h1.beliefs = Beliefs({"acompañado": False, "puedo_terminar": True})
     h1.intentions = Intentions()
-
     h1.bdi_cycle(env)
 
+    # Ya no hay batería suficiente
     h1.enough_batt = False
 
     h1.bdi_cycle(env)
