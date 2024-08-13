@@ -214,7 +214,7 @@ class Environment:
 
 class BDIAgent:
     # Agente principal, ambos robots son instancias de esta clase
-    def __init__(self, completions: int = 0, energy: int = 20000) -> None:
+    def __init__(self, completions: int = 0, energy: int = 20000, max_completions: int = 3, max_tries: int = 3) -> None:
         """
         Inicializa el agente BDI.
         
@@ -226,10 +226,12 @@ class BDIAgent:
             BDI_Actions.PUEDO_TERMINAR: True
         })  # base de creencias del agente
         self.completes: int = completions  # Cantidad de rutinas completadas exitosamente
+        self.max_completions: int = max_completions  # Cantidad máxima de rutinas a completar
         self.energy: int = energy  # Energía disponible del agente
         self.leader: bool = False  # Indica si el agente es lider
         self.enough_batt: bool = True  # I indica si la batería es suficiente para terminar su tarea
         self.tries: int = 0  # intentos en recibir rutina o en recibir ACK de recepción de rutina
+        self.max_tries: int = max_tries  # cantidad máxima de intentos
         self.all_ok: bool = True  # Indica si all está bien para poder proseguir, si no es así entonces debe abortar
         # lo que hace actualmente con el robot actual
         self.options: Options = Options()  # base de opciones del agente
@@ -256,9 +258,9 @@ class BDIAgent:
         Genera creencias a partir de los estados internos del agente y actualiza las creencias.
         """
         state_beliefs = {
-            BDI_Actions.ACOMPAÑADO: False if self.tries == 3 or not self.all_ok else None,
+            BDI_Actions.ACOMPAÑADO: False if self.tries == self.max_tries or not self.all_ok else None,
             BDI_Actions.PUEDO_TERMINAR: False if not self.enough_batt else True,
-            BDI_Actions.HE_TERMINADO: True if self.completes == 3 else None,
+            BDI_Actions.HE_TERMINADO: True if self.completes == self.max_completions else None,
         }
         for belief, value in state_beliefs.items():
             if value is not None:
@@ -390,11 +392,11 @@ class BDIAgent:
         self.genbeliefs_fromstates()
         print(self.beliefs)
         self.generate_options(beliefs=self.beliefs)
-        # print(h1.options)
+        # print(self.options)
         self.deliberate(self.options)
-        print(h1.desires)
+        print(self.desires)
         self.filter_(self.desires, self.intentions)
-        print(h1.intentions)
+        print(self.intentions)
         print()
         return {
             'beliefs': self.beliefs,
@@ -403,39 +405,39 @@ class BDIAgent:
         }
 
 if __name__ == "__main__":
+    h1 = BDIAgent(completions=0, energy=20000)
+    env = Environment()
 
-    h1 = BDIAgent(completions=0, energy=20000)  # Crea el agente
-    env = Environment()  # Crea el entorno
-
-    # No entiendo para que sirven estas 3 variables
+    # Establecer estado inicial del agente
     h1.all_ok = True
     h1.completes = 1
     h1.enough_batt = True
-    h1.bdi_cycle(env)
+
+    # Ejecutar el ciclo BDI y guardar el resultado
+    result1 = h1.bdi_cycle(env)
 
     # Establecer conexión
     env.buddy_here = True
-    h1.bdi_cycle(env)
-    
-    # Se comparte la rutina
+    result2 = h1.bdi_cycle(env)
+
+    # Compartir la rutina
     env.buddy_knows = True
-    h1.bdi_cycle(env)
+    result3 = h1.bdi_cycle(env)
 
-    # Se termina la primera parte de la rutina
+    # Terminar la primera parte de la rutina
     env.buddy_finish1 = True
-    h1.bdi_cycle(env)
+    result4 = h1.bdi_cycle(env)
 
-    # Se termina la segunda parte de la rutina
+    # Terminar la segunda parte de la rutina
     env.buddy_finish2 = True
-    h1.bdi_cycle(env)
+    result5 = h1.bdi_cycle(env)
 
-    # Reiniciar todo
+    # Reiniciar el entorno y el estado del agente
     env = Environment()
-    h1.beliefs = Beliefs({BDI_Actions.ACOMPAÑADO: False, "puedo_terminar": True})
+    h1.beliefs = Beliefs({BDI_Actions.ACOMPAÑADO: False, BDI_Actions.PUEDO_TERMINAR: True})
     h1.intentions = Intentions()
-    h1.bdi_cycle(env)
+    result6 = h1.bdi_cycle(env)
 
     # Ya no hay batería suficiente
     h1.enough_batt = False
-
-    h1.bdi_cycle(env)
+    result7 = h1.bdi_cycle(env)
