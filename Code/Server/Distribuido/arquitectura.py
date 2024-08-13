@@ -1,256 +1,315 @@
+from typing import Dict, List, Optional
 
-"""Esqueleto del programa"""
-
+class BDI_Actions:
+    ACOMPAÑADO = "acompañado"
+    COMP_ENTERADO = "compañero_enterado"
+    TERMINA_PART1 = "terminamos_parte1"
+    TERMINA_PART2 = "terminamos_parte2"
+    PUEDO_TERMINAR = "puedo_terminar"
+    HE_TERMINADO = "he_terminado"
+    ESTABLECER_CONSENSO = "establecer_consenso"
+    BUSCAR_COMP = "buscar_compañero"
+    ABORTAR = "abortar"
+    EJECUTAR_SUB1 = "ejecutar_subrutina1"
+    ENVIAR_CONF = "enviar_confirmacion"
 
 class Beliefs:
-    # Clase Beliefs
-    def __init__(self, initial_beliefs=None):
+    """
+    Inicializa los beliefs del agente.
+    
+    :param initial_beliefs: Diccionario opcional de creencias iniciales. Cada clave es una string y el valor es un booleano.
+    """
+    def __init__(self, initial_beliefs: Optional[Dict[str, bool]] = None) -> None:
         if initial_beliefs is None:
             initial_beliefs = {}
-        self.beliefs = initial_beliefs
+        self.beliefs: Dict[str, bool] = initial_beliefs
 
-    def add_belief(self, key, value):
-        # Agrega beliefs y busca conflictos con los beliefs actuales, y los resuelve (este es el BRF)
+    def add_belief(self, key: str, value: bool) -> None:
+        """
+        Agrega una creencia, resolviendo conflictos si es necesario.
+        
+        :param key: Clave de la creencia.
+        :param value: Valor de la creencia.
+        """
         if key in self.beliefs:
             self.resolve_conflict(key, value)
         else:
             self.beliefs[key] = value
 
-    def resolve_conflict(self, key, new_value):
-        # Aquí se implementa parte de la BRF, busca conflictos con las creencias actuales al momento de agregar nuevas
+    def resolve_conflict(self, key: str, new_value: bool) -> None:
+        """
+        Resuelve conflictos con las creencias actuales al agregar una nueva.
+        
+        :param key: Clave de la creencia en conflicto.
+        :param new_value: Nuevo valor de la creencia.
+        """
         current_value = self.beliefs[key]
         if new_value != current_value:
             self.beliefs[key] = new_value
 
-    def get(self, key):
+    def get(self, key: str) -> Optional[bool]:
+        """
+        Obtiene el valor de una creencia específica.
+        
+        :param key: Clave de la creencia.
+        :return: Valor de la creencia o None si no existe.
+        """
         # Para consultar los beliefs actuales
         return self.beliefs.get(key, None)
 
-    def __str__(self):
-        #  imprime los beliefs
+    def __str__(self) -> str:
+        """
+        Representación en cadena de los beliefs.
+        
+        :return: Cadena que representa los beliefs.
+        """
         return f"Beliefs({self.beliefs})"
-
 
 class Options:
     # Clase opciones
-    def __init__(self):
-        self.options = []
+    def __init__(self) -> None:
+        """
+        Inicializa las opciones del agente.
+        """
+        self.options: List[Dict[str, object]] = []
 
-    def add_option(self, option):
-        # Agrega opciones
+    def add_option(self, option: Dict[str, object]) -> None:
+        """
+        Agrega una opción.
+        
+        :param option: Diccionario que representa la opción. Cada opción debe ser un diccionario con claves 'name', 'priority', y 'condition'.
+        """
         if isinstance(option, dict):
             self.options.append(option)
 
-    def get(self):
-        # extrae las opciones del objeto
+    def get(self) -> List[Dict[str, object]]:
+        """
+        Obtiene las opciones.
+        
+        :return: Lista de opciones.
+        """
         return self.options
 
-    def __str__(self):
-        #  imprime las opciones
+    def __str__(self) -> str:
+        """
+        Representación en cadena de las opciones.
+        
+        :return: Cadena que representa las opciones.
+        """
         return f"Options({self.options})"
-
 
 class Desires:
     # Clase deseos
-    def __init__(self):
-        self.desires = {}
+    def __init__(self) -> None:
+        """
+        Inicializa los deseos del agente.
+        """
+        self.desires: Dict[str, int] = {}
 
-    def add_desire(self, key, value):
-        # Agrega deseos
+    def add_desire(self, key: str, value: int) -> None:
+        """
+        Agrega un deseo.
+        
+        :param key: Clave del deseo.
+        :param value: Valor del deseo.
+        """
         self.desires[key] = value
 
-    def remove_desire(self, key):
-        # remueve deseos
+    def remove_desire(self, key: str) -> None:
+        """
+        Remueve un deseo.
+        
+        :param key: Clave del deseo.
+        """
         self.desires.pop(key)
 
-    def get(self, key):
-        # Para consultar alguno de los deseos actuales
+    def get(self, key: str) -> Optional[int]:
+        """
+        Obtiene el valor de un deseo específico.
+        
+        :param key: Clave del deseo.
+        :return: Valor del deseo o None si no existe.
+        """
         return self.desires.get(key, None)
 
-    def get_allD(self):
-        # Para consultar todos los deseos
+    def get_allD(self) -> Dict[str, int]:
+        """
+        Obtiene todos los deseos.
+        
+        :return: Diccionario de deseos. Cada clave es una string y el valor es un entero.
+        """
         return self.desires
 
-    def __str__(self):
-        #  imprime los deseos
+    def __str__(self) -> str:
+        """
+        Representación en cadena de los deseos.
+        
+        :return: Cadena que representa los deseos.
+        """
         return f"Desires({self.desires})"
-
 
 class Intentions:
     # Clase intenciones, puede tener iniciones iniciales pero generalmente inicia vacía
-    def __init__(self, initial_intentions=None):
+    def __init__(self, initial_intentions: Optional[Dict[str, int]] = None) -> None:
+        """
+        Inicializa las intenciones del agente.
+        
+        :param initial_intentions: Diccionario opcional de intenciones iniciales. Cada clave es una string y el valor es un entero.
+        """
         if initial_intentions is None:
             initial_intentions = {}
-        self.intentions = initial_intentions
+        self.intentions: Dict[str, int] = initial_intentions
 
-    def add_intention(self, key, value):
-        # Agrega intención
+    def add_intention(self, key: str, value: int) -> None:
+        """
+        Agrega una intención.
+        
+        :param key: Clave de la intención.
+        :param value: Valor de la intención.
+        """
         self.intentions[key] = value
 
-    def remove_intention(self, key):
-        # Remueve intención
+    def remove_intention(self, key: str) -> None:
+        """
+        Remueve una intención.
+        
+        :param key: Clave de la intención.
+        """
         self.intentions.pop(key)
 
-    def get(self, key):
-        # Obtiene una intención particular
+    def get(self, key: str) -> Optional[int]:
+        """
+        Obtiene el valor de una intención específica.
+        
+        :param key: Clave de la intención.
+        :return: Valor de la intención o None si no existe.
+        """
         return self.intentions.get(key, None)
 
-    def get_allI(self):
-        # Obtiene todas las intenciones
+    def get_allI(self) -> Dict[str, int]:
+        """
+        Obtiene todas las intenciones.
+        
+        :return: Diccionario de intenciones. Cada clave es una string y el valor es un entero.
+        """
         return self.intentions
 
-    def __str__(self):
-        #  imprime las intenciones
+    def __str__(self) -> str:
+        """
+        Representación en cadena de las intenciones.
+        
+        :return: Cadena que representa las intenciones.
+        """
         return f"Intentions({self.intentions})"
 
 class Environment:
-    # El entorno está compuesto por 4 variables que determinan el estado del sistema (que incluya a ambos robots
-    # estas variables son: tengo un compañero, ambos sabemos la rutina, ambos terminamos la primer parte de la rutina
-    # y ambos terminamos la segunda parte de la rutina. Estas variabls deben ser modificadas conforme los robots
-    # realizan acciones, cada acción puede modificar alguna de estas variables o bien, algun estado interno
-    def __init__(self):
-        self.buddy_here = False
-        self.buddy_knows = False
-        self.buddy_finish1 = False
-        self.buddy_finish2 = False
-
+    def __init__(self) -> None:
+        """
+        Inicializa el entorno con valores predeterminados.
+        """
+        self.buddy_here: bool = False
+        self.buddy_knows: bool = False
+        self.buddy_finish1: bool = False
+        self.buddy_finish2: bool = False
 
 class BDIAgent:
     # Agente principal, ambos robots son instancias de esta clase
-    def __init__(self, completions=0, energy=20000):
-        # Estados internos del agente, serán modificados en algunas ocasiones dependiendo de las acciones de los
-        # agentes
-        self.beliefs = Beliefs({"acompañado": False, "puedo_terminar": True})  # base de creencias del agente
-        self.completes = completions  # Cantidad de rutinas completadas exitosamente
-        self.energy = energy  # Energía disponible del agente
-        self.leader = False  # Indica si el agente es lider
-        self.enough_batt = True  # I indica si la batería es suficiente para terminar su tarea
-        self.tries = 0  # intentos en recibir rutina o en recibir ACK de recepción de rutina
-        self.all_ok = True  # Indica si all está bien para poder proseguir, si no es así entonces debe abortar
+    def __init__(self, completions: int = 0, energy: int = 20000) -> None:
+        """
+        Inicializa el agente BDI.
+        
+        :param completions: Cantidad de rutinas completadas exitosamente.
+        :param energy: Energía disponible del agente.
+        """
+        self.beliefs = Beliefs({
+            BDI_Actions.ACOMPAÑADO: False,
+            BDI_Actions.PUEDO_TERMINAR: True
+        })  # base de creencias del agente
+        self.completes: int = completions  # Cantidad de rutinas completadas exitosamente
+        self.energy: int = energy  # Energía disponible del agente
+        self.leader: bool = False  # Indica si el agente es lider
+        self.enough_batt: bool = True  # I indica si la batería es suficiente para terminar su tarea
+        self.tries: int = 0  # intentos en recibir rutina o en recibir ACK de recepción de rutina
+        self.all_ok: bool = True  # Indica si all está bien para poder proseguir, si no es así entonces debe abortar
         # lo que hace actualmente con el robot actual
-        self.options = Options()  # base de opciones del agente
-        self.desires = Desires()  # base de deseos del agente
-        self.intentions = Intentions()  # base de intenciones del agente
+        self.options: Options = Options()  # base de opciones del agente
+        self.desires: Desires = Desires()  # base de deseos del agente
+        self.intentions: Intentions = Intentions()  # base de intenciones del agente
 
-    def percieve(self, environment):
-        # Aquí se percibe el entorno y utiliza el BRF para actualizar la lista de beliefs
+    def percieve(self, environment) -> None:
+        """
+        Percibe el entorno y actualiza las creencias del agente en base al estado del entorno.
+        
+        :param environment: Instancia de la clase Environment que representa el estado actual del entorno.
+        """
+        environmental_beliefs = {
+            BDI_Actions.ACOMPAÑADO: environment.buddy_here,
+            BDI_Actions.COMP_ENTERADO: environment.buddy_knows,
+            BDI_Actions.TERMINA_PART1: environment.buddy_finish1,
+            BDI_Actions.TERMINA_PART2: environment.buddy_finish2,
+        }
+        for belief, value in environmental_beliefs.items():
+            self.beliefs.add_belief(belief, value)
 
-        if environment.buddy_here is True:
-            self.beliefs.add_belief("acompañado", True)  # Creo que estoy acompñado
-        if environment.buddy_knows is True:
-            self.beliefs.add_belief("compañero_enterado", True)  # Creo que (independientemente del lider)
-        # ambos sabemos la rutina a ejecutar
-        if environment.buddy_finish1 is True:
-            self.beliefs.add_belief("terminamos_parte1", True)  # Creo que ambos terminamos la subrutina 1
-        if environment.buddy_finish2 is True:
-            self.beliefs.add_belief("terminamos_parte2", True)  # Creo que ambos terminamos la subrutina 2
+    def genbeliefs_fromstates(self) -> None:
+        """
+        Genera creencias a partir de los estados internos del agente y actualiza las creencias.
+        """
+        state_beliefs = {
+            BDI_Actions.ACOMPAÑADO: False if self.tries == 3 or not self.all_ok else None,
+            BDI_Actions.PUEDO_TERMINAR: False if not self.enough_batt else True,
+            BDI_Actions.HE_TERMINADO: True if self.completes == 3 else None,
+        }
+        for belief, value in state_beliefs.items():
+            if value is not None:
+                self.beliefs.add_belief(belief, value)
 
-    def genbeliefs_fromstates(self):
-        # Aquí mira los estados internos y utiliza el BRF para actualizar la lista de beliefs
+    def generate_options(self, beliefs: Beliefs) -> Options:
+        """
+        Genera opciones basadas en las creencias del agente.
+        
+        :param beliefs: Instancia de la clase Beliefs que contiene las creencias actuales del agente.
+        :return: Instancia de la clase Options con las opciones generadas basadas en las creencias.
+        """
+        options = [
+            {"name": BDI_Actions.ESTABLECER_CONSENSO, "priority": 5, "condition": beliefs.get(BDI_Actions.ACOMPAÑADO)},
+            {"name": BDI_Actions.BUSCAR_COMP, "priority": 4, "condition": not beliefs.get(BDI_Actions.ACOMPAÑADO)},
+            {"name": BDI_Actions.ABORTAR, "priority": 10, "condition": not beliefs.get(BDI_Actions.PUEDO_TERMINAR)},
+            {"name": BDI_Actions.EJECUTAR_SUB1, "priority": 7, "condition": beliefs.get(BDI_Actions.COMP_ENTERADO)},
+            {"name": BDI_Actions.ENVIAR_CONF, "priority": 6, "condition": beliefs.get(BDI_Actions.COMP_ENTERADO)},
+            {"name": BDI_Actions.EJECUTAR_SUB1, "priority": 8, "condition": beliefs.get(BDI_Actions.TERMINA_PART1)},
+            {"name": BDI_Actions.ABORTAR, "priority": 9, "condition": beliefs.get(BDI_Actions.TERMINA_PART2)},
+            {"name": BDI_Actions.HE_TERMINADO, "priority": 10, "condition": beliefs.get(BDI_Actions.HE_TERMINADO)},
+        ]
 
-        if self.tries == 3 or self.all_ok is False:
-            # Si intenté 3 veces enviar o recibir la lista sin éxito o no he recibido confirmación del otro robot
-            self.beliefs = Beliefs({"acompañado": False, "puedo_terminar": True})  # Creo que ya no estoy acompañado
+        conflicts = {
+            BDI_Actions.ESTABLECER_CONSENSO: [BDI_Actions.HE_TERMINADO, BDI_Actions.ABORTAR, BDI_Actions.EJECUTAR_SUB1, BDI_Actions.ABORTAR, BDI_Actions.BUSCAR_COMP, BDI_Actions.ENVIAR_CONF],
+            BDI_Actions.BUSCAR_COMP: [BDI_Actions.HE_TERMINADO, BDI_Actions.ABORTAR, BDI_Actions.EJECUTAR_SUB1, BDI_Actions.ABORTAR, BDI_Actions.ESTABLECER_CONSENSO, BDI_Actions.ENVIAR_CONF],
+            BDI_Actions.ABORTAR: [BDI_Actions.HE_TERMINADO, BDI_Actions.EJECUTAR_SUB1, BDI_Actions.ESTABLECER_CONSENSO, BDI_Actions.BUSCAR_COMP, BDI_Actions.ENVIAR_CONF],
+            BDI_Actions.EJECUTAR_SUB1: [BDI_Actions.HE_TERMINADO, BDI_Actions.BUSCAR_COMP, BDI_Actions.ESTABLECER_CONSENSO, BDI_Actions.ABORTAR, BDI_Actions.ENVIAR_CONF],
+            BDI_Actions.ENVIAR_CONF: [BDI_Actions.HE_TERMINADO, BDI_Actions.BUSCAR_COMP, BDI_Actions.ESTABLECER_CONSENSO, BDI_Actions.ABORTAR, BDI_Actions.EJECUTAR_SUB1],
+            BDI_Actions.TERMINA_PART1: [BDI_Actions.ABORTAR, BDI_Actions.HE_TERMINADO, BDI_Actions.EJECUTAR_SUB1, BDI_Actions.ESTABLECER_CONSENSO, BDI_Actions.BUSCAR_COMP, BDI_Actions.ENVIAR_CONF],
+            BDI_Actions.TERMINA_PART2: [BDI_Actions.HE_TERMINADO, BDI_Actions.ABORTAR, BDI_Actions.EJECUTAR_SUB1, BDI_Actions.ESTABLECER_CONSENSO, BDI_Actions.BUSCAR_COMP, BDI_Actions.ENVIAR_CONF],
+            BDI_Actions.HE_TERMINADO: [BDI_Actions.ABORTAR, BDI_Actions.EJECUTAR_SUB1, BDI_Actions.ESTABLECER_CONSENSO, BDI_Actions.BUSCAR_COMP, BDI_Actions.ENVIAR_CONF],
+        }
 
-        if self.enough_batt is False:
-            # si no tengo batería suficiente para completar mi objetivo
-            self.beliefs.add_belief("puedo_terminar", False)  # Creo que ya no puedo acabar
+        for option in options:
+            if option["condition"]:
+                self.options.add_option({
+                    "name": option["name"],
+                    "priority": option["priority"],
+                    "conflicts": conflicts[option["name"]]
+                })
 
-        if self.completes == 3:
-            # Si ya he completado 3 rutinas exitosamente
-            self.beliefs.add_belief("he_terminado", True)  # Creo que he terminado mi labor
+        return self.options  # Devuelve las opciones generadas
 
-    def generate_options(self, beliefs):
-        # Se generan las opciones (sin evaluar) con base en la lista de beliefs,
-        # OJO: LAS OPCIONES SE REINICIAN EN CADA CICLO
-
-        # Cada opción tiene asociada una prioridad y una lista de conflictos
-        if beliefs.get("acompañado") is True:
-            # Si creo que estoy acompañado, tengo la opción de establecer
-            # consenso (determinar lider + generarr/recibir rutina)
-            self.options.add_option({"name": "establecer_consenso", "priority": 5,
-                                     "conflicts": ["terminar_programa",
-                                                   "abortar",
-                                                   "ejecutar_subrutina1",
-                                                   "ejecutar_subrutina2",
-                                                   "buscar_compañero",
-                                                   "enviar_confirmacion"]})
-        else:
-            # Si creo que no estoy acompañado, tengo la opcíón de seguir buscando compañero
-            self.options.add_option({"name": "buscar_compañero", "priority": 4,
-                                     "conflicts": ["terminar_programa",
-                                                   "abortar",
-                                                   "ejecutar_subrutina1",
-                                                   "ejecutar_subrutina2",
-                                                   "establecer_consenso",
-                                                   "enviar_confirmacion"]})
-
-        if beliefs.get("puedo_terminar") is False:
-            # Si creo que no puedo terminar, tengo la opción de abortar
-            self.options.add_option({"name": "abortar", "priority": 10,
-                                     "conflicts": ["terminar_programa",
-                                                   "ejecutar_subrutina1",
-                                                   "ejecutar_subrutina2",
-                                                   "buscar_compañero",
-                                                   "establecer_consenso",
-                                                   "enviar_confirmacion"]})
-
-        if beliefs.get("compañero_enterado") is True:
-            # Si creo que ambos conocemos la rutina, tengo la opción de ejecutar subrutina 1
-            self.options.add_option({"name": "ejecutar_subrutina1", "priority": 7,
-                                     "conflicts": ["terminar_programa",
-                                                   "abortar",
-                                                   "ejecutar_subrutina2",
-                                                   "buscar_compañero",
-                                                   "establecer_consenso"]})
-            # y también tengo la opción de confirmar que terminé la subrutina
-            self.options.add_option({"name": "enviar_confirmacion", "priority": 6,
-                                     "conflicts": ["terminar_programa",
-                                                   "abortar",
-                                                   "buscar_compañero",
-                                                   "establecer_consenso"]})
-
-        if beliefs.get("terminamos_parte1") is True:
-            # Si creo que ambos terminamos la subrutina 1, tengo la opción de ejecutar la subrutina 2
-            self.options.add_option({"name": "ejecutar_subrutina2", "priority": 8,
-                                     "conflicts": ["terminar_programa",
-                                                   "abortar",
-                                                   "ejecutar_subrutina1",
-                                                   "buscar_compañero",
-                                                   "establecer_consenso",
-                                                   "reinicia_todo"]})
-            # Y también tengo la opción de confirmar que terminé la subrutina
-            self.options.add_option({"name": "enviar_confirmacion", "priority": 6,
-                                     "conflicts": ["terminar_programa",
-                                                   "abortar",
-                                                   "buscar_compañero",
-                                                   "establecer_consenso",
-                                                   "reinicia_todo"]})
-
-        if beliefs.get("terminamos_parte2") is True:
-            # Si creo que ambos terminamos la subrutina 2, tengo la opcíón de reiniciar
-            self.options.add_option({"name": "reinicia_todo", "priority": 9,
-                                     "conflicts": ["ejecutar_subrutina1",
-                                                   "ejecutar_subrutina2",
-                                                   "terminar_programa",
-                                                   "abortar",
-                                                   "establecer_consenso",
-                                                   "enviar_confirmacion"]})
-
-        if beliefs.get("he_terminado") is True:
-            # Si creo que ya he completado tres rutinas exitosamente, tengo la opción de terminar el programa
-            self.options.add_option({"name": "terminar_programa", "priority": 10,
-                                     "conflicts": ["ejecutar_subrutina1",
-                                                   "ejecutar_subrutina2",
-                                                   "buscar_compañero",
-                                                   "establecer_consenso",
-                                                   "enviar_confirmacion",
-                                                   "reinicia_todo"]})
-
-    def deliberate(self, options):
-        # aquí se realiza la deliberación, se analizan todos las opciones generados y se identifican conflictos entre
-        # ellos (por medio de prioridad, las opciones de mayor prioridad desplazan a las de manos prioridad)
-
+    def deliberate(self, options: Options) -> Desires:
+        """
+        Realiza la deliberación para identificar y priorizar deseos basados en las opciones generadas y sus conflictos.
+        
+        :param options: Instancia de la clase Options que contiene las opciones generadas.
+        :return: Instancia de la clase Desires con los deseos priorizados.
+        """
         current_options = options.get()  # extrae el diccionario contenido en el objeto y lo almacena en las opciones
         # Actuales
 
@@ -287,11 +346,16 @@ class BDIAgent:
 
         print(self.desires)
         """
+        return self.desires
 
-    def filter_(self, desires, intentions):
-        # La función de filtro toma en consideración los deseos recien generados con las intenciones que ya están en
-        # Memoria, y genera nuevas intenciones
+    def filter_(self, desires: Desires, intentions: Intentions) -> Intentions:
+        """
+        Filtra los deseos recientes con las intenciones actuales y genera nuevas intenciones.
 
+        :param desires: Instancia de la clase Desires que contiene los deseos generados.
+        :param intentions: Instancia de la clase Intentions que contiene las intenciones actuales.
+        :return: Instancia de la clase Intentions con las intenciones actualizadas.
+        """
         current_desires = desires.get_allD()  # Obtiene todos los deseos
         current_intentions = intentions.get_allI()  # Obtiene todas las intenciones
 
@@ -312,12 +376,16 @@ class BDIAgent:
             if des_name not in current_intentions:  # Si el deseo actual no está ya presente como intención
                 self.intentions.add_intention(des_name, des_prio)  # Agrega el deseo actual como intención
         self.desires = Desires()  # UNA VEZ GENERADAS LAS INTECIONES, BORRA LOS DESEOS
+        return self.intentions
 
-    def bdi_cycle(self, envi):
-        # Aquí se define el ciclo BDI, el agente percibe el entorno y monitorea sus estados internos,
-        # luego genera las creencias usando la BRF, enseguida genera
-        # las opciones y delibera para obtener los deseos, a partir de los deseos hace un filtrado considerando las
-        # intenciones actuales y modifica las intenciones del agente, eso es la salida del BDI
+    def bdi_cycle(self, envi: object) -> Dict[str, object]:
+        """
+        Ejecuta un ciclo BDI completo: percibe el entorno, genera creencias, opciones, deseos e intenciones, y devuelve
+        el estado actual del agente.
+
+        :param envi: Objeto que representa el entorno percibido por el agente.
+        :return: Diccionario con las creencias, deseos e intenciones actuales del agente.
+        """
         self.percieve(envi)
         self.genbeliefs_fromstates()
         print(self.beliefs)
@@ -328,6 +396,11 @@ class BDIAgent:
         self.filter_(self.desires, self.intentions)
         print(h1.intentions)
         print()
+        return {
+            'beliefs': self.beliefs,
+            'desires': self.desires,
+            'intentions': self.intentions
+        }
 
 if __name__ == "__main__":
 
@@ -358,7 +431,7 @@ if __name__ == "__main__":
 
     # Reiniciar todo
     env = Environment()
-    h1.beliefs = Beliefs({"acompañado": False, "puedo_terminar": True})
+    h1.beliefs = Beliefs({BDI_Actions.ACOMPAÑADO: False, "puedo_terminar": True})
     h1.intentions = Intentions()
     h1.bdi_cycle(env)
 
