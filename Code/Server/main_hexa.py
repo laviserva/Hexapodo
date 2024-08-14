@@ -13,9 +13,11 @@ def participar_en_consenso():
     # para comprobar y corregir los IDs. Lo que se tiene que enviar es
     # hexapodo_1.id
     # supongamos que tenemos...
+    # enviar hexapodo_1.compartir_estado() a los demás hexápodos
+    # esperar a recibir los estados de los demás hexápodos
     hexapodo_2_id = 10
     hexapodo_1.comprobar_y_corregir_UID([hexapodo_2_id])
-
+    
     #       [CONSENSO]: ID        10      , status:    role.CANDIDATO  , líder:        (int)
     print(f"[CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     print()
