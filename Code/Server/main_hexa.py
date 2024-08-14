@@ -15,6 +15,8 @@ def participar_en_consenso():
     # supongamos que tenemos...
     # enviar hexapodo_1.compartir_estado() a los demás hexápodos
     # esperar a recibir los estados de los demás hexápodos
+    # Lo ideal seria tener un while desde el envío de los IDs hasta que se haga el consenso
+    # y todos los hexápodos sepan que tienen distinto ID
     hexapodo_2_id = 10
     hexapodo_1.comprobar_y_corregir_UID([hexapodo_2_id])
     
