@@ -162,7 +162,7 @@ class bailes:
           for i in z: # pata se extira
               self.c.servo.setServoAngle(18,i)
               time.sleep(0.01)
-    
+        
     def baile_1(self): #Es un movimiento circular en el plano x,y, ademas de moverser formando un onda en el ejes z
           r=40
           theta= np.linspace(0,2* np.pi*2,100)
@@ -172,10 +172,9 @@ class bailes:
             x = r*np.cos(t)
             y = r*np.sin(t)
             z = r/3*np.cos(-t*3)
-            
-            print("sexo")
-            self.c.posittion(x,y,z)
-   
+            self.ctrl.posittion(x,y,z)
+          print("sexo")
+          self.altura()
           print("fin")    
     
     
@@ -198,7 +197,7 @@ class bailes:
     
     
     def  baile_3(self): #Es un movimiento en diagonal hacia adelante y atras en ambos lados izquierda y derecha en cada retorno al punto inicial se mueve el cuello de  robot
-   
+        self.altura()
         for i in range(1):
             self.altura()
             self.avance_en_diagonal_adelante_derecha()
@@ -230,10 +229,12 @@ class bailes:
           punto=self.c.postureBalance(0,0,0)
           self.c.coordinateTransformation(punto)
           self.c.setLegAngle()
+          self.altura()
           print("fin")
     
     
     def baile_5 (self):
+          self.altura()
           ###movimiento de patas delanteras para estabilizar con 4 piernas
           ###pata derecha delantera hacia adelante
           self.pata_derecha_del_adelante()
@@ -246,4 +247,6 @@ class bailes:
           ###levantamiento de pata delantera derecha
           self.pata_del_derecha_levantar()
           self.pata_del_izquierda_levantar()
+          self.altura()
           print("fin")       
+             
