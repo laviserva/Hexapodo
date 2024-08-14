@@ -56,6 +56,7 @@ def handle_client(sock, addr):
             print(f"Received from {addr}: {data}")
             send_json(sock, data)  # Echo the received data back to the client
         
+    
     finally:
         sock.close()
         print(f"Connection with {addr} closed.")
