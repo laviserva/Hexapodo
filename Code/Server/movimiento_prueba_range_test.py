@@ -264,7 +264,7 @@ class Ctrl:
           for i in x: # pata se eleva para moverse
               ctrl.c.servo.setServoAngle(20,i)
               time.sleep(0.01)
-          for i in Y: # pata se mueve hacia adelante
+          for i in y: # pata se mueve hacia adelante
               ctrl.c.servo.setServoAngle(19,i)
               time.sleep(0.01)
           for i in z: # pata se hacienta en suelo    
@@ -328,7 +328,7 @@ if __name__ == '__main__':
     # Play the first few notes of a familiar song (replace with the actual sequence)
     #control = Control()
     #control.servo.setServoAngle(0,90)
-    #ctrl.altura()
+    ctrl.altura()
     #time.sleep(2)
     #ctrl.baile_1()
     #ctrl.baile_2()
@@ -336,13 +336,13 @@ if __name__ == '__main__':
     #ctrl.baile_4()
     #time.sleep(1.4)
     #ctrl.baile_5()
-    ctrl.altura()
-    ctrl.pata_derecha_del_adelante()
-    ctrl.pata_izquierda_del_adelante()
-    ctrl.pata_del_derecha_levantar()
-    ctrl.pata_del_izquierda_levantar()
+    #ctrl.altura()
+    #ctrl.pata_derecha_del_adelante()
+    #ctrl.pata_izquierda_del_adelante()
+    #ctrl.pata_del_derecha_levantar()
+    #ctrl.pata_del_izquierda_levantar()
     #ctrl.pata_central_derecha_adelante()
-    #ctrl.c.servo.setServoAngle(15,50)
+    #ctrl.c.servo.setServoAngle(13,90)
     #ctrl.altura()
     
 
