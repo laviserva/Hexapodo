@@ -279,7 +279,7 @@ class BDIAgent:
             {"name": BDI_Actions.ABORTAR, "priority": 10, "condition": not beliefs.get(BDI_Actions.PUEDO_TERMINAR)},
             {"name": BDI_Actions.EJECUTAR_SUB1, "priority": 7, "condition": beliefs.get(BDI_Actions.COMP_ENTERADO)},
             {"name": BDI_Actions.ENVIAR_CONF, "priority": 6, "condition": beliefs.get(BDI_Actions.COMP_ENTERADO)},
-            {"name": BDI_Actions.EJECUTAR_SUB1, "priority": 8, "condition": beliefs.get(BDI_Actions.TERMINA_PART1)},
+            {"name": BDI_Actions.EJECUTAR_SUB2, "priority": 8, "condition": beliefs.get(BDI_Actions.TERMINA_PART1)},
             {"name": BDI_Actions.ABORTAR, "priority": 9, "condition": beliefs.get(BDI_Actions.TERMINA_PART2)},
             {"name": BDI_Actions.HE_TERMINADO, "priority": 10, "condition": beliefs.get(BDI_Actions.HE_TERMINADO)},
         ]
