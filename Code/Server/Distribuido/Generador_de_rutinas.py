@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def crea_rutina(num_bailes):
+def crea_rutina(num_bailes=0):
 
     """
     primero se establece la cantidad de pasos y la matriz de probabilidades, el formato será P = [pij]
