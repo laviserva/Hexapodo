@@ -2,6 +2,7 @@
 from Distribuido.arquitectura import BDIAgent, Environment, Beliefs, Intentions, BDI_Actions
 from Distribuido.Eleccion_de_lider import Liderazgo, role
 from Distribuido.Generador_de_rutinas import crea_rutina
+from Bailes import bailes
 def participar_en_consenso():
     hexapodo_1 = Liderazgo(k_devices=2)
     print(f"[CONSENSO] Participando en el consenso")
@@ -38,9 +39,12 @@ def generar_rutina_de_baile():
     subrutina1=baile[:mitad]
     subrutina2=baile[mitad:]
     return subrutina1, subrutina2
+def ejecutar_subrutina(subrurina):
+    b=bailes()
+    for baile in subrurina:
+        metodo = getattr(b,baile)
+        metodo()
 
-
-    return rutina
 if __name__ == '__main__':
     """b = bailes()
     
@@ -89,6 +93,7 @@ if __name__ == '__main__':
                 confirmacion_de_baile = True
                 print(f"[BAILE] Confirmación de la rutina de baile recibida")
                 if confirmacion_de_baile:
+                    ejecutar_subrutina(subrutina1)
                     print(f"[BAILE] Bailando subrutina 1")
                     ...
                     print(f"[BAILE] Subrutina 1 completada, enviando confirmación a los demás hexápodos")
@@ -98,6 +103,7 @@ if __name__ == '__main__':
                     confirmacion_de_subrutina_1 = True
                     print(f"[BAILE] Confirmación de la subrutina 1 recibida")
                     print(f"[BAILE] Bailando subrutina 2")
+                    ejecutar_subrutina(subrutina2)
                     ...
                     print(f"[BAILE] Subrutina 2 completada, enviando confirmación a los demás hexápodos")
                     ...
