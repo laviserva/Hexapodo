@@ -7,9 +7,9 @@ from scipy.optimize import fsolve
 
 class role(Enum):
     # Estados del robot
-    SEGUIDOR = auto()
-    CANDIDATO = auto()
-    LIDER = auto()
+    SEGUIDOR = "SEGUIDOR"
+    CANDIDATO = "CANDIDATO"
+    LIDER = "LIDER"
 
 class Liderazgo:
     """Se utiliza el algoritmo de Bully"""
@@ -83,7 +83,7 @@ class Liderazgo:
         """
         Función que se encarga de compartir el estado del dispositivo con el resto de dispositivos, para elegir lider
         """
-        return {self.id: self.estado}
+        return {self.id: self.estado.value}
 
     def elegir_lider(self, estado: dict[role]):
         """
