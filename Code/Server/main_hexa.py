@@ -3,9 +3,9 @@ from Distribuido.arquitectura import BDIAgent, Environment, Beliefs, Intentions,
 from Distribuido.Eleccion_de_lider import Liderazgo, role
 from Distribuido.Generador_de_rutinas import crea_rutina
 from Bailes import bailes
+
 def participar_en_consenso():
     hexapodo_1 = Liderazgo(k_devices=2)
-    print(f"[CONSENSO] Participando en el consenso")
     #       [CONSENSO]: ID        10      , status:    role.CANDIDATO  , líder:        None
     print(f"[CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     print()
@@ -29,7 +29,7 @@ def participar_en_consenso():
     # Supongamos que el hexapodo 2 tiene el siguiente estado:
     hexapodo_2_estado = {-1: role.CANDIDATO} # {id: rol}
     hexapodo_1.elegir_lider([hexapodo_2_estado])
-
+    print(f"[CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     # Para este punto, ya se hizo el consenso.
     return hexapodo_1
 def generar_rutina_de_baile():
@@ -70,47 +70,53 @@ if __name__ == '__main__':
             print(f"[ERROR] No se pudo establecer la comunicación con nadie")
             print(f"[ERROR] El agente no puede bailar solo")
             exit()
+        # Si el agente está acompañado, entonces participa en el consenso
+        print(f"[INFO] El agente está acompañado")
+        print(f"[CONSENSO] Participando en el consenso")
+        hexapodo_1 = participar_en_consenso()
+        if hexapodo_1.estado == role.LIDER:
+            print(f"[BAILE] Generando rutina de baile")
+            subrutina1, subrutina2 = generar_rutina_de_baile()
+            print(f"[BAILE] Rutina de baile generada")
+            print(f"[BAILE] Subrutina 1 {subrutina1}")
+            print(f"[BAILE] Subrutina 2 {subrutina2}")
+            print(f"[BAILE] transmitiendo rutina de baile a los demás hexápodos")
+            ... # Transmitir la rutina de baile a los demás hexápodos
+            print(f"[BAILE] Rutina de baile transmitida exitosamente")
+            # Esperar a que los demás hexápodos respondan con la confirmación de la rutina de baile
+            print(f"[BAILE] Esperando confirmación de la rutina de baile")
+            confirmacion_de_baile = True
+            print(f"[BAILE] Confirmación de la rutina de baile recibida")
+        # Escucha por rutina
         else:
-            print(f"[INFO] El agente está acompañado")
-            print(f"[CONSENSO] Participando en el consenso")
-            hexapodo_1 = participar_en_consenso()
-            if hexapodo_1.estado == role.LIDER:
-
-                print(f"[BAILE] Generando rutina de baile")
-                
-                subrutina1, subrutina2 = generar_rutina_de_baile()
-                print(subrutina1)
-                print("xdSSS")
-                print(subrutina2)
-
-
-                print(f"[BAILE] Rutina de baile generada")
-                print(f"[BAILE] transmitiendo rutiina de baile a los demás hexápodos")
-                ... # Transmitir la rutina de baile a los demás hexápodos
-                print(f"[BAILE] Rutina de baile transmitida exitosamente")
-                # Esperar a que los demás hexápodos respondan con la confirmación de la rutina de baile
-                print(f"[BAILE] Esperando confirmación de la rutina de baile")
-                confirmacion_de_baile = True
-                print(f"[BAILE] Confirmación de la rutina de baile recibida")
-                if confirmacion_de_baile:
-                    ejecutar_subrutina(subrutina1)
-                    print(f"[BAILE] Bailando subrutina 1")
-                    ...
-                    print(f"[BAILE] Subrutina 1 completada, enviando confirmación a los demás hexápodos")
-                    ...
-                    print(f"[BAILE] Confirmación de la subrutina 1 enviada")
-                    print(f"[BAILE] Esperando confirmación de la subrutina 1 de los demás hexápodos")
-                    confirmacion_de_subrutina_1 = True
-                    print(f"[BAILE] Confirmación de la subrutina 1 recibida")
-                    print(f"[BAILE] Bailando subrutina 2")
-                    ejecutar_subrutina(subrutina2)
-                    ...
-                    print(f"[BAILE] Subrutina 2 completada, enviando confirmación a los demás hexápodos")
-                    ...
-                    print(f"[BAILE] Confirmación de la subrutina 2 enviada")
-                    print(f"[BAILE] Esperando confirmación de la subrutina 2 de los demás hexápodos")
-                    confirmacion_de_subrutina_2 = True
-                    print(f"[BAILE] Confirmación de la subrutina 2 recibida")
+            print(f"[BAILE] Esperando la rutina de baile")
+            ... # Esperar a recibir la rutina de baile
+            print(f"[BAILE] Rutina de baile recibida")
+            print(f"[BAILE] Enviando confirmación de la rutina de baile")
+            ... # Enviar confirmación de la rutina de baile
+            print(f"[BAILE] Confirmación de la rutina de baile enviada")
+            confirmacion_de_baile = True
+        if confirmacion_de_baile:
+            print(f"[BAILE] Bailando subrutina 1")
+            ejecutar_subrutina(subrutina1)
+            print(f"[BAILE] Subrutina 1 completada, enviando confirmación a los demás hexápodos")
+            ...
+            print(f"[BAILE] Confirmación de la subrutina 1 enviada")
+            print(f"[BAILE] Esperando confirmación de la subrutina 1 de los demás hexápodos")
+            confirmacion_de_subrutina_1 = True
+            if not confirmacion_de_subrutina_1:
+                ... # Esperar hasta recibirla
+            print(f"[BAILE] Confirmación de la subrutina 1 recibida")
+            print(f"[BAILE] Bailando subrutina 2")
+            ejecutar_subrutina(subrutina2)
+            print(f"[BAILE] Subrutina 2 completada, enviando confirmación a los demás hexápodos")
+            ...
+            print(f"[BAILE] Confirmación de la subrutina 2 enviada")
+            print(f"[BAILE] Esperando confirmación de la subrutina 2 de los demás hexápodos")
+            confirmacion_de_subrutina_2 = True
+            print(f"[BAILE] Confirmación de la subrutina 2 recibida")
+            print(f"[INFO] Rutina completada")
+            h1.completes += 1
 
 
                     
