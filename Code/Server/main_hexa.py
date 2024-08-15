@@ -1,7 +1,7 @@
 #from Bailes import bailes
 from Distribuido.arquitectura import BDIAgent, Environment, Beliefs, Intentions, BDI_Actions
 from Distribuido.Eleccion_de_lider import Liderazgo, role
-
+from Distribuido.Generador_de_rutinas import crea_rutina
 def participar_en_consenso():
     hexapodo_1 = Liderazgo(k_devices=2)
     #       [CONSENSO]: ID        10      , status:    role.CANDIDATO  , líder:        None
@@ -30,7 +30,16 @@ def participar_en_consenso():
     print(f"[CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     # Para este punto, ya se hizo el consenso.
     return hexapodo_1
+def generar_rutina_de_baile():
+    numero_bailes=6
+    baile = crea_rutina(numero_bailes)
+    mitad = len(baile)//2
+    subrutina1=baile[:mitad]
+    subrutina2=baile[mitad:]
+    return subrutina1, subrutina2
 
+
+    return rutina
 if __name__ == '__main__':
     """b = bailes()
     
