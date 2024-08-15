@@ -1,7 +1,7 @@
 #from Bailes import bailes
 from Distribuido.arquitectura import BDIAgent, Environment, Beliefs, Intentions, BDI_Actions
 from Distribuido.Eleccion_de_lider import Liderazgo, role
-
+from Distribuido.Generador_de_rutinas import crea_rutina
 def participar_en_consenso():
     hexapodo_1 = Liderazgo(k_devices=2)
     print(f"[CONSENSO] Participando en el consenso")
@@ -26,12 +26,21 @@ def participar_en_consenso():
 
     # El consenso se hace de forma automática y sin comunicarse con los demás hexápodos
     # Supongamos que el hexapodo 2 tiene el siguiente estado:
-    hexapodo_2_estado = {31: role.CANDIDATO} # {id: rol}
+    hexapodo_2_estado = {-1: role.CANDIDATO} # {id: rol}
     hexapodo_1.elegir_lider([hexapodo_2_estado])
 
     # Para este punto, ya se hizo el consenso.
     return hexapodo_1
+def generar_rutina_de_baile():
+    numero_bailes=6
+    baile = crea_rutina(numero_bailes)
+    mitad = len(baile)//2
+    subrutina1=baile[:mitad]
+    subrutina2=baile[mitad:]
+    return subrutina1, subrutina2
 
+
+    return rutina
 if __name__ == '__main__':
     """b = bailes()
     
@@ -62,8 +71,15 @@ if __name__ == '__main__':
             print(f"[CONSENSO] Participando en el consenso")
             hexapodo_1 = participar_en_consenso()
             if hexapodo_1.estado == role.LIDER:
+
                 print(f"[BAILE] Generando rutina de baile")
-                ... # Generar rutina de baile
+                
+                subrutina1, subrutina2 = generar_rutina_de_baile()
+                print(subrutina1)
+                print("xdSSS")
+                print(subrutina2)
+
+
                 print(f"[BAILE] Rutina de baile generada")
                 print(f"[BAILE] transmitiendo rutiina de baile a los demás hexápodos")
                 ... # Transmitir la rutina de baile a los demás hexápodos
