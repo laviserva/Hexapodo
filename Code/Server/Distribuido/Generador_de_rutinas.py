@@ -13,7 +13,7 @@ def crea_rutina(num_bailes=0):
                                   [0,   0.5,  0.3,  0,    0.2],
                                   [0,   0,    0.3,  0.3,  0.4]])
 
-    "Se trata de 5 estados diferentes, con los siguientes nombres: "
+    "Se trata de 5 bailes diferentes, con los siguientes nombres: "
     state = {
          0: "baile_1",
          1: "baile_2",
