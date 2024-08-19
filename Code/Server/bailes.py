@@ -22,26 +22,27 @@ class bailes:
     
     
     def move(self, x:str = '0', y:str = '0', speed:str = '0', angle:str = '0'):
-        self.__comprobe_restrictions(x, y, speed, angle)
+        #self.__comprobe_restrictions(x, y, speed, angle)
         data = [
             Command.MOVE.value,
             GaitMode.MODE_1.value,
             x, y, speed, angle
             ]
+        self.ctrl.run(data)
     
     
     def giro_cabeza(self):
-          self.c.servo.setServoAngle(0,90)
+          self.ctrl.servo.setServoAngle(0,90)
           time.sleep(0.2)
           for i in range(11):
               angulo = 45 + (i * 10 if i != 0 else 0)
-              self.c.servo.setServoAngle(0,angulo)                    
+              self.ctrl.servo.setServoAngle(0,angulo)                    
               time.sleep(0.2)
           for i in range(11):
               angulo = 135 - (i * 10 if i != 0 else 0)
-              self.c.servo.setServoAngle(0,angulo)                    
+              self.ctrl.servo.setServoAngle(0,angulo)                    
               time.sleep(0.2)
-          self.c.servo.setServoAngle(0,94)    
+          self.ctrl.servo.setServoAngle(0,94)    
     
     
     def avance_en_diagonal_adelante_derecha(self):
@@ -81,16 +82,13 @@ class bailes:
           y = np.arange(90,50,-2)
           z = np.arange(140,90,-2)
           for i in x:# pata se eleva para moverse
-              #print(i)
-              self.c.servo.setServoAngle(14,i)
+              self.ctrl.servo.setServoAngle(14,i)
               time.sleep(0.01)
           for i in y:# pata se mueve hacia adelante
-              #print(i)
-              self.c.servo.setServoAngle(15,i)
+              self.ctrl.servo.setServoAngle(15,i)
               time.sleep(0.01)  
           for i in z: # pata se hacienta en suelo
-              #print(i)
-              self.c.servo.setServoAngle(14,i)
+              self.ctrl.servo.setServoAngle(14,i)
               time.sleep(0.01)
     def pata_izquierda_del_adelante(self):
          ####pata izquierda delantera hacia delante
@@ -98,13 +96,13 @@ class bailes:
           y = np.arange(90,130,2)
           z = np.arange(50,90.2)
           for i in x: # pata se eleva para moverse
-              self.c.servo.setServoAngle(17,i)
+              self.ctrl.servo.setServoAngle(17,i)
               time.sleep(0.01)
           for i in y: # pata se mueve hacia adelante   
-              self.c.servo.setServoAngle(16,i)
+              self.ctrl.servo.setServoAngle(16,i)
               time.sleep(0.01)
           for i in z: # pata se hacienta en suelo   
-              self.c.servo.setServoAngle(17,i)
+              self.ctrl.servo.setServoAngle(17,i)
               time.sleep(0.01)
     def pata_central_derecha_adelante(self):
           ####pata central derecha hacia adelante
@@ -112,13 +110,13 @@ class bailes:
           y = np.arange(90,50,-2)
           z = np.arange(140,90,-2)
           for i in x:  # pata se eleva para moverse
-              self.c.servo.setServoAngle(11,i)
+              self.ctrl.servo.setServoAngle(11,i)
               time.sleep(0.01)
           for i in y:  # pata se mueve hacia adelante
-              self.c.servo.setServoAngle(12,i)
+              self.ctrl.servo.setServoAngle(12,i)
               time.sleep(0.01)    
           for i in z:  # pata se hacienta en suelo
-              self.c.servo.setServoAngle(11,90)
+              self.ctrl.servo.setServoAngle(11,90)
               time.sleep(0.01)
     def pata_central_izquierda_adelante(self):
      ####pata central izquierda hacia adelante
@@ -126,13 +124,13 @@ class bailes:
           y = np.arange(90,150,2)
           z = np.arange(50,90,2)
           for i in x: # pata se eleva para moverse
-              self.c.servo.setServoAngle(20,i)
+              self.ctrl.servo.setServoAngle(20,i)
               time.sleep(0.01)
           for i in y: # pata se mueve hacia adelante
-              self.c.servo.setServoAngle(19,i)
+              self.ctrl.servo.setServoAngle(19,i)
               time.sleep(0.01)
           for i in z: # pata se hacienta en suelo    
-              self.c.servo.setServoAngle(20,i)
+              self.ctrl.servo.setServoAngle(20,i)
               time.sleep(0.01)
     def pata_del_derecha_levantar(self):
          ####levantamiento de pata delantera derecha
@@ -140,13 +138,13 @@ class bailes:
           y = np.arange(90,50,-2)
           z = np.arange(90,0,-2)
           for i in x: # pata se eleva  
-              self.c.servo.setServoAngle(14,i)
+              self.ctrl.servo.setServoAngle(14,i)
               time.sleep(0.01)
           for i in y: # pata se va hacia adelante
-              self.c.servo.setServoAngle(15,i)
+              self.ctrl.servo.setServoAngle(15,i)
               time.sleep(0.01)
           for i in z: # pata se extira
-              self.c.servo.setServoAngle(13,i)
+              self.ctrl.servo.setServoAngle(13,i)
               time.sleep(0.01)
     def pata_del_izquierda_levantar(self):
           ####levantamiento de pata delantera izquierda
@@ -154,13 +152,13 @@ class bailes:
           y = np.arange(90,130,2)
           z = np.arange(90,200,2)
           for i in x: # pata se eleva
-              self.c.servo.setServoAngle(17,i)
+              self.ctrl.servo.setServoAngle(17,i)
               time.sleep(0.01)
           for i in y: # pata se va hacia adelante
-              self.c.servo.setServoAngle(16,i)
+              self.ctrl.servo.setServoAngle(16,i)
               time.sleep(0.01)
           for i in z: # pata se extira
-              self.c.servo.setServoAngle(18,i)
+              self.ctrl.servo.setServoAngle(18,i)
               time.sleep(0.01)
         
     def baile_1(self): #Es un movimiento circular en el plano x,y, ademas de moverser formando un onda en el ejes z
@@ -173,9 +171,7 @@ class bailes:
             y = r*np.sin(t)
             z = r/3*np.cos(-t*3)
             self.ctrl.posittion(x,y,z)
-          print("sexo")
           self.altura()
-          print("fin")    
     
     
     def baile_2(self):  # Es un movimiento lateral de izquierda a derecha
@@ -207,30 +203,28 @@ class bailes:
             self.avance_en_diagonal_atras_derecha()
             self.giro_cabeza()
         self.altura() 
-        print("fin")  
     
     
     def baile_4(self): # Estes baile consiste de movimiento de la parte trasera del robot
           self.altura()
-          punto=self.c.postureBalance(0,0,0)
-          self.c.coordinateTransformation(punto)
-          self.c.setLegAngle()
+          punto=self.ctrl.postureBalance(0,0,0)
+          self.ctrl.coordinateTransformation(punto)
+          self.ctrl.setLegAngle()
           for i in range(4):
               
               time.sleep(0.2)        
-              punto=self.c.postureBalance(0,15,15)
-              self.c.coordinateTransformation(punto)
-              self.c.setLegAngle()
+              punto=self.ctrl.postureBalance(0,15,15)
+              self.ctrl.coordinateTransformation(punto)
+              self.ctrl.setLegAngle()
               time.sleep(0.2)
-              punto=self.c.postureBalance(0,15,-15)
-              self.c.coordinateTransformation(punto)
-              self.c.setLegAngle()
+              punto=self.ctrl.postureBalance(0,15,-15)
+              self.ctrl.coordinateTransformation(punto)
+              self.ctrl.setLegAngle()
               time.sleep(0.2)
-          punto=self.c.postureBalance(0,0,0)
-          self.c.coordinateTransformation(punto)
-          self.c.setLegAngle()
+          punto=self.ctrl.postureBalance(0,0,0)
+          self.ctrl.coordinateTransformation(punto)
+          self.ctrl.setLegAngle()
           self.altura()
-          print("fin")
     
     
     def baile_5 (self):
@@ -247,6 +241,5 @@ class bailes:
           ###levantamiento de pata delantera derecha
           self.pata_del_derecha_levantar()
           self.pata_del_izquierda_levantar()
-          self.altura()
-          print("fin")       
+          self.altura()     
              
