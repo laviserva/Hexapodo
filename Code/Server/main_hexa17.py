@@ -181,3 +181,4 @@ if __name__ == '__main__':
             print(f"[BAILE] Bailando subrutina 1")
             ejecutar_subrutinas(rutina)
             h1.completes += 1
+        h1.bdi_cycle(env)
