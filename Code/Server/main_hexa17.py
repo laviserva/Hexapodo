@@ -84,11 +84,11 @@ def ejecutar_subrutinas(rutinas):
     print(f"[BAILE] Preparando Baile\n\n")
     b=bailes()
     print(f"[BAILE] Motores listos para el baile")
-    for b, baile in enumerate(rutinas):
+    for i, baile in enumerate(rutinas):
         metodo = getattr(b,baile)
-        print(f"[BAILE] Bailando subrutina {b+1}")
+        print(f"[BAILE] Bailando subrutina {i+1}")
         metodo()
-        print(f"[BAILE] Subrutina {b+1} terminada con éxito, enviando confirmación")
+        print(f"[BAILE] Subrutina {i+1} terminada con éxito, enviando confirmación")
         state_message = {
             "data": "ok termine baile",
         }
