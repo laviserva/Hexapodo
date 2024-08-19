@@ -174,8 +174,6 @@ if __name__ == '__main__':
             env.buddy_here = True
         if BDI_Actions.ESTABLECER_CONSENSO in intenciones:
             hexapodo_1, rutina, recibidos = consenso(hexapodo_1)
-            env.buddy_finish1 = True
-            env.buddy_finish2 = True
         
         if BDI_Actions.EJECUTAR_SUB1 in intenciones or BDI_Actions.EJECUTAR_SUB2 in intenciones:
             if not rutina:
@@ -184,4 +182,6 @@ if __name__ == '__main__':
             print(f"[BAILE] Bailando subrutina 1")
             ejecutar_subrutinas(rutina)
             h1.completes += 1
+            env.buddy_finish1 = True
+            env.buddy_finish2 = True
         h1.bdi_cycle(env)
