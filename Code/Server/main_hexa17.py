@@ -146,6 +146,7 @@ if __name__ == '__main__':
     # Inicializando el agente y el entorno de la arquitectura
     h1 = BDIAgent(completions=0, energy=20000)
     env = Environment()
+    h1.bdi_cycle(env)
     print(h1.intentions)
     intenciones = h1.intentions.intentions
     hexapodo_1 = Liderazgo(k_devices=2)
