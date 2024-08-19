@@ -1,18 +1,18 @@
 from typing import Dict, List, Optional
 
 class BDI_Actions:
-    ACOMPAÑADO = "acompañado"
-    COMP_ENTERADO = "compañero_enterado"
-    TERMINA_PART1 = "terminamos_parte1"
-    TERMINA_PART2 = "terminamos_parte2"
-    PUEDO_TERMINAR = "puedo_terminar"
-    HE_TERMINADO = "he_terminado"
-    ESTABLECER_CONSENSO = "establecer_consenso"
-    BUSCAR_COMP = "buscar_compañero"
     ABORTAR = "abortar"
+    ACOMPAÑADO = "acompañado"
+    BUSCAR_COMP = "buscar_compañero"
+    COMP_ENTERADO = "compañero_enterado"
     EJECUTAR_SUB1 = "ejecutar_subrutina1"
     EJECUTAR_SUB2 = "ejecutar_subrutina2"
     ENVIAR_CONF = "enviar_confirmacion"
+    ESTABLECER_CONSENSO = "establecer_consenso"
+    HE_TERMINADO = "he_terminado"
+    PUEDO_TERMINAR = "puedo_terminar"
+    TERMINA_PART1 = "terminamos_parte1"
+    TERMINA_PART2 = "terminamos_parte2"
 
 class Beliefs:
     """
@@ -392,14 +392,11 @@ class BDIAgent:
         """
         self.percieve(envi)
         self.genbeliefs_fromstates()
-        print(self.beliefs)
         self.generate_options(beliefs=self.beliefs)
         # print(self.options)
         self.deliberate(self.options)
-        print(self.desires)
         self.filter_(self.desires, self.intentions)
         print(self.intentions)
-        print()
         return {
             'beliefs': self.beliefs,
             'desires': self.desires,
@@ -409,6 +406,7 @@ class BDIAgent:
 if __name__ == "__main__":
     h1 = BDIAgent(completions=0, energy=20000)
     env = Environment()
+    intenciones = h1.intentions.intentions
 
     # Establecer estado inicial del agente
     h1.all_ok = True
@@ -442,4 +440,7 @@ if __name__ == "__main__":
 
     # Ya no hay batería suficiente
     h1.enough_batt = False
+    print("====================================")
     result7 = h1.bdi_cycle(env)
+    print("====================================")
+    print(intenciones)
