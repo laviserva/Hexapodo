@@ -102,12 +102,11 @@ def ejecutar_subrutinas(rutinas):
 
 
 
-def buscar_compañero(HexapodoComunicator, env, client_name, server_host):
+def buscar_compañero(HexapodoComunicator, client_name, server_host):
     try:
         print(f"[INFO] El agente no está acompañado!")
         print(f"[COMUNICACIÓN] Buscando a alguien para bailar")
         communicator = HexapodoComunicator(client_name, server_host)
-        env.buddy_here = True
         print(f"[COMUNICACIÓN] Comunicación establecida exitosamente con otro agente")
     except Exception as e:
         print(f"[ERROR] No se pudo establecer la comunicación con nadie")
@@ -153,6 +152,8 @@ if __name__ == '__main__':
     print("[INFO] Agente creado")
     print(f"[INFO] BDI_Actions.ACOMPAÑADO: {BDI_Actions.ACOMPAÑADO}")
     print(f"[INFO] h1.beliefs: {h1.beliefs.beliefs}")
+    print(f"[INFO] h1.beliefs: {h1.desires.desires}")
+    print(f"[INFO] h1.beliefs: {h1.intentions.intentions}")
     comunicación = False
     raspberrypi_name = socket.gethostname()
     if raspberrypi_name == 'hexapodo1':
@@ -168,7 +169,8 @@ if __name__ == '__main__':
     while BDI_Actions.ABORTAR not in intenciones:
         print(intenciones)
         if BDI_Actions.BUSCAR_COMP in intenciones:
-            communicator = buscar_compañero(HexapodoComunicator, env, client_name, server_host)
+            communicator = buscar_compañero(HexapodoComunicator, client_name, server_host)
+            env.buddy_here = True
         print(intenciones)
         exit()
         if BDI_Actions.ESTABLECER_CONSENSO in intenciones:
