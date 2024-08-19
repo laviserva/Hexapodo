@@ -93,7 +93,7 @@ def ejecutar_subrutinas(rutinas):
             "data": "ok termine baile",
         }
         response = communicator.exchange_data(state_message)
-        print(f"[BAILE] Confirmación de la subrutina {b+1} enviada")
+        print(f"[BAILE] Confirmación de la subrutina {i+1} enviada")
         print()
     print("-"*50)
     print(f"[BAILE] Bailes terminados con éxito")
