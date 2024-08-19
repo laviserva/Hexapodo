@@ -127,6 +127,7 @@ def consenso(hexapodo_1):
     }
     print(f"[CONSENSO] Comenzando el intercambio de rutinas")
     response = communicator.exchange_data(state_message)
+    env.buddy_knows = True
     print(f"[CONSENSO] Rutina intercambiada exitosamente")
 
     if response:
@@ -167,12 +168,14 @@ if __name__ == '__main__':
     rutina = None
     
     while BDI_Actions.ABORTAR not in intenciones:
-        print(intenciones)
+        print(f"")
         if BDI_Actions.BUSCAR_COMP in intenciones:
             communicator = buscar_compañero(HexapodoComunicator, client_name, server_host)
             env.buddy_here = True
         if BDI_Actions.ESTABLECER_CONSENSO in intenciones:
             hexapodo_1, rutina, recibidos = consenso(hexapodo_1)
+            env.buddy_finish1 = True
+            env.buddy_finish2 = True
         
         if BDI_Actions.EJECUTAR_SUB1 in intenciones or BDI_Actions.EJECUTAR_SUB2 in intenciones:
             if not rutina:
