@@ -151,10 +151,10 @@ if __name__ == '__main__':
     intenciones = h1.intentions.intentions
     hexapodo_1 = Liderazgo(k_devices=2)
     print("[INFO] Agente creado")
-    print(f"[INFO] BDI_Actions.ACOMPAÑADO: {BDI_Actions.ACOMPAÑADO}")
-    print(f"[INFO] h1.beliefs: {h1.beliefs.beliefs}")
-    print(f"[INFO] h1.beliefs: {h1.desires.desires}")
-    print(f"[INFO] h1.beliefs: {h1.intentions.intentions}")
+    print(f"[BDI] BDI_Actions.ACOMPAÑADO: {BDI_Actions.ACOMPAÑADO}")
+    print(f"[BDI] Creencias: {h1.beliefs.beliefs}")
+    print(f"[BDI] Deseos: {h1.desires.desires}")
+    print(f"[BDI] Intenciones: {h1.intentions.intentions}")
     comunicación = False
     raspberrypi_name = socket.gethostname()
     if raspberrypi_name == 'hexapodo1':
@@ -165,15 +165,12 @@ if __name__ == '__main__':
         client_name = 'hexapodo2.local'
     communicator = HexapodoComunicator(client_name, server_host)
     rutina = None
-    print(intenciones)
     
     while BDI_Actions.ABORTAR not in intenciones:
         print(intenciones)
         if BDI_Actions.BUSCAR_COMP in intenciones:
             communicator = buscar_compañero(HexapodoComunicator, client_name, server_host)
             env.buddy_here = True
-        print(intenciones)
-        exit()
         if BDI_Actions.ESTABLECER_CONSENSO in intenciones:
             hexapodo_1, rutina, recibidos = consenso(hexapodo_1)
         
