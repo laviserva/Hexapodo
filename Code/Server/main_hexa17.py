@@ -170,7 +170,7 @@ if __name__ == '__main__':
     while BDI_Actions.ABORTAR not in intenciones:
         if BDI_Actions.BUSCAR_COMP in intenciones:
             communicator = buscar_compañero(HexapodoComunicator, env, client_name, server_host)
-        if BDI_Actions.PARTICIPAR_CONSENSO in intenciones:
+        if BDI_Actions.ESTABLECER_CONSENSO in intenciones:
             hexapodo_1, rutina, recibidos = consenso(hexapodo_1)
         
         if BDI_Actions.EJECUTAR_SUB1 in intenciones or BDI_Actions.EJECUTAR_SUB2 in intenciones:
