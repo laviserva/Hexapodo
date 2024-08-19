@@ -6,99 +6,10 @@ import time
 import json
 from Distribuido.arquitectura import BDIAgent, Environment, Beliefs, Intentions, BDI_Actions
 from Distribuido.Eleccion_de_lider import Liderazgo, role
-
+from serverDany import recibir_mensaje_server,enviar_mensaje_server,conectar_server
+from clienteDany import recibir_mensaje_cliente,enviar_mensaje_cliente,conectar_cliente
 from Distribuido.Generador_de_rutinas import crea_rutina
 from Bailes import bailes
-
-from Zerver import server_thread
-from client import client_thread
-from socket_utils import create_socket, send_json, receive_json, authenticate
-
-SERVER_SEND_PORT = 65432
-SERVER_RECEIVE_PORT = 65433
-send_queue = queue.Queue()
-response_queue = queue.Queue()
-
-communication_ready = threading.Event()
-
-def client_thread_with_ready(client_name, server_host, port, mode, message_queue, response_queue):
-    print(" paso por funcion client_thread_with_ready")
-    client_socket = None
-    attempts = 0
-    max_attempts = 20  # Máximo de reintentos
-
-    while attempts < max_attempts:
-        try:
-            client_socket = create_socket()
-            client_socket.connect((server_host, port))
-            client_socket.settimeout(None)
-            print(f"{client_name} connected to server at {server_host}:{port} for {mode}")
-
-            if not authenticate(client_socket):
-                print("Authentication with server failed. Retrying...")
-                client_socket.close()
-                time.sleep(0.5)
-                attempts += 1
-                continue
-
-            communication_ready.set()
-
-            if mode == "sending":
-                while True:
-                    if not message_queue.empty():
-                        message = message_queue.get()
-                        try:
-                            send_json(client_socket, message)
-                            response = receive_json(client_socket)
-                            if response:
-                                response_queue.put(response)
-                        except (ConnectionResetError, BrokenPipeError):
-                            print(f"Connection to {server_host} for sending failed. Retrying...")
-                            break
-                    time.sleep(0.1)
-            elif mode == "receiving":
-                while True:
-                    response = receive_json(client_socket)
-                    if response is None:
-                        print(f"No response from server, reconnecting...")
-                        break
-                    response_queue.put(response)
-                    time.sleep(0.1)
-
-            break  # Salir del bucle de reintentos si la conexión es exitosa
-
-        except (ConnectionRefusedError, ConnectionResetError, BrokenPipeError) as e:
-            print(f"Connection to {server_host} for {mode} failed: {e}. Retrying in 0.5 seconds...")
-            time.sleep(0.5)
-            attempts += 1
-
-        finally:
-            if client_socket:
-                client_socket.close()
-
-    if attempts >= max_attempts:
-        print(f"Failed to connect to {server_host} after {max_attempts} attempts. Exiting...")
-        exit(1)
-
-def send_custom_message(client_name, message, message_type="state"):
-    print(" paso por funcion send_custom_message")
-    """Función para enviar un mensaje personalizado."""
-    message_data = {
-        "sender": client_name,
-        "message": message,
-        "timestamp": time.strftime('%Y-%m-%d %H:%M:%S'),
-        "type": message_type  # Añadir tipo de mensaje
-    }
-    send_queue.put(message_data)
-
-def get_response():
-    print(" paso por funcion get_response")
-    """Función para obtener la respuesta más reciente."""
-    try:
-        #return response_queue.get_nowait()  # No espera si la cola está vacía
-        return response_queue.get(timeout=10)
-    except queue.Empty:
-        return None
 
 def participar_en_consenso(hexapodo_1):
     print(" paso por participar_en_consenso")
@@ -111,30 +22,21 @@ def participar_en_consenso(hexapodo_1):
     # Enviar estado con la estructura correcta
     state_message = {
         "type": "state",
-        "data": hexapodo_1.compartir_estado()
+        "data": hexapodo_1.compartir_estado().copy()
     }
-    send_custom_message(client_name, json.dumps(state_message))
 
-    # Esperar respuesta
-    communication_ready.wait()
-    response = get_response()
+    #conectar_server("hexapodo2.local",5000) #empezar a escuchar solicitudes
+    conectar_cliente("hexapodo2.local",5000)
+    estado_hexapodo = conectar_server("0.0.0.0",5002)
+    
+    #recibido = recibir_mensaje_cliente(client_sokect)
+    #conectar_server("hexapodo2.local",5000) #empezar a escuchar solicitudes
+    #enviar_mensaje_cliente(hexapodo_1.compartir_estado())
 
-    if response:
-        # Procesar el estado recibido
-        if "data" in response:
-            recibido = response["data"]  # Se usa "data" en lugar de "message"
-            print(f"Received state from other hexapod: {recibido}")
-
-            # Enviar confirmación de recepción
-            """ack_message = {
-                "type": "ack",
-                "data": {"ack": "received"}
-            }
-            send_custom_message(client_name, json.dumps(ack_message))"""
-        else:
-            print("Received response does not contain 'data'.")
-    else:
-        print("No response received.")
+    #recibido = recibir_mensaje_server()
+    #print (f"esto fue lo que recibi {recibido}")
+    #hexapodo_2 = recibido
+    #print(f"[CONSENSO]: ID {hexapodo_2.id}, status: {hexapodo_2.estado}, líder: {hexapodo_2.Lider}")
 
     # Esperar la confirmación de recepción
     #ack_response = get_response()
@@ -149,30 +51,42 @@ def participar_en_consenso(hexapodo_1):
     # esperar a recibir los estados de los demás hexápodos
     # Lo ideal seria tener un while desde el envío de los IDs hasta que se haga el consenso
     # y todos los hexápodos sepan que tienen distinto ID
-
-    hexapodo_2_id = int(list(recibido.keys())[0])
+    """print(f"heiler1 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
+    print(f"recibidos {recibidos}")
+    hexapodo_2_id = int(list(recibidos.keys()).copy()[0])
+    print(f"heiler2 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
+    print(f"__heiler2 mio: ID {hexapodo_1.id}, otro: {hexapodo_2_id}, líder: {hexapodo_1.Lider}")
     hexapodo_1.comprobar_y_corregir_UID([hexapodo_2_id])
-    
+    print(f"heiler3 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     #       [CONSENSO]: ID        10      , status:    role.CANDIDATO  , líder:        (int)
 
     # El consenso se hace de forma automática y sin comunicarse con los demás hexápodos
     # Supongamos que el hexapodo 2 tiene el siguiente estado:
-    new_recibido = {int(key): value for key, value in recibido.items()}
-
+    print(f"heiler4 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
+    new_recibido = {int(key): value for key, value in recibidos.items()}
+    print(f"heiler5 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     hexapodo_2_estado = new_recibido #recibido_____ {31: role.CANDIDATO} # {id: rol}
+    print(f"heiler6 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     hexapodo_1.elegir_lider([hexapodo_2_estado])
-
+    print(f"heiler7 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     print(f"[CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     # Para este punto, ya se hizo el consenso.
-    return hexapodo_1
+    return hexapodo_1"""
     
 def generar_rutina_de_baile():
     print(" paso por funcion generar_rutina_baile")
     numero_bailes=6
     baile = crea_rutina(numero_bailes)
-    mitad = len(baile)//2
-    subrutina1=baile[:mitad]
-    subrutina2=baile[mitad:]
+    #mitad = len(baile)//2
+    #subrutina1=baile[:mitad]
+    #subrutina2=baile[mitad:]
+    #return subrutina1, subrutina2
+    return baile
+
+def partir_rutina(rutina):
+    mitad = len(rutina)//2
+    subrutina1=rutina[:mitad]
+    subrutina2=rutina[mitad:]
     return subrutina1, subrutina2
 
 def ejecutar_subrutina(subrurina):
@@ -203,18 +117,14 @@ if __name__ == '__main__':
         server_host = 'hexapodo1.local'
         client_name = 'hexapodo2.local'
 
+    
+
     print (raspberrypi_name)
     print (client_name)
     print (server_host)
 
-    threading.Thread(target=server_thread, args=(raspberrypi_name, SERVER_SEND_PORT, "sending")).start()
-    threading.Thread(target=server_thread, args=(raspberrypi_name, SERVER_RECEIVE_PORT, "receiving")).start()
-    
-    threading.Thread(target=client_thread_with_ready, args=(client_name, server_host, SERVER_RECEIVE_PORT, "sending", send_queue, response_queue)).start()
-    threading.Thread(target=client_thread_with_ready, args=(client_name, server_host, SERVER_SEND_PORT, "receiving", queue.Queue(), response_queue)).start()
-
     comunicación = False
-    #communication_ready.wait()
+
     
 
     while h1.max_completions > h1.completes and h1.max_tries > h1.tries and h1.energy > 0:
@@ -233,9 +143,48 @@ if __name__ == '__main__':
         print(f"[INFO] El agente está acompañado")
         print(f"[CONSENSO] Participando en el consenso")
         hexapodo_1 = participar_en_consenso(hexapodo_1)
+        hexapodo_1.estado = role.LIDER
+
+        ##no olvidar quitar el lider hardcod.....
+
+        #envia rutina 
+        rutina = generar_rutina_de_baile()
+        state_message = {
+            "type": "state",
+            "data": rutina
+        }
+        #modificar
+        #send_custom_message(client_name, json.dumps(state_message))
+
+        # Esperar respuesta
+        #modificar
+        #communication_ready.wait()
+        #response = get_response()
+        response=""
+        if response:
+            # Procesar el estado recibido
+            if "data" in response:
+                recibidos = response["data"]  # Se usa "data" en lugar de "message"
+                print(f"Received state from other hexapod: {recibidos}")
+
+                # Enviar confirmación de recepción
+                ack_message = {
+                    "type": "ack",
+                    "data": {"ack": "received"}
+                }
+                #modificar
+                #send_custom_message(client_name, json.dumps(ack_message))
+            else:
+                print("Received response does not contain 'data'.")
+        else:
+            print("No response received.")
+
+
         if hexapodo_1.estado == role.LIDER:
             print(f"[BAILE] Generando rutina de baile")
-            subrutina1, subrutina2 = generar_rutina_de_baile()
+            #rutina = generar_rutina_de_baile()
+            print(f"[BAILE] Voy con rutina {rutina}")
+            subrutina1,subrutina2=partir_rutina(rutina)
             print(f"[BAILE] Rutina de baile generada")
             print(f"[BAILE] Subrutina 1 {subrutina1}")
             print(f"[BAILE] Subrutina 2 {subrutina2}")
@@ -250,12 +199,15 @@ if __name__ == '__main__':
         else:
             print(f"[BAILE] Esperando la rutina de baile")
             ... # Esperar a recibir la rutina de baile
+            print(f"[BAILE] Voy con recibidos {recibidos}")
+            subrutina1,subrutina2 = partir_rutina(recibidos)
+
             print(f"[BAILE] Rutina de baile recibida")
             print(f"[BAILE] Enviando confirmación de la rutina de baile")
             ... # Enviar confirmación de la rutina de baile
             print(f"[BAILE] Confirmación de la rutina de baile enviada")
             confirmacion_de_baile = True
-            subrutina1, subrutina2 = None
+            #subrutina1, subrutina2 = None
         if confirmacion_de_baile:
             print(f"[BAILE] Bailando subrutina 1")
             ejecutar_subrutina(subrutina1)

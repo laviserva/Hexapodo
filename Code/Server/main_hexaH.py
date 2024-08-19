@@ -10,12 +10,12 @@ from Distribuido.Eleccion_de_lider import Liderazgo, role
 from Distribuido.Generador_de_rutinas import crea_rutina
 from Bailes import bailes
 
-from Zerver import server_thread
+from Zervern import server_thread
 from client import client_thread
 from socket_utils import create_socket, send_json, receive_json, authenticate
 
-SERVER_SEND_PORT = 65432
-SERVER_RECEIVE_PORT = 65433
+SERVER_SEND_PORT = 65424
+SERVER_RECEIVE_PORT = 65425
 send_queue = queue.Queue()
 response_queue = queue.Queue()
 
@@ -111,7 +111,7 @@ def participar_en_consenso(hexapodo_1):
     # Enviar estado con la estructura correcta
     state_message = {
         "type": "state",
-        "data": hexapodo_1.compartir_estado()
+        "data": hexapodo_1.compartir_estado().copy()
     }
     send_custom_message(client_name, json.dumps(state_message))
 
@@ -122,15 +122,15 @@ def participar_en_consenso(hexapodo_1):
     if response:
         # Procesar el estado recibido
         if "data" in response:
-            recibido = response["data"]  # Se usa "data" en lugar de "message"
-            print(f"Received state from other hexapod: {recibido}")
+            recibidos = response["data"]  # Se usa "data" en lugar de "message"
+            print(f"Received state from other hexapod: {recibidos}")
 
             # Enviar confirmación de recepción
-            """ack_message = {
+            ack_message = {
                 "type": "ack",
                 "data": {"ack": "received"}
             }
-            send_custom_message(client_name, json.dumps(ack_message))"""
+            send_custom_message(client_name, json.dumps(ack_message))
         else:
             print("Received response does not contain 'data'.")
     else:
@@ -149,19 +149,24 @@ def participar_en_consenso(hexapodo_1):
     # esperar a recibir los estados de los demás hexápodos
     # Lo ideal seria tener un while desde el envío de los IDs hasta que se haga el consenso
     # y todos los hexápodos sepan que tienen distinto ID
-
-    hexapodo_2_id = int(list(recibido.keys())[0])
+    print(f"heiler1 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
+    print(f"recibidos {recibidos}")
+    hexapodo_2_id = int(list(recibidos.keys()).copy()[0])
+    print(f"heiler2 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
+    print(f"__heiler2 mio: ID {hexapodo_1.id}, otro: {hexapodo_2_id}, líder: {hexapodo_1.Lider}")
     hexapodo_1.comprobar_y_corregir_UID([hexapodo_2_id])
-    
+    print(f"heiler3 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     #       [CONSENSO]: ID        10      , status:    role.CANDIDATO  , líder:        (int)
 
     # El consenso se hace de forma automática y sin comunicarse con los demás hexápodos
     # Supongamos que el hexapodo 2 tiene el siguiente estado:
-    new_recibido = {int(key): value for key, value in recibido.items()}
-
+    print(f"heiler4 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
+    new_recibido = {int(key): value for key, value in recibidos.items()}
+    print(f"heiler5 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     hexapodo_2_estado = new_recibido #recibido_____ {31: role.CANDIDATO} # {id: rol}
+    print(f"heiler6 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     hexapodo_1.elegir_lider([hexapodo_2_estado])
-
+    print(f"heiler7 [CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     print(f"[CONSENSO]: ID {hexapodo_1.id}, status: {hexapodo_1.estado}, líder: {hexapodo_1.Lider}")
     # Para este punto, ya se hizo el consenso.
     return hexapodo_1
@@ -170,9 +175,16 @@ def generar_rutina_de_baile():
     print(" paso por funcion generar_rutina_baile")
     numero_bailes=6
     baile = crea_rutina(numero_bailes)
-    mitad = len(baile)//2
-    subrutina1=baile[:mitad]
-    subrutina2=baile[mitad:]
+    #mitad = len(baile)//2
+    #subrutina1=baile[:mitad]
+    #subrutina2=baile[mitad:]
+    #return subrutina1, subrutina2
+    return baile
+
+def partir_rutina(rutina):
+    mitad = len(rutina)//2
+    subrutina1=rutina[:mitad]
+    subrutina2=rutina[mitad:]
     return subrutina1, subrutina2
 
 def ejecutar_subrutina(subrurina):
@@ -214,7 +226,7 @@ if __name__ == '__main__':
     threading.Thread(target=client_thread_with_ready, args=(client_name, server_host, SERVER_SEND_PORT, "receiving", queue.Queue(), response_queue)).start()
 
     comunicación = False
-    #communication_ready.wait()
+    communication_ready.wait()
     
 
     while h1.max_completions > h1.completes and h1.max_tries > h1.tries and h1.energy > 0:
@@ -233,9 +245,45 @@ if __name__ == '__main__':
         print(f"[INFO] El agente está acompañado")
         print(f"[CONSENSO] Participando en el consenso")
         hexapodo_1 = participar_en_consenso(hexapodo_1)
+        hexapodo_1.estado = role.LIDER
+
+        ##no olvidar quitar el lider hardcod.....
+
+        #envia rutina 
+        rutina = generar_rutina_de_baile()
+        state_message = {
+            "type": "state",
+            "data": rutina
+        }
+        send_custom_message(client_name, json.dumps(state_message))
+
+        # Esperar respuesta
+        communication_ready.wait()
+        response = get_response()
+
+        if response:
+            # Procesar el estado recibido
+            if "data" in response:
+                recibidos = response["data"]  # Se usa "data" en lugar de "message"
+                print(f"Received state from other hexapod: {recibidos}")
+
+                # Enviar confirmación de recepción
+                ack_message = {
+                    "type": "ack",
+                    "data": {"ack": "received"}
+                }
+                send_custom_message(client_name, json.dumps(ack_message))
+            else:
+                print("Received response does not contain 'data'.")
+        else:
+            print("No response received.")
+
+
         if hexapodo_1.estado == role.LIDER:
             print(f"[BAILE] Generando rutina de baile")
-            subrutina1, subrutina2 = generar_rutina_de_baile()
+            #rutina = generar_rutina_de_baile()
+            print(f"[BAILE] Voy con rutina {rutina}")
+            subrutina1,subrutina2=partir_rutina(rutina)
             print(f"[BAILE] Rutina de baile generada")
             print(f"[BAILE] Subrutina 1 {subrutina1}")
             print(f"[BAILE] Subrutina 2 {subrutina2}")
@@ -250,12 +298,15 @@ if __name__ == '__main__':
         else:
             print(f"[BAILE] Esperando la rutina de baile")
             ... # Esperar a recibir la rutina de baile
+            print(f"[BAILE] Voy con recibidos {recibidos}")
+            subrutina1,subrutina2 = partir_rutina(recibidos)
+
             print(f"[BAILE] Rutina de baile recibida")
             print(f"[BAILE] Enviando confirmación de la rutina de baile")
             ... # Enviar confirmación de la rutina de baile
             print(f"[BAILE] Confirmación de la rutina de baile enviada")
             confirmacion_de_baile = True
-            subrutina1, subrutina2 = None
+            #subrutina1, subrutina2 = None
         if confirmacion_de_baile:
             print(f"[BAILE] Bailando subrutina 1")
             ejecutar_subrutina(subrutina1)

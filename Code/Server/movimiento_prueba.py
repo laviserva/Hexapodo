@@ -85,7 +85,7 @@ class Ctrl:
             self.c.posittion(x,y,z)
    
           print("fin")                
-    ````def baile_2(self):  #Es un movimiento lateral de izquierda a derecha 
+    def baile_2(self):  #Es un movimiento lateral de izquierda a derecha 
           speed = "10"
           angle = "0"
           ctrl.altura()
@@ -97,7 +97,7 @@ class Ctrl:
           ctrl.move("-30","0",speed, angle)
           ctrl.move("-30","0",speed, angle)
           ctrl.move("-30","0",speed, angle)    
-          print("fin")````
+          print("fin")
     def giro_cabeza(self):
           self.c.servo.setServoAngle(0,90)
           time.sleep(0.2)
