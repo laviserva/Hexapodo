@@ -144,14 +144,11 @@ def consenso(hexapodo_1):
     return hexapodo_1, rutina, None
 
 if __name__ == '__main__':
-    """b = bailes()
-    
-    b.baile_1()"""
     # Inicializando el agente y el entorno de la arquitectura
     h1 = BDIAgent(completions=0, energy=20000)
+    env = Environment()
     intenciones = h1.intentions.intentions
     hexapodo_1 = Liderazgo(k_devices=2)
-    env = Environment()
     print("[INFO] Agente creado")
     print(f"[INFO] BDI_Actions.ACOMPAÑADO: {BDI_Actions.ACOMPAÑADO}")
     print(f"[INFO] h1.beliefs: {h1.beliefs.beliefs}")
@@ -163,13 +160,16 @@ if __name__ == '__main__':
     elif raspberrypi_name == 'hexapodo2':
         server_host = 'hexapodo1.local'
         client_name = 'hexapodo2.local'
-
     communicator = HexapodoComunicator(client_name, server_host)
     rutina = None
+    print(intenciones)
     
     while BDI_Actions.ABORTAR not in intenciones:
+        print(intenciones)
         if BDI_Actions.BUSCAR_COMP in intenciones:
             communicator = buscar_compañero(HexapodoComunicator, env, client_name, server_host)
+        print(intenciones)
+        exit()
         if BDI_Actions.ESTABLECER_CONSENSO in intenciones:
             hexapodo_1, rutina, recibidos = consenso(hexapodo_1)
         
