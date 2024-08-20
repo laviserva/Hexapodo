@@ -80,7 +80,7 @@ def partir_rutina(rutina):
     subrutina2=rutina[mitad:]
     return subrutina1, subrutina2
 
-def ejecutar_subrutinas(rutinas):
+def ejecutar_subrutinas(rutinas, communicator):
     print(f"[BAILE] Preparando Baile\n\n")
     b=bailes()
     print(f"[BAILE] Motores listos para el baile")
@@ -115,7 +115,7 @@ def buscar_compañero(HexapodoComunicator, client_name, server_host):
         exit()
     return communicator
 
-def consenso(hexapodo_1):
+def consenso(hexapodo_1, communicator):
     print(f"[INFO] El agente está acompañado")
     print(f"[CONSENSO] Participando en el consenso")
     hexapodo_1 = participar_en_consenso(hexapodo_1)
@@ -173,14 +173,14 @@ if __name__ == '__main__':
             communicator = buscar_compañero(HexapodoComunicator, client_name, server_host)
             env.buddy_here = True
         if BDI_Actions.ESTABLECER_CONSENSO in intenciones:
-            hexapodo_1, rutina, recibidos = consenso(hexapodo_1)
+            hexapodo_1, rutina, recibidos = consenso(hexapodo_1, communicator)
         
         if BDI_Actions.EJECUTAR_SUB1 in intenciones or BDI_Actions.EJECUTAR_SUB2 in intenciones:
             if not rutina:
                 raise Exception("[BAILE] No se ha recibido la rutina de baile")
             
             print(f"[BAILE] Bailando subrutina 1")
-            ejecutar_subrutinas(rutina)
+            ejecutar_subrutinas(rutina, communicator)
             h1.completes += 1
             env.buddy_finish1 = True
             env.buddy_finish2 = True
