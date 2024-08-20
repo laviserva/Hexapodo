@@ -1,4 +1,5 @@
 import socket
+from time import sleep
 from Bailes import bailes
 from datetime import datetime
 
@@ -92,6 +93,7 @@ def ejecutar_subrutinas(rutinas, communicator):
         state_message = {
             "data": "ok termine baile",
         }
+        sleep(1)
         response = communicator.exchange_data(state_message)
         print(f"[BAILE] Confirmación de la subrutina {i+1} enviada")
         print()
