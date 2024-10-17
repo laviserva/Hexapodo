@@ -323,7 +323,7 @@ class Ctrl:
 
 if __name__ == '__main__':
     ctrl = Ctrl()
-    buzzer = Sound()
+    #buzzer = Sound()
     ##buzzer.play()
     # Play the first few notes of a familiar song (replace with the actual sequence)
     #control = Control()
@@ -334,6 +334,7 @@ if __name__ == '__main__':
     #ctrl.baile_2()
     #ctrl.baile_3()
     #ctrl.baile_4()
+    #ctrl.baile_5()
     #time.sleep(1.4)
     #ctrl.baile_5()
     #ctrl.altura()
