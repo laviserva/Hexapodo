@@ -2,6 +2,10 @@ import time
 from Control import Control
 from enum import Enum
 import numpy as np
+
+def bazier_curve(p_0, p_1, p_2, t):
+    return (1-t)**2 * p_0 + 2 * (1-t) * t * p_1 + t**2 * p_2
+
 class Command(Enum):
     MOVE = 'CMD_MOVE'
     POSITION = 'CMD_POSITION'
@@ -13,13 +17,13 @@ class GaitMode(Enum):
     MODE_2 = '2'
 
 class bailes:
-    def __init__(self):
+    def __init__(self, use_bazier = False):
         self.ctrl = Control()
         self.data = [] 
+        self.use_bazier = use_bazier
     
     def altura(self):
         self.ctrl.posittion(0,0,40)
-    
     
     def move(self, x:str = '0', y:str = '0', speed:str = '0', angle:str = '0'):
         #self.__comprobe_restrictions(x, y, speed, angle)
@@ -29,7 +33,6 @@ class bailes:
             x, y, speed, angle
             ]
         self.ctrl.run(data)
-    
     
     def giro_cabeza(self):
           self.ctrl.servo.setServoAngle(0,90)
@@ -166,7 +169,21 @@ class bailes:
         
     def baile_1(self): #Es un movimiento circular en el plano x,y, ademas de moverser formando un onda en el ejes z
           r=40
-          theta= np.linspace(0,2* np.pi*2,100)
+          p_0 = 0
+          p_2 = 2* np.pi*2
+          p_1 = (p_0 + p_2) // 2
+          steps = 100
+
+          if self.use_bezier:
+            # Generamos una serie de valores t linealmente espaciados entre 0 y 1
+            t_values = np.linspace(0, 1, steps)
+            
+            # Calculamos los valores de theta usando la curva de Bézier vectorizada
+            theta = bazier_curve(p_0, p_1, p_2, t_values)
+          else:
+            # Si no se usa Bézier, generamos 'theta' de forma lineal
+            theta = np.linspace(p_0, p_2, steps)
+
           self.altura()
           for t in theta:
  
@@ -174,9 +191,7 @@ class bailes:
             y = r*np.sin(t)
             z = r/3*np.cos(-t*3)
             self.ctrl.posittion(x,y,z)
-          print("sexo")
-          self.altura()
-          print("fin")    
+          self.altura()  
     
     
     def baile_2(self):  # Es un movimiento lateral de izquierda a derecha
